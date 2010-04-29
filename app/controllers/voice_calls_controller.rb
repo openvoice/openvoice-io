@@ -39,11 +39,22 @@ class VoiceCallsController < ApplicationController
 
   def create
     # @voice_call = VoiceCall.new(params[:voice_call].merge(:user_id => params[:user_id]))
-
-    current_user = params[:user_id]
+    
+    if params[:user_id]
+      current_user = params[:user_id]
+      callto = params[:voice_call][:to]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+        callto = params[:to]
+      end
+    end
+    
+    
     voice_call = VoiceCall.new
     voice_call.attributes = {
-      :to => params[:voice_call][:to],
+      :to => callto,
       :user_id => current_user,
       :created_at => Time.now()
     }
@@ -51,16 +62,8 @@ class VoiceCallsController < ApplicationController
 
     respond_to do |format|
       if voice_call.save
-        
-        #     call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + to + '&from=' + user.phone_numbers.first.number
-        #                 # TODO probably change into a primary number, mostly likely a pstn number
-        # 
-        # 
-        #     open(call_url) do |r|
-        #       p r
-        #     end
-        
-        
+                
+        #Place Tropo Phone Call         
         phonenumber = PhoneNumber.first(:user_id => current_user) 
       	if phonenumber
       	  firstnumber = phonenumber.number
@@ -68,19 +71,7 @@ class VoiceCallsController < ApplicationController
       	  firstnumber = '16025551212'
       	end 
         
-        # args = {
-        #   'action'  => 'create',
-        #   'token'   => OUTBOUND_VOICE_TEMP, 
-        #   'to'      => params[:voice_call][:to],
-        #   'from'    => firstnumber
-        # }
-        # 
-        # result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
-        #   :payload => Rack::Utils.build_query(args),
-        #   :method => :get,
-        #   :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
-
-        call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + params[:voice_call][:to] + '&from=' + firstnumber
+        call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + callto + '&from=' + firstnumber
 
         result = AppEngine::URLFetch.fetch(call_url,
           :method => :get,
@@ -88,11 +79,12 @@ class VoiceCallsController < ApplicationController
 
         flash[:notice] = 'VoiceCall was successfully created.'
         format.html { redirect_to(user_voice_calls_path(current_user)) }
-        format.xml  { render :xml => @voice_call, :status => :created, :location => @voice_call }
-        format.json { render :json => @voice_call }
+        format.xml  { render :xml => '<status>success</status>', :status => :created }        
+        format.json { render :json => '{"status":{"value":"success"}}' }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @voice_call.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
       end
     end
   end

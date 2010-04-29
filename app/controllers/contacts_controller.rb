@@ -2,28 +2,13 @@ class ContactsController < ApplicationController
 
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :create, :update, :destroy]
 
-  def index
+  def index        
     
-    # Execute at Login - TODO: Move to method
-    current_user = AppEngine::Users.current_user
-    if current_user
-      user = User.find_by_email(current_user.email)
-      if user
-        session[:current_user_id] = user.id
-      else
-        user = User.new
-        user.attributes = {
-          :email => current_user.email
-        }
-        user.save
-        session[:current_user_id] = user.id
-      end
-    end
-        
     # @contacts = current_user.contacts
     # @contacts = Contact.all
     # @contacts = Contact.find_by_user_id(session[:current_user_id])
     @contacts = Contact.all(:user_id => session[:current_user_id])
+    
 
     respond_to do |format|
       format.html

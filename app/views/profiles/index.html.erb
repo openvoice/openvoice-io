@@ -1,5 +1,5 @@
 <% current_user = session[:current_user_id] %>
-<h1>Listing profiles</h1>
+<h1>Your Open Voice Profile</h1>
 
 <table>
   <tr>
@@ -29,7 +29,9 @@
 <% end %>
 <% end %>
 </table>
+<br/>
+
 
 <br />
 
-<%= link_to 'New profile', new_user_profile_path(current_user)%>
+<%# link_to 'New profile', new_user_profile_path(current_user)%>

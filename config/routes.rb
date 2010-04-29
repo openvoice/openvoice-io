@@ -35,6 +35,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'phone_numbers/get_user', :controller => 'phone_numbers', :action => 'locate_user'
   # map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
 
+  map.connect '/genapikey', :controller => 'profiles', :action => 'genapikey'
+  map.connect '/call.:format', :controller => 'voice_calls', :action => 'create'
+  map.connect '/sms.:format', :controller => 'messagings', :action => 'create'
+  map.connect '/api', :controller => 'profiles', :action => 'api'
+
+
   # map.resource :sessions
   # map.login '/login', :controller => 'sessions', :action => 'new'
   # map.logout '/logout', :controller => 'sessions', :action => 'destroy'
@@ -42,7 +48,8 @@ ActionController::Routing::Routes.draw do |map|
   # See how all your routes lay out with "rake routes"
   # map.resource :user_session
   # map.root :controller => "user_sessions", :action => "new"
-  map.root :controller => "contacts", :action => "index"
+  # map.root :controller => "contacts", :action => "index"
+  map.root :controller => "profiles", :action => "index"
 
   map.resource :account, :controller => "users"
   map.resources :users do |user|

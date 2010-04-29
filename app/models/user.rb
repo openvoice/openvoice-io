@@ -25,6 +25,7 @@ class User
   # property :login,                String,           :required => true, :length => 500
   # property :password,             String,           :required => true
   property :email,                String,           :required => true
+  property :apikey,                String
   # property :salt,                 String,           :required => true
   # property :crypted_password,     String,           :required => true
   # property :password_salt,        String,           :required => true

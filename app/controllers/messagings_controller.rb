@@ -59,27 +59,36 @@ class MessagingsController < ApplicationController
       outgoing = false
       
     else
-      # then this is a request to tropo, create an outgoing message
-      # @user = current_user
-      
-      # @messaging = Messaging.new(params[:messaging].merge({ :from => current_user.login,
-                                                            # :user_id => current_user.id,
-                                                            # :outgoing => true }))
+
+      if params[:user_id]
+        current_user = params[:user_id]
+        from = user.email
+        to = params[:messaging][:to]
+        text = params[:messaging][:text]
+      else
+        user = User.find_by_apikey(params[:apikey])
+        if user
+          current_user = user.id
+          from = params[:from]
+          to = params[:to]
+          text = params[:text]
+        end
+      end
+
+
 
       user = User.first(:id => current_user)
       messaging = Messaging.new
       messaging.attributes = {
-        :from => user.email,
-        :to => params[:messaging][:to],
-        :text => params[:messaging][:text],
+        :from => from,
+        :to => to,
+        :text => text,
         :user_id => current_user,
         :outgoing => true,
         :created_at => Time.now()
       }
 
-      from = user.email
-      to = params[:messaging][:to]
-      text = params[:messaging][:text]
+
       outgoing = true
 
     end
@@ -89,43 +98,23 @@ class MessagingsController < ApplicationController
       if messaging.save
         
         if outgoing
-          # msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_MESSAGING_TEMP + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
-          # open(msg_url) do |r|
-          #   p r
-          # end
-
-          # args = {
-          #   'action'  => 'create',
-          #   'token'   => OUTBOUND_MESSAGING_TEMP, 
-          #   'from'    => from, 
-          #   'to'      => to,
-          #   'text'    => CGI::escape(text)
-          # }
-          # 
-          # result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
-          #   :payload => Rack::Utils.build_query(args),
-          #   :method => :get,
-          #   :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
-
 
           msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_MESSAGING_TEMP + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
 
           result = AppEngine::URLFetch.fetch(msg_url,
             :method => :get,
             :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
-
-
         end
         
         
         flash[:notice] = 'Messaging was successfully created.'
         format.html { redirect_to('/users/' + current_user.to_s + '/messagings') }
-        format.xml  { render :xml => messaging, :status => :created, :location => messaging }
-        format.json { render :json => messaging }
+        format.xml  { render :xml => '<status>success</status>', :status => :created }
+        format.json { render :json => '{"status":{"value":"success"}}' }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => messaging.errors, :status => :unprocessable_entity }
-        format.json { render head => 404 }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
       end
     end
   end

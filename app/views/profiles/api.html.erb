@@ -1,0 +1,29 @@
+<h1>The Open Voice API</h1>
+<p>Your API Key: <br/>
+<table><tr><td>
+	<%= session[:apikey] %>
+</td>
+<td>
+	<a href="/genapikey">Generate New API Key</a>
+</td></tr></table>
+
+</p>
+<h1>Place Calls</h1>
+<p>You can place a call by using your API Key as follows:</p>
+<p>http://myopenvoice.appspot.com/call.xml?to=phone_number_including_country_code&apikey=your_api_key_above</p>
+<p>
+	For example: http://myopenvoice.appspot.com/call.xml?to=14802191300&apikey=93e5870e0196209b52c312ee8b7c6a6357a41ee5</p>
+<p>
+	Note: You can substitute a .json extension in this call if you would like your response returned in JSON format rather than XML. 
+</p>	
+<br />
+<h1>Send SMS</h1>
+<p>You can send an SMS text message by using your API Key as follows:</p>
+<p>
+	http://myopenvoice.appspot.com/sms.xml?from=phone_number_including_country_code&to=phone_number_including_country_code&text=your_encoded_text_message&apikey=your_api_key_above</p>
+<p>		For example:
+	http://myopenvoice.appspot.com/sms.xml?from=14802191300&to=14803194368&text=testing&apikey=93e5870e0196209b52c312ee8b7c6a6357a41ee5
+</p>
+<p>
+	Note: You can substitute a .json extension in this call if you would like your response returned in JSON format rather than XML. 
+</p>	

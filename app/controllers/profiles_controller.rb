@@ -3,12 +3,46 @@ class ProfilesController < ApplicationController
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :create, :update, :destroy]
 
   def index
+    
+    # Execute at Login - TODO: Move to method
+    current_user = AppEngine::Users.current_user
+    if current_user
+      user = User.find_by_email(current_user.email)
+      if user
+        session[:current_user_id] = user.id
+      else
+        
+        # Generate API Key
+        # require 'sha1'
+        srand
+        seed = "--#{rand(10000)}--#{Time.now}--"
+        apikey = Digest::SHA1.hexdigest(seed)
+        
+        user = User.new
+        user.attributes = {
+          :email => current_user.email,
+          :apikey => apikey
+        }
+        user.save
+        session[:current_user_id] = user.id
+      end
+      session[:nickname] = current_user.nickname
+      session[:apikey] = user.apikey
+      
+    end
+    
+    
+    
     # @profiles = Profile.all
-    @profiles = Profile.all(:user_id => session[:current_user_id])
-
-    respond_to do |format|
-      format.html
-      format.xml  { render :xml => @profiles }
+    @profiles = Profile.all(:user_id => session[:current_user_id]) 
+    
+    if @profiles.length == 0
+      redirect_to('/users/' + session[:current_user_id].to_s + '/profiles/new')
+    else
+      respond_to do |format|
+        format.html
+        format.xml  { render :xml => @profiles }
+      end      
     end
   end
 
@@ -93,4 +127,27 @@ class ProfilesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def genapikey
+    user = User.find(session[:current_user_id])
+    if user
+      # Generate API Key
+      # require 'sha1'
+      srand
+      seed = "--#{rand(10000)}--#{Time.now}--"
+      apikey = Digest::SHA1.hexdigest(seed)
+      
+      user.attributes = {
+        :apikey => apikey
+      }
+      user.save
+      session[:apikey] = user.apikey
+    end    
+    render :action => 'api'
+  end
+  
+  def api
+    
+  end
+  
 end
