@@ -94,16 +94,23 @@ class MessagingsController < ApplicationController
           #   p r
           # end
 
-          args = {
-            'action'  => 'create',
-            'token'   => OUTBOUND_MESSAGING_TEMP, 
-            'from'    => from, 
-            'to'      => to,
-            'text'    => CGI::escape(text)
-          }
+          # args = {
+          #   'action'  => 'create',
+          #   'token'   => OUTBOUND_MESSAGING_TEMP, 
+          #   'from'    => from, 
+          #   'to'      => to,
+          #   'text'    => CGI::escape(text)
+          # }
+          # 
+          # result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
+          #   :payload => Rack::Utils.build_query(args),
+          #   :method => :get,
+          #   :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
 
-          result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
-            :payload => Rack::Utils.build_query(args),
+
+          msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_MESSAGING_TEMP + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
+
+          result = AppEngine::URLFetch.fetch(msg_url,
             :method => :get,
             :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
 

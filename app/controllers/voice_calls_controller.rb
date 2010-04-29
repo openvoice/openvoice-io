@@ -60,28 +60,32 @@ class VoiceCallsController < ApplicationController
         #       p r
         #     end
         
+        
         phonenumber = PhoneNumber.first(:user_id => current_user) 
       	if phonenumber
       	  firstnumber = phonenumber.number
       	else
-      	  firstnumber = '6025551212'
+      	  firstnumber = '16025551212'
       	end 
-      	
         
-        args = {
-          'action'  => 'create',
-          'token'   => OUTBOUND_VOICE_TEMP, 
-          'to'      => params[:voice_call][:to],
-          'from'    => firstnumber
-        }
+        # args = {
+        #   'action'  => 'create',
+        #   'token'   => OUTBOUND_VOICE_TEMP, 
+        #   'to'      => params[:voice_call][:to],
+        #   'from'    => firstnumber
+        # }
+        # 
+        # result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
+        #   :payload => Rack::Utils.build_query(args),
+        #   :method => :get,
+        #   :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
 
-        result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
-          :payload => Rack::Utils.build_query(args),
-          :method => :post,
+        call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + params[:voice_call][:to] + '&from=' + firstnumber
+
+        result = AppEngine::URLFetch.fetch(call_url,
+          :method => :get,
           :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
 
-        
-        
         flash[:notice] = 'VoiceCall was successfully created.'
         format.html { redirect_to(user_voice_calls_path(current_user)) }
         format.xml  { render :xml => @voice_call, :status => :created, :location => @voice_call }
