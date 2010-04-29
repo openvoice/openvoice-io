@@ -1,3 +1,4 @@
+<% current_user = session[:current_user_id] %>
 <h1>Listing profiles</h1>
 
 <table>
@@ -11,6 +12,7 @@
     <th>Gtalk</th>
   </tr>
 
+<% if @profiles %>
 <% @profiles.each do |profile| %>
   <tr>
     <td><%=h profile.voice %></td>
@@ -24,6 +26,7 @@
     <td><%= link_to 'Edit', edit_user_profile_path(current_user, profile) %></td>
     <td><%= link_to 'Destroy', user_profile_path(current_user, profile), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+<% end %>
 <% end %>
 </table>
 

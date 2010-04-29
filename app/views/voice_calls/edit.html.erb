@@ -1,6 +1,9 @@
+<% current_user = session[:current_user_id] %>
 <h1>Editing voice_call</h1>
 
-<% form_for([:user, @voice_call]) do |f| %>
+<%# form_for([:user, @voice_call]) do |f| %>
+<% form_for (@voice_call, :url => '/users/' + current_user.to_s + '/voice_calls/' + @voice_call.id.to_s) do |f| %>
+
   <%= f.error_messages %>
 
   <p>

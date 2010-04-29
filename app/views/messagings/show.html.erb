@@ -1,3 +1,4 @@
+<% current_user = session[:current_user_id] %>
 <p>
   <b>From:</b>
   <%=h @messaging.from %>
@@ -14,5 +15,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_messaging_path(@messaging) %> |
-<%= link_to 'Back', messagings_path %>
+<%= link_to 'Edit', edit_user_messaging_path(current_user, @messaging) %> |
+<%= link_to 'Back', user_messagings_path(current_user) %>

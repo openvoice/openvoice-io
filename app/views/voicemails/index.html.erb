@@ -1,3 +1,4 @@
+<% current_user = session[:current_user_id] %>
 <h1>your voicemails</h1>
 
 <table>
@@ -8,6 +9,7 @@
     <th>Time</th>
   </tr>
 
+<% if @voicemails %>
 <% @voicemails.each do |voicemail| %>
   <tr>
     <td><%=h voicemail.from %></td>
@@ -17,5 +19,6 @@
     <td><%= link_to 'Show', user_voicemail_path(current_user, voicemail) %></td>
     <td><%= link_to 'Destroy', user_voicemail_path(current_user, voicemail), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+<% end %>
 <% end %>
 </table>

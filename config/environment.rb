@@ -18,18 +18,30 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "tropo-webapi-ruby"
-  config.gem "authlogic"
+  # config.gem "aws-s3", :lib => "aws/s3"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-  # config.plugins = [:all]
-  
+
   # Skip frameworks you're not going to use. To use Rails without a database,
   # you must remove the Active Record framework.
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+
+  # Skip these so generators can run from MRI
+  if defined? JRUBY_VERSION
+    # Patch Rails Framework
+    require 'rails_appengine'
+    # Use DataMapper to access datastore
+    require 'rails_dm_datastore'
+    # Set Logger from appengine-apis, all environments
+    require 'appengine-apis/logger'
+    config.logger = AppEngine::Logger.new
+    # Skip frameworks you're not going to use.
+    config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+  end
+  # Skip plugin locators
+  config.plugin_locators -= [Rails::Plugin::GemLocator]
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
@@ -41,8 +53,8 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
-
+  
   OUTBOUND_MESSAGING_TEMP = "6495a7105bda7c41902027cb67c734c0445cbf5acade80d61b4b9a61b2097bdc62630ea6ef9f0854bb9d96a6"
   OUTBOUND_VOICE_TEMP = "c7a69e058363c544bb52e93f69c5db3841d0736b971818dfbf6d5e6c4000526f41b269e9c06238899bd770f5"
-
+  
 end

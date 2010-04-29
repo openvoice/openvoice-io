@@ -1,0 +1,26 @@
+<appengine-web-app xmlns='http://appengine.google.com/ns/1.0'>
+  <application>myopenvoice</application>
+  <version>1</version>
+  <public-root>/public</public-root>
+  <static-files/>
+  <resource-files>
+    <exclude path='README'/>
+    <exclude path='Rakefile'/>
+    <exclude path='db/**'/>
+    <exclude path='doc/**'/>
+    <exclude path='bin/**'/>
+    <exclude path='log/**'/>
+    <exclude path='script/**'/>
+    <exclude path='test/**'/>
+    <exclude path='tmp/**'/>
+  </resource-files>
+  <system-properties>
+    <property name='os.arch' value=''/>
+    <property name='jruby.jit.threshold' value='99'/>
+    <property name='jruby.native.enabled' value='false'/>
+    <property name='jruby.management.enabled' value='false'/>
+    <property name='jruby.rack.input.rewindable' value='false'/>
+  </system-properties>
+  <sessions-enabled>true</sessions-enabled>
+  <precompilation-enabled>true</precompilation-enabled>
+</appengine-web-app>

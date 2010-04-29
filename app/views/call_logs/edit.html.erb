@@ -1,6 +1,9 @@
+<% current_user = session[:current_user_id] %>
 <h1>Editing call_log</h1>
 
-<% form_for(@call_log) do |f| %>
+<%# form_for(@call_log) do |f| %>
+<% form_for (@call_log, :url => '/users/' + current_user.to_s + '/call_logs/' + @call_log.id.to_s) do |f| %>
+
   <%= f.error_messages %>
 
   <p>

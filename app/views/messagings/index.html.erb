@@ -1,3 +1,4 @@
+<% current_user = session[:current_user_id] %>
 <h1>your messages (sms/im)</h1>
 
 <table>
@@ -8,6 +9,7 @@
     <th>User</th>
   </tr>
 
+<% if @messagings %>
 <% @messagings.each do |messaging| %>
   <tr>
     <td><%=h messaging.from %></td>
@@ -18,6 +20,7 @@
     <td><%= link_to 'Show', user_messaging_path(current_user, messaging) %></td>
     <td><%= link_to 'Destroy', user_messaging_path(current_user, messaging), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+<% end %>
 <% end %>
 </table>
 

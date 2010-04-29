@@ -1,8 +1,10 @@
 class VoicemailsController < ApplicationController
-  before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
+  # before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
   
   def index
-    @voicemails = current_user.voicemails.reverse
+    @voicemails = Voicemail.all(:user_id => session[:current_user_id]) #TODO - reverse order
+    
+    # @voicemails = current_user.voicemails.reverse
 
     respond_to do |format|
       format.html
@@ -30,6 +32,7 @@ class VoicemailsController < ApplicationController
   end
 
   def create
+    #TODO - validate
     AWS::S3::Base.establish_connection!(
             :access_key_id     => 'AKIAJL7N4ODM3NMNTFCA',
             :secret_access_key => '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'
@@ -60,12 +63,13 @@ class VoicemailsController < ApplicationController
   end
 
   def update
+    current_user = params[:user_id]
     @voicemail = Voicemail.find(params[:id])
 
     respond_to do |format|
       if @voicemail.update_attributes(params[:voicemail])
         flash[:notice] = 'Voicemail was successfully updated.'
-        format.html { redirect_to(@voicemail) }
+        format.html { redirect_to('/users/' + current_user.to_s + '/voicemails') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -75,11 +79,12 @@ class VoicemailsController < ApplicationController
   end
 
   def destroy
+    current_user = params[:user_id]
     @voicemail = Voicemail.find(params[:id])
     @voicemail.destroy
 
     respond_to do |format|
-      format.html { redirect_to(voicemails_url) }
+      format.html { redirect_to('/users/' + current_user.to_s + '/voicemails') }
       format.xml  { head :ok }
     end
   end

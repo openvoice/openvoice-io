@@ -1,3 +1,4 @@
+<% current_user = session[:current_user_id] %>
 <p>
   <b>Number:</b>
   <%=h @phone_number.number %>
@@ -6,7 +7,10 @@
   <%=h @phone_number.forward %>
   <br />
   <b>User:</b>
-  <%=h @phone_number.user.login %>
+	<% user = User.first(:id => @phone_number.user_id) %>
+	<% if user %>
+  		<%=h user.email %>
+	<% end %>
 
 </p>
 

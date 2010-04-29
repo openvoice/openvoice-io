@@ -1,5 +1,10 @@
 <h1>Listing contacts</h1>
 
+<%# current_user = AppEngine::Users.current_user %>
+<% current_user = session[:current_user_id] %>
+
+<!-- <p>Welcome <%# current_user.nickname rescue ''%> (<%= session[:current_user_id]%>) </p> -->
+
 <table>
   <tr>
     <th>Name</th>
@@ -7,9 +12,10 @@
     <th>Im</th>
   </tr>
 
+<% if @contacts %>
 <% @contacts.each do |contact| %>
   <tr>
-    <td><%=h contact.name %></td>
+    <td><%=h contact.contactname %></td>
     <td><%=h contact.number %></td>
     <td><%=h contact.im %></td>
     <td><%= link_to 'Call', new_user_voice_call_path(current_user, { :to => contact.number }) %></td>
@@ -18,6 +24,7 @@
     <td><%= link_to 'Edit', edit_user_contact_path(current_user, contact) %></td>
     <td><%= link_to 'Destroy', user_contact_path(current_user, contact), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+<% end %>
 <% end %>
 </table>
 

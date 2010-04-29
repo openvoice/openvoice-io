@@ -1,6 +1,9 @@
+<% current_user = session[:current_user_id] %>
 <h1>New voicemail</h1>
 
-<% form_for(@voicemail) do |f| %>
+<%# form_for(@voicemail) do |f| %>
+<% form_for([:user, @voicemail]) do |f| %>
+
   <%= f.error_messages %>
 
   <p>
@@ -16,12 +19,12 @@
     <%= f.text_field :text %>
   </p>
   <p>
-    <%= f.label :uri %><br />
-    <%= f.text_field :uri %>
+    <%= f.label :filename %><br />
+    <%= f.text_field :filename %>
   </p>
   <p>
     <%= f.submit 'Create' %>
   </p>
 <% end %>
 
-<%= link_to 'Back', voicemails_path %>
+<%= link_to 'Back', user_voicemails_path(current_user) %>

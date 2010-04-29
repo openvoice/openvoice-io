@@ -3,6 +3,10 @@
   <%= stylesheet_link_tag "openvoice" %>
 </head>
 
+<%# current_user = AppEngine::Users.current_user %>
+<% current_user = session[:current_user_id] %>
+<% logout_url = AppEngine::Users.create_logout_url('/') %>
+
 <body>
   <div>
     <div>
@@ -12,12 +16,19 @@
       <%= link_to "voicemails", user_voicemails_path(current_user, @voicemails) %> |
       <%= link_to "addressbook", user_contacts_path(current_user, @contacts) %> |
       <%= link_to "phone numbers", user_phone_numbers_path(current_user, @phone_numbers) %> |
-      <%= link_to "call logs", user_call_logs_path(current_user, @call_logs) %> |
+      <%= link_to "call logs", user_call_logs_path(current_user) %> |
       <%= link_to "profile", user_profiles_path(current_user, @profiles) %> |
-      <a href="/logout">logout</a>
+      <a href="<%= logout_url%>">logout</a>
       <% end %>
     </div>
-    <div>                                                         
+
+    <% if flash[:error] %>
+      <div class='flash error'><%= flash[:error] %></div>
+    <% end %><% if flash[:notice] %>
+      <div class='flash notice'><%= flash[:notice] %></div>
+    <% end %>
+                                                  
+    <div>   
       <%= yield %>
     </div>
   </div>

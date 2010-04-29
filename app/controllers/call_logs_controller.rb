@@ -1,9 +1,10 @@
 class CallLogsController < ApplicationController
 
-  before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
+  # before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
   
   def index
-    @call_logs = CallLog.all
+    # @call_logs = CallLog.all
+    @call_logs = CallLog.all(:user_id => session[:current_user_id])
 
     respond_to do |format|
       format.html
@@ -30,7 +31,17 @@ class CallLogsController < ApplicationController
   end
 
   def create
-    @call_log = CallLog.new(params[:call_log])
+    current_user = params[:user_id]
+    @call_log = CallLog.new
+    @call_log.attributes = {
+      :to => params[:call_log][:to],
+      :from => params[:call_log][:from],
+      :nature => params[:call_log][:nature],
+      :user_id => current_user,
+      :created_at => Time.now()
+    }
+    
+    # @call_log = CallLog.new(params[:call_log])
 
     respond_to do |format|
       if @call_log.save
@@ -45,6 +56,7 @@ class CallLogsController < ApplicationController
   end
 
   def update
+    current_user = params[:user_id]
     @call_log = CallLog.find(params[:id])
 
     respond_to do |format|
@@ -60,11 +72,12 @@ class CallLogsController < ApplicationController
   end
 
   def destroy
+    current_user = params[:user_id]
     @call_log = CallLog.find(params[:id])
     @call_log.destroy
 
     respond_to do |format|
-      format.html { redirect_to(call_logs_url) }
+      format.html { redirect_to('/users/' + current_user.to_s + '/call_logs') }
       format.xml  { head :ok }
     end
   end

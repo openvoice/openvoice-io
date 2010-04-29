@@ -1,11 +1,16 @@
 class VoiceCallsController < ApplicationController
 
-  before_filter :require_user, :only => [:index, :show, :new, :edit, :create, :update, :destroy]
+  # before_filter :require_user, :only => [:index, :show, :new, :edit, :create, :update, :destroy]
   
   def index
-    @voice_calls = current_user.voice_calls.reverse
-p current_user
-p @voice_calls
+    current_user = AppEngine::Users.current_user
+    
+    # @voice_calls = current_user.voice_calls.reverse
+# p current_user
+# p @voice_calls
+
+    @voice_calls = VoiceCall.all(:user_id => session[:current_user_id]) #TODO reverse order
+
     
     respond_to do |format|
       format.html
@@ -33,10 +38,50 @@ p @voice_calls
   end
 
   def create
-    @voice_call = VoiceCall.new(params[:voice_call].merge(:user_id => params[:user_id]))
+    # @voice_call = VoiceCall.new(params[:voice_call].merge(:user_id => params[:user_id]))
+
+    current_user = params[:user_id]
+    voice_call = VoiceCall.new
+    voice_call.attributes = {
+      :to => params[:voice_call][:to],
+      :user_id => current_user,
+      :created_at => Time.now()
+    }
+
 
     respond_to do |format|
-      if @voice_call.save
+      if voice_call.save
+        
+        #     call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + to + '&from=' + user.phone_numbers.first.number
+        #                 # TODO probably change into a primary number, mostly likely a pstn number
+        # 
+        # 
+        #     open(call_url) do |r|
+        #       p r
+        #     end
+        
+        phonenumber = PhoneNumber.first(:user_id => current_user) 
+      	if phonenumber
+      	  firstnumber = phonenumber.number
+      	else
+      	  firstnumber = '6025551212'
+      	end 
+      	
+        
+        args = {
+          'action'  => 'create',
+          'token'   => OUTBOUND_VOICE_TEMP, 
+          'to'      => params[:voice_call][:to],
+          'from'    => firstnumber
+        }
+
+        result = AppEngine::URLFetch.fetch('http://api.tropo.com/1.0/sessions',
+          :payload => Rack::Utils.build_query(args),
+          :method => :post,
+          :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
+
+        
+        
         flash[:notice] = 'VoiceCall was successfully created.'
         format.html { redirect_to(user_voice_calls_path(current_user)) }
         format.xml  { render :xml => @voice_call, :status => :created, :location => @voice_call }
@@ -49,12 +94,13 @@ p @voice_calls
   end
 
   def update
+    current_user = params[:user_id]
     @voice_call = VoiceCall.find(params[:id])
 
     respond_to do |format|
       if @voice_call.update_attributes(params[:voice_call])
         flash[:notice] = 'VoiceCall was successfully updated.'
-        format.html { redirect_to(user_voice_call(current_user,@voice_call)) }
+        format.html { redirect_to('/users/' + current_user.to_s + '/voice_calls') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -64,11 +110,12 @@ p @voice_calls
   end
 
   def destroy
+    current_user = params[:user_id]
     @voice_call = VoiceCall.find(params[:id])
     @voice_call.destroy
 
     respond_to do |format|
-      format.html { redirect_to(user_voice_calls_url(current_user)) }
+      format.html { redirect_to('/users/' + current_user.to_s + '/voice_calls') }
       format.xml  { head :ok }
     end
   end

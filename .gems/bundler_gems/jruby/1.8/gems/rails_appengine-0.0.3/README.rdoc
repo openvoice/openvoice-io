@@ -1,0 +1,6 @@
+= Rails AppEngine
+
+We intend to provide a common set of config files for
+Rails 2.3.5 (and eventually 3.0) on Google App Engine.
+
+http://rails-depot.appspot.com/

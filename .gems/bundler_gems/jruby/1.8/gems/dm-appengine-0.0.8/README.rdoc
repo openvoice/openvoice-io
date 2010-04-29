@@ -1,0 +1,14 @@
+== dm-appengine
+
+A DataMapper adapter for the Google App Engine Datastore.
+
+Currently this is pretty basic. There's no support for Parent entities,
+transactions, Blobs, or Links, for example. Any query supported by the
+Datastore should work. That means the like, regexp, and not operators are not
+supported. Or is only supported for fetching several entities by the Key.
+
+== Bugs
+
+- DataMapper likes to lazily load properties. The Datastore always sets and
+  returns all properties on an entity. If you have lazily loaded properties
+  strange things will happen (like properties potentially disappearing).

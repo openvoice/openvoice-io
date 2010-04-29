@@ -1,3 +1,4 @@
+<% current_user = session[:current_user_id] %>
 <h1>your call log</h1>
 
 <table>
@@ -8,6 +9,7 @@
     <th>User</th>
   </tr>
 
+<% if @call_logs %>
 <% @call_logs.each do |call_log| %>
   <tr>
     <td><%=h call_log.from %></td>
@@ -18,5 +20,6 @@
     <td><%= link_to 'Show', user_call_log_path(current_user, call_log) %></td>
     <td><%= link_to 'Destroy', user_call_log_path(current_user, call_log), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+<% end %>
 <% end %>
 </table>

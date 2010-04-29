@@ -1,6 +1,9 @@
+<% current_user = session[:current_user_id] %>
 <h1>Editing messaging</h1>
 
-<% form_for(@messaging) do |f| %>
+<%# form_for(@messaging) do |f| %>
+<% form_for (@messaging, :url => '/users/' + current_user.to_s + '/messagings/' + @messaging.id.to_s) do |f| %>
+
   <%= f.error_messages %>
 
   <p>
@@ -20,5 +23,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @messaging %> |
-<%= link_to 'Back', messagings_path %>
+<%= link_to 'Show', user_messaging_path(current_user, @messaging) %> |
+<%= link_to 'Back', user_messagings_path(current_user) %>

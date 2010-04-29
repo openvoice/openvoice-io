@@ -1,3 +1,5 @@
+<% current_user = session[:current_user_id] %>
+
     <h1>New contact</h1>
 
 <% form_for([:user, @contact]) do |f| %>
@@ -5,7 +7,7 @@
 
   <p>
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :contactname %>
   </p>
   <p>
     <%= f.label :number %><br />

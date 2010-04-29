@@ -1,6 +1,10 @@
+<% current_user = session[:current_user_id] %>
+
 <h1>Editing profile</h1>
 
-<% form_for([:user, @profile]) do |f| %>
+<%# form_for([:user, @profile]) do |f| %>
+<% form_for (@profile, :url => '/users/' + current_user.to_s + '/profiles/' + @profile.id.to_s) do |f| %>
+
   <%= f.error_messages %>
 
   <p>

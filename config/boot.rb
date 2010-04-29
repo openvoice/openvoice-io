@@ -106,5 +106,10 @@ module Rails
   end
 end
 
+if defined? JRUBY_VERSION
+  require "rails_appengine/active_support_vendored"
+  require "rails_appengine/bundler_boot" 
+end
+
 # All that for this:
 Rails.boot!

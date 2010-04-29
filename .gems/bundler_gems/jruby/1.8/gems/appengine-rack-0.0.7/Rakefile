@@ -1,0 +1,44 @@
+require 'rubygems' unless ENV['NO_RUBYGEMS']
+require 'rake/gempackagetask'
+require 'rubygems/specification'
+require 'date'
+require 'spec/rake/spectask'
+
+SUMMARY = <<EOF
+Commom dependencies for configuring an App Engine application via Rack.
+EOF
+
+spec = Gem::Specification.new do |s|
+  s.name = "appengine-rack"
+  s.version = "0.0.7"
+  s.author = "Ryan Brown"
+  s.email = "ribrdb@google.com"
+  s.homepage = "http://code.google.com/p/appengine-jruby"
+  s.description = s.summary = SUMMARY
+  
+  s.platform = Gem::Platform::RUBY
+  
+  s.require_path = 'lib'
+  s.files = %w(LICENSE Rakefile) + Dir.glob("lib/**/*")
+
+  s.add_dependency('rack')
+  s.add_dependency('jruby-rack', '0.9.7')
+end
+
+task :default => :spec
+
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.gem_spec = spec
+end
+
+desc "install the gem locally"
+task :install => [:package] do
+  sh %{sudo gem install pkg/#{GEM}-#{GEM_VERSION}}
+end
+
+desc "create a gemspec file"
+task :make_spec do
+  File.open("#{GEM}.gemspec", "w") do |file|
+    file.puts spec.to_ruby
+  end
+end

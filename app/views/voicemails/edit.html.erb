@@ -1,6 +1,9 @@
+<% current_user = session[:current_user_id] %>
 <h1>Editing voicemail</h1>
 
-<% form_for(@voicemail) do |f| %>
+<%# form_for(@voicemail) do |f| %>
+<% form_for (@voicemail, :url => '/users/' + current_user.to_s + '/voicemails/' + @voicemail.id.to_s) do |f| %>
+
   <%= f.error_messages %>
 
   <p>
