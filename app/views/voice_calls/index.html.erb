@@ -1,11 +1,12 @@
 <% current_user = session[:current_user_id] %>
-<h1>your voice calls</h1>
+<h1>Your Voice Calls</h1>
 
 <table>
   <tr>
-    <th>To</th>
+<thead>    <th>To</th>
     <th>Time</th>
-  </tr>
+<th colspan="3">&nbsp;</th>
+</thead>  </tr>
 
 <% @voice_calls.each do |voice_call| %>
   <tr>

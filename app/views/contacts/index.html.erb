@@ -1,13 +1,15 @@
-<h1>Listing contacts</h1>
+<h1>Your Contacts</h1>
 
 <%# current_user = AppEngine::Users.current_user %>
 <% current_user = session[:current_user_id] %>
 
 <table>
-  <tr>
+  <tr><thead>
     <th>Name</th>
     <th>Number</th>
     <th>Im</th>
+	<th colspan="5">&nbsp;</th>
+	</thead>
   </tr>
 
 <% if @contacts %>

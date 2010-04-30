@@ -9,7 +9,7 @@ class VoiceCallsController < ApplicationController
 # p current_user
 # p @voice_calls
 
-    @voice_calls = VoiceCall.all(:user_id => session[:current_user_id]) #TODO reverse order
+    @voice_calls = VoiceCall.all(:user_id => session[:current_user_id], :order => [ :created_at.desc ]) 
 
     
     respond_to do |format|

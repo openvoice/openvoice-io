@@ -12,7 +12,7 @@ deferred_dispatcher = AppEngine::Rack::DeferredDispatcher.new(
     :require => File.expand_path('../config/environment', __FILE__),
     :dispatch => 'ActionController::Dispatcher')
 
-map '/' do
+map '/profiles' do
   use AppEngine::Rack::LoginRequired
   run deferred_dispatcher
 end
@@ -22,6 +22,6 @@ map '/admin' do
   run deferred_dispatcher
 end
 
-# map '/' do
-#   run deferred_dispatcher
-# end
+map '/' do
+  run deferred_dispatcher
+end

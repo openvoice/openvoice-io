@@ -1,11 +1,12 @@
 <% current_user = session[:current_user_id] %>
-<h1>My Phone Numbers</h1>
+<h1>Your Phone Numbers</h1>
 
 <table>
   <tr>
-    <th>Number</th>
+<thead>    <th>Number</th>
     <th>Forward</th>
-  </tr>
+<th colspan="3">&nbsp;</th>
+</thead>  </tr>
 <% if @phone_numbers %>
 <% @phone_numbers.each do |phone_number| %>
   <tr>

@@ -39,6 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/call.:format', :controller => 'voice_calls', :action => 'create'
   map.connect '/sms.:format', :controller => 'messagings', :action => 'create'
   map.connect '/api', :controller => 'profiles', :action => 'api'
+  map.connect '/logout', :controller => 'profiles', :action => 'logout'
 
 
   # map.resource :sessions
@@ -49,7 +50,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.resource :user_session
   # map.root :controller => "user_sessions", :action => "new"
   # map.root :controller => "contacts", :action => "index"
-  map.root :controller => "profiles", :action => "index"
+  # map.root :controller => "profiles", :action => "index"
+  map.root :controller => "profiles", :action => "home"
 
   map.resource :account, :controller => "users"
   map.resources :users do |user|

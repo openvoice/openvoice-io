@@ -1,11 +1,14 @@
 <% current_user = session[:current_user_id] %>
-<h1>your messages (sms/im)</h1>
+<h1>Your Messages (sms/im)</h1>
 
 <table>
-  <tr>
+  <tr><thead>
     <th>From</th>
     <th>To</th>
     <th>Text</th>
+    <th>Time</th>
+	<th colspan="3">&nbsp;</th>
+</thead>
   </tr>
 
 <% if @messagings %>
@@ -14,6 +17,7 @@
     <td><%=h messaging.from %></td>
     <td><%=h messaging.to %></td>
     <td><%=h messaging.text %></td>
+    <td><%=h messaging.created_at %></td>
     <td><%= link_to 'Reply', new_user_messaging_path(current_user, { :to => messaging.from }) %></td>
     <td><%= link_to 'Show', user_messaging_path(current_user, messaging) %></td>
     <td><%= link_to 'Destroy', user_messaging_path(current_user, messaging), :confirm => 'Are you sure?', :method => :delete %></td>

@@ -2,7 +2,7 @@ class VoicemailsController < ApplicationController
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
   
   def index
-    @voicemails = Voicemail.all(:user_id => session[:current_user_id]) #TODO - reverse order
+    @voicemails = Voicemail.all(:user_id => session[:current_user_id], :order => [ :created_at.desc ]) 
     
     # @voicemails = current_user.voicemails.reverse
 

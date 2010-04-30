@@ -4,7 +4,7 @@ class MessagingsController < ApplicationController
 
   def index
     # @messagings = current_user.messagings.reverse
-    @messagings = Messaging.all(:user_id => session[:current_user_id]) #TODO - reverse order
+    @messagings = Messaging.all(:user_id => session[:current_user_id], :order => [ :created_at.desc ])  
 
     respond_to do |format|
       format.html

@@ -1,16 +1,17 @@
 <% current_user = session[:current_user_id] %>
-<h1>Your Open Voice Profile</h1>
+<h1>Your Profile</h1>
 
 <table>
   <tr>
-    <th>Voice</th>
+<thead>    <th>Voice</th>
     <th>Skype</th>
     <th>Sip</th>
     <th>INum</th>
     <th>Tropo</th>
     <th>Twitter</th>
     <th>Gtalk</th>
-  </tr>
+<th colspan="3">&nbsp;</th>
+</thead>  </tr>
 
 <% if @profiles %>
 <% @profiles.each do |profile| %>

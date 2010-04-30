@@ -147,7 +147,17 @@ class ProfilesController < ApplicationController
   end
   
   def api
-    
+  end
+
+  def home
+    render :layout => false
+  end
+  
+  def logout
+    session[:current_user_id] = nil
+    session[:nickname] = nil
+    session[:apikey] = nil
+    redirect_to('/')
   end
   
 end

@@ -1,13 +1,15 @@
 <% current_user = session[:current_user_id] %>
-<h1>your voicemails</h1>
+<h1>Your Voice Mails</h1>
 
 <table>
   <tr>
-    <th>From</th>
+<thead>    
+	<th>From</th>
     <th>Text</th>
     <th>Play</th>
     <th>Time</th>
-  </tr>
+<th colspan="2">&nbsp;</th>
+</thead>  </tr>
 
 <% if @voicemails %>
 <% @voicemails.each do |voicemail| %>

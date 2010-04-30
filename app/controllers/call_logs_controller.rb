@@ -4,7 +4,7 @@ class CallLogsController < ApplicationController
   
   def index
     # @call_logs = CallLog.all
-    @call_logs = CallLog.all(:user_id => session[:current_user_id])
+    @call_logs = CallLog.all(:user_id => session[:current_user_id], :order => [ :created_at.desc ])
 
     respond_to do |format|
       format.html
