@@ -18,9 +18,9 @@
     <td><%=h messaging.to %></td>
     <td><%=h messaging.text %></td>
     <td><%=h messaging.created_at %></td>
-    <td><%= link_to 'Reply', new_user_messaging_path(current_user, { :to => messaging.from }) %></td>
-    <td><%= link_to 'Show', user_messaging_path(current_user, messaging) %></td>
-    <td><%= link_to 'Destroy', user_messaging_path(current_user, messaging), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Reply', new_messaging_path({ :to => messaging.from }) %></td>
+    <td><%= link_to 'Show', messaging_path(messaging) %></td>
+    <td><%= link_to 'Destroy', messaging_path(messaging), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 <% end %>
@@ -28,4 +28,4 @@
 
 <br />
 
-<%= link_to 'new message', new_user_messaging_path(current_user) %>
+<%= link_to 'new message', new_messaging_path %>

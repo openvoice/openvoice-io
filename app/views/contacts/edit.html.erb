@@ -1,8 +1,7 @@
 <% current_user = session[:current_user_id] %>
 <h1>Editing contact</h1>
 
-<%# form_for([:user, @contact]) do |f| %>
-<% form_for (@contact, :url => '/users/' + current_user.to_s + '/contacts/' + @contact.id.to_s) do |f| %>
+<% form_for (@contact) do |f| %>
 
   <%= f.error_messages %>
 
@@ -23,5 +22,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', user_contact_path(current_user, @contact) %> |
-<%= link_to 'Back', user_contacts_path(current_user) %>
+<%= link_to 'Show', contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>

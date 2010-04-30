@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="EN" lang="EN" dir="ltr">
 <head profile="http://gmpg.org/xfn/11">
-<title>MyOpenVoice - <%= controller.controller_name %>:<%= controller.action_name %></title>
+<title>OpenVoice - <%= controller.controller_name %>:<%= controller.action_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="imagetoolbar" content="no" />
 <link rel="stylesheet" href="/stylesheets/layout.css" type="text/css" />
@@ -19,24 +19,35 @@
 <div class="wrapper col0">
   <div id="topbar">
     <div id="slidepanel">
-      <div class="topbox">
-        <h2>Phone Access Information</h2>
-        <p>
-        	To test the live application:
-	<ul>
-	<li>Voice & Messaging: (408) 940-5938</li>
-	<li>Skype Voice: <a href="skype:+99000936 9991429707?call">+99000936 9991429707</a></li>
-	<li>SIP Voice: <a href="sip:9991429707@sip.tropo.com">sip:9991429707@sip.tropo.com</a></li>
-	<li>IM: openvoice@tropo.im</li>
-	<li>Twitter: <a href="http://twitter.com/openvoice">@openvoice</a></li>
-	</ul>
-	<br/>
-        </p>
-        <!-- <p class="readmore"><a href="#">Continue Reading &raquo;</a></p> -->
-      </div>
-      <div class="topbox">
-        <h2>More Info</h2>
-      </div>
+	      <div class="topbox">
+	        <h2>Phone Access Information</h2>
+	        <p>
+	        	To test the live application:
+		<ul>
+		<li>Voice & Messaging:<br/>(408) 940-5938</li>
+		<li>Skype Voice:<br/><a href="skype:+99000936 9991429707?call">+99000936 9991429707</a></li>
+		<li>SIP Voice:<br/><a href="sip:9991429707@sip.tropo.com">sip:9991429707@sip.tropo.com</a></li>
+		<li>IM: openvoice@tropo.im</li>
+		<li>Twitter: <a href="http://twitter.com/openvoice">@openvoice</a></li>
+		</ul>
+		<br/>
+	        </p>
+	        <!-- <p class="readmore"><a href="#">Continue Reading &raquo;</a></p> -->
+	      </div>
+	      <div class="topbox">
+	        <h2>License Info</h2>
+			<p>
+				Copyright 2010 <a href="http://twitter.com/zlu" target="_new">Zhao Lu</a></p><p>
+
+				   Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_new">Apache License, Version 2.0 (the "License")</a>.
+			   </p><p>
+				   Unless required by applicable law or agreed to in writing, software
+				   distributed under the License is distributed on an "AS IS" BASIS,
+				   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+				   See the License for the specific language governing permissions and
+				   limitations under the License.
+			</p>
+	      </div>
       <div class="topbox last">
         <h2>More Info</h2>
       </div>
@@ -45,7 +56,7 @@
     <div id="loginpanel">
       <ul>
         <li class="left">
-			Phone Access
+			OpenVoice
 		</li><li class="right" id="toggle"><a id="slideit" href="#slidepanel">Information</a><a id="closeit" style="display: none;" href="#slidepanel">Close Panel</a></li>
       </ul>
     </div>
@@ -56,8 +67,8 @@
 <div class="wrapper col1">
   <div id="header">
     <div id="logo">
-      <h1><a href="/">MyOpenVoice</a></h1>
-      <p>Open Source Phone System API</p>
+      <h1><a href="/"><img src="/images/openvoice.gif" border="0"></a></h1>
+      <!-- <p>Open Source Phone System API</p> -->
     </div>
     <div id="topnav">
       <ul>
@@ -65,13 +76,13 @@
 <% if !current_user.nil? %>	
 
 <!-- <li><a href="/">Home</a></li> -->
-<li><%= link_to "voice calls", user_voice_calls_path(current_user, @voice_calls) %></li>
-<li><%= link_to "messages", user_messagings_path(current_user, @messagings) %></li>
-<li><%= link_to "voicemails", user_voicemails_path(current_user, @voicemails) %></li>
-<li><%= link_to "addressbook", user_contacts_path(current_user, @contacts) %></li>
-<li><%= link_to "phone numbers", user_phone_numbers_path(current_user, @phone_numbers) %></li>
-<li><%= link_to "call logs", user_call_logs_path(current_user) %></li>
-<li><%= link_to "profile", user_profiles_path(current_user, @profiles) %></li>
+<li><%= link_to "voice calls", voice_calls_path %></li>
+<li><%= link_to "messages", messagings_path %></li>
+<li><%= link_to "voicemails", voicemails_path %></li>
+<li><%= link_to "addressbook", contacts_path %></li>
+<li><%= link_to "phone numbers", phone_numbers_path %></li>
+<li><%= link_to "call logs", call_logs_path %></li>
+<li><%= link_to "profile", profiles_path %></li>
 <li><a href="/api">API</a></li>
 <li class="last"><a href="<%= logout_url%>">logout</a></li>
 		     
@@ -90,7 +101,7 @@
 <div class="wrapper col2">
   <div id="breadcrumb">
     <ul>
-      <li class="first"><p>Welcome <%= session[:nickname].capitalize %> </p></li>
+      <li class="first">Welcome <%= session[:nickname].capitalize %></li>
       <!-- <li>&#187;</li>
             <li><a href="#">Home</a></li>
             <li>&#187;</li>
@@ -99,6 +110,13 @@
             <li><a href="#">Parent</a></li>
             <li>&#187;</li>
             <li class="current"><a href="#">Child</a></li> -->
+		    <% if flash[:error] %>
+		      <li> !! <%= flash[:error] %></li>
+		    <% end %>
+			<% if flash[:notice] %>
+		      <li> :: ><%= flash[:notice] %></li>
+		    <% end %>
+
     </ul>
   </div>
 </div>
@@ -106,21 +124,16 @@
 <div class="wrapper col3">
   <div id="container">
 
-    <% if flash[:error] %>
-      <div class='flash error'><br/><%= flash[:error] %></div>
-    <% end %><% if flash[:notice] %>
-      <div class='flash notice'><br/><%= flash[:notice] %></div>
-    <% end %>
 
     <div>   
       <%= yield %>
     </div>
-
+	<br/><br/><br/><br/><br/><br/><br/><br/>
 </div>
 </div>
 
 <!-- ####################################################################################################### -->
-<div class="wrapper col4">
+<!-- <div class="wrapper col4">
   <div id="footer">
     <div class="footbox">
       <h2>Lacus interdum</h2>
@@ -179,7 +192,7 @@
     </div>
     <br class="clear" />
   </div>
-</div>
+</div> -->
 <!-- ####################################################################################################### -->
 <div class="wrapper col5">
   <div id="copyright">
@@ -187,6 +200,7 @@
     <p class="fl_right">Template by <a href="http://www.os-templates.com/" title="Open Source Templates">OS Templates</a></p>
     <br class="clear" />
   </div>
+<br/><br/><br/>
 </div>
 <!-- twitter follow badge by go2web20 -->
 <script src='http://files.go2web20.net/twitterbadge/1.0/badge.js' type='text/javascript'></script><script type='text/javascript' charset='utf-8'><!--
@@ -194,7 +208,7 @@ tfb.account = 'openvoice';
 tfb.label = 'follow-us';
 tfb.color = '#35ccff';
 tfb.side = 'r';
-tfb.top = 200;
+tfb.top = 213;
 tfb.showbadge();
 --></script>
 <!-- end of twitter follow badge -->

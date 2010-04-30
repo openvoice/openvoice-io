@@ -18,9 +18,9 @@ body{
 	font-size:12px;
 	font-family:verdana, Arial, Helvetica, sans-serif;
 	color:#333333;
-	background-color:#FFFFFF;
-/*	background-color:#000000;
-*/	}
+/*	background-color:#FFFFFF;
+*/	background-color:#1B1B1B;
+	}
 
 img{display:block; margin:0; padding:0; border:none;}
 .justify{text-align:justify;}

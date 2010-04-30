@@ -33,16 +33,17 @@ class PhoneNumbersController < ApplicationController
   end
 
   def edit
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @user = current_user
     @phone_number = PhoneNumber.find(params[:id])
   end
 
   def create
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @phone_number = PhoneNumber.new
     @phone_number.attributes = {
       :number => params[:phone_number][:number],
+      :description => params[:phone_number][:description],
       :forward => params[:phone_number][:forward],
       :user_id => current_user,
       :created_at => Time.now()
@@ -56,7 +57,7 @@ class PhoneNumbersController < ApplicationController
     respond_to do |format|
       if @phone_number.save
         flash[:notice] = 'PhoneNumber was successfully created.'
-        format.html { redirect_to(user_phone_numbers_path(current_user)) }
+        format.html { redirect_to(phone_numbers_path) }
         format.xml  { render :xml => @phone_number, :status => :created, :location => @phone_number }
       else
         format.html { render :action => "new" }
@@ -66,13 +67,13 @@ class PhoneNumbersController < ApplicationController
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @phone_number = PhoneNumber.find(params[:id])
 
     respond_to do |format|
       if @phone_number.update_attributes(params[:phone_number])
         flash[:notice] = 'PhoneNumber was successfully updated.'
-        format.html { redirect_to('/users/' + current_user.to_s + '/phone_numbers') }
+        format.html { redirect_to('/phone_numbers') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -82,12 +83,12 @@ class PhoneNumbersController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @phone_number = PhoneNumber.find(params[:id])
     @phone_number.destroy
 
     respond_to do |format|
-      format.html { redirect_to('/users/' + current_user.to_s + '/phone_numbers') }
+      format.html { redirect_to('/phone_numbers') }
       format.xml  { head :ok }
     end
   end

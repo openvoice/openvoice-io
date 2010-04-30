@@ -40,8 +40,8 @@ class VoiceCallsController < ApplicationController
   def create
     # @voice_call = VoiceCall.new(params[:voice_call].merge(:user_id => params[:user_id]))
     
-    if params[:user_id]
-      current_user = params[:user_id]
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
       callto = params[:voice_call][:to]
     else
       user = User.find_by_apikey(params[:apikey])
@@ -78,7 +78,7 @@ class VoiceCallsController < ApplicationController
           :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
 
         flash[:notice] = 'VoiceCall was successfully created.'
-        format.html { redirect_to(user_voice_calls_path(current_user)) }
+        format.html { redirect_to(voice_calls_path) }
         format.xml  { render :xml => '<status>success</status>', :status => :created }        
         format.json { render :json => '{"status":{"value":"success"}}' }
       else
@@ -90,13 +90,13 @@ class VoiceCallsController < ApplicationController
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @voice_call = VoiceCall.find(params[:id])
 
     respond_to do |format|
       if @voice_call.update_attributes(params[:voice_call])
         flash[:notice] = 'VoiceCall was successfully updated.'
-        format.html { redirect_to('/users/' + current_user.to_s + '/voice_calls') }
+        format.html { redirect_to('/voice_calls') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -106,12 +106,12 @@ class VoiceCallsController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @voice_call = VoiceCall.find(params[:id])
     @voice_call.destroy
 
     respond_to do |format|
-      format.html { redirect_to('/users/' + current_user.to_s + '/voice_calls') }
+      format.html { redirect_to('/voice_calls') }
       format.xml  { head :ok }
     end
   end

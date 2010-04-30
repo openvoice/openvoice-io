@@ -27,6 +27,7 @@ class ProfilesController < ApplicationController
         session[:current_user_id] = user.id
       end
       session[:nickname] = current_user.nickname
+      session[:email] = current_user.email
       session[:apikey] = user.apikey
       
     end
@@ -37,7 +38,7 @@ class ProfilesController < ApplicationController
     @profiles = Profile.all(:user_id => session[:current_user_id]) 
     
     if @profiles.length == 0
-      redirect_to('/users/' + session[:current_user_id].to_s + '/profiles/new')
+      redirect_to('/profiles/new')
     else
       respond_to do |format|
         format.html
@@ -69,7 +70,7 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     profile = Profile.new
     profile.attributes = {
       :voice => params[:profile][:voice],
@@ -89,7 +90,7 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if profile.save
         flash[:notice] = 'Profile was successfully created.'
-        format.html { redirect_to(user_profiles_path(current_user)) }
+        format.html { redirect_to(profiles_path) }
         format.xml  { render :xml => @profile, :status => :created, :location => @profile }
       else
         format.html { render :action => "new" }
@@ -99,14 +100,14 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @profile = Profile.find(params[:id])
 
     respond_to do |format|
       if @profile.update_attributes(params[:profile])
         flash[:notice] = 'Profile was successfully updated.'
         # format.html { redirect_to(user_profiles_path(current_user)) }
-        format.html { redirect_to('/users/' + current_user.to_s + '/profiles') }
+        format.html { redirect_to('/profiles') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -116,14 +117,14 @@ class ProfilesController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     
     @profile = Profile.find(params[:id])
     @profile.destroy
 
     respond_to do |format|
       # format.html { redirect_to(user_profiles_url(current_user)) }
-      format.html { redirect_to('/users/' + current_user.to_s + '/profiles') }
+      format.html { redirect_to('/profiles') }
       format.xml  { head :ok }
     end
   end

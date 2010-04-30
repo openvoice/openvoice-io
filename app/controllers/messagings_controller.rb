@@ -33,7 +33,7 @@ class MessagingsController < ApplicationController
   end
 
   def create
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     
     from = to = ""
     # if session = params[:session]
@@ -60,9 +60,18 @@ class MessagingsController < ApplicationController
       
     else
 
-      if params[:user_id]
-        current_user = params[:user_id]
-        from = user.email
+      if session[:current_user_id]
+        current_user = session[:current_user_id]
+        
+        #Lookup account holder's number
+        phonenumber = PhoneNumber.first(:user_id => current_user) 
+      	if phonenumber
+      	  firstnumber = phonenumber.number
+      	else
+      	  firstnumber = '16025551212'
+      	end
+        from = firstnumber
+        
         to = params[:messaging][:to]
         text = params[:messaging][:text]
       else
@@ -108,7 +117,7 @@ class MessagingsController < ApplicationController
         
         
         flash[:notice] = 'Messaging was successfully created.'
-        format.html { redirect_to('/users/' + current_user.to_s + '/messagings') }
+        format.html { redirect_to('/messagings') }
         format.xml  { render :xml => '<status>success</status>', :status => :created }
         format.json { render :json => '{"status":{"value":"success"}}' }
       else
@@ -120,19 +129,19 @@ class MessagingsController < ApplicationController
   end
   
   def edit
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @user = current_user
     @messaging = Messaging.find(params[:id])
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @messaging = Messaging.find(params[:id])
 
     respond_to do |format|
       if @messaging.update_attributes(params[:messaging])
         flash[:notice] = 'Messaging was successfully updated.'
-        format.html { redirect_to('/users/' + current_user.to_s + '/messagings') }
+        format.html { redirect_to('/messagings') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -142,12 +151,12 @@ class MessagingsController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @messaging = Messaging.find(params[:id])
     @messaging.destroy
 
     respond_to do |format|
-      format.html { redirect_to('/users/' + current_user.to_s + '/messagings') }
+      format.html { redirect_to('/messagings') }
       format.xml  { head :ok }
     end
   end

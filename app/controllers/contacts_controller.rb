@@ -35,13 +35,13 @@ class ContactsController < ApplicationController
   end
 
   def edit
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @user = current_user
     @contact = Contact.find(params[:id])
   end
 
   def create
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     contact = Contact.new
     contact.attributes = {
       :contactname => params[:contact][:contactname],
@@ -54,7 +54,7 @@ class ContactsController < ApplicationController
     respond_to do |format|
       if contact.save
         flash[:notice] = 'Contact was successfully created.'
-        format.html { redirect_to(user_contacts_path(current_user)) }
+        format.html { redirect_to(contacts_path) }
         format.xml  { render :xml => @contact, :status => :created, :location => @contact }
       else
         format.html { render :action => "new" }
@@ -64,14 +64,14 @@ class ContactsController < ApplicationController
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @contact = Contact.find(params[:id])
 
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
         flash[:notice] = 'Contact was successfully updated.'
         # format.html { redirect_to(@contact) }
-        format.html { redirect_to('/users/' + current_user.to_s + '/contacts') }
+        format.html { redirect_to('/contacts') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -81,13 +81,13 @@ class ContactsController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     contact = Contact.find(params[:id])
     contact.destroy
 
     respond_to do |format|
       # format.html { redirect_to(contacts_url) }
-      format.html { redirect_to('/users/' + current_user.to_s + '/contacts') }
+      format.html { redirect_to('/contacts') }
       format.xml  { head :ok }
     end
   end

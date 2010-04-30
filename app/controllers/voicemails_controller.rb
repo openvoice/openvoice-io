@@ -63,13 +63,13 @@ class VoicemailsController < ApplicationController
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @voicemail = Voicemail.find(params[:id])
 
     respond_to do |format|
       if @voicemail.update_attributes(params[:voicemail])
         flash[:notice] = 'Voicemail was successfully updated.'
-        format.html { redirect_to('/users/' + current_user.to_s + '/voicemails') }
+        format.html { redirect_to('/voicemails') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,12 +79,12 @@ class VoicemailsController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @voicemail = Voicemail.find(params[:id])
     @voicemail.destroy
 
     respond_to do |format|
-      format.html { redirect_to('/users/' + current_user.to_s + '/voicemails') }
+      format.html { redirect_to('/voicemails') }
       format.xml  { head :ok }
     end
   end

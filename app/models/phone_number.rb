@@ -10,6 +10,7 @@ class PhoneNumber
   
   property :id,           Serial
   property :number,       String
+  property :description,  String
   property :forward,      Boolean
   property :user_id,      Integer
   property :created_at,   DateTime

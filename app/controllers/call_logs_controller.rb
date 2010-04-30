@@ -31,7 +31,7 @@ class CallLogsController < ApplicationController
   end
 
   def create
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @call_log = CallLog.new
     @call_log.attributes = {
       :to => params[:call_log][:to],
@@ -56,7 +56,7 @@ class CallLogsController < ApplicationController
   end
 
   def update
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @call_log = CallLog.find(params[:id])
 
     respond_to do |format|
@@ -72,7 +72,7 @@ class CallLogsController < ApplicationController
   end
 
   def destroy
-    current_user = params[:user_id]
+    current_user = session[:current_user_id]
     @call_log = CallLog.find(params[:id])
     @call_log.destroy
 

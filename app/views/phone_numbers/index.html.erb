@@ -3,18 +3,21 @@
 
 <table>
   <tr>
-<thead>    <th>Number</th>
-    <th>Forward</th>
+<thead>    
+	<th>Number</th>
+    <th>Description</th>
+    <th>Forwarding?</th>
 <th colspan="3">&nbsp;</th>
 </thead>  </tr>
 <% if @phone_numbers %>
 <% @phone_numbers.each do |phone_number| %>
   <tr>
     <td><%=h phone_number.number %></td>
+    <td><%=h phone_number.description %></td>
     <td><%=h phone_number.forward %></td>
-    <td><%= link_to 'Show', user_phone_number_path(current_user, phone_number) %></td>
-    <td><%= link_to 'Edit', edit_user_phone_number_path(current_user, phone_number) %></td>
-    <td><%= link_to 'Destroy', user_phone_number_path(current_user, phone_number), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', phone_number_path(phone_number) %></td>
+    <td><%= link_to 'Edit', edit_phone_number_path(phone_number) %></td>
+    <td><%= link_to 'Destroy', phone_number_path(phone_number), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 <% end %>
@@ -22,5 +25,5 @@
 
 <br />
 
-<%= link_to 'Add phone number', new_user_phone_number_path(current_user) %>
+<%= link_to 'Add phone number', new_phone_number_path %>
 (including country code)

@@ -1,11 +1,15 @@
 <% current_user = session[:current_user_id] %>
 <h1>New Phone Number</h1>
 
-<% form_for([:user, @phone_number]) do |f| %>
+<% form_for([ @phone_number]) do |f| %>
     <%= f.error_messages %>
     <p>
       <%= f.label :number %><br/>
       <%= f.text_field :number %>
+    </p>
+    <p>
+      <%= f.label :description %><br/>
+      <%= f.text_field :description %>
     </p>
 
     <p>
@@ -18,4 +22,4 @@
     </p>
 <% end %>
 
-<%= link_to 'Back', user_phone_numbers_path(current_user) %>
+<%= link_to 'Back', phone_numbers_path %>

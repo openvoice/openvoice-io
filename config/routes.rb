@@ -54,15 +54,24 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => "profiles", :action => "home"
 
   map.resource :account, :controller => "users"
-  map.resources :users do |user|
-    user.resources :phone_numbers
-    user.resources :voicemails
-    user.resources :messagings
-    user.resources :call_logs
-    user.resources :voice_calls
-    user.resources :contacts
-    user.resources :profiles
-  end
+  # map.resources :users do |user|
+  #   user.resources :phone_numbers
+  #   user.resources :voicemails
+  #   user.resources :messagings
+  #   user.resources :call_logs
+  #   user.resources :voice_calls
+  #   user.resources :contacts
+  #   user.resources :profiles
+  # end
+
+  map.resources :phone_numbers
+  map.resources :voicemails
+  map.resources :messagings
+  map.resources :call_logs
+  map.resources :voice_calls
+  map.resources :contacts
+  map.resources :profiles
+
   
   # See how all your routes lay out with "rake routes"
 

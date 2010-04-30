@@ -3,6 +3,9 @@
   <b>Number:</b>
   <%=h @phone_number.number %>
   <br />
+  <b>Description:</b>
+  <%=h @phone_number.description %>
+  <br />
   <b>Forward:</b>
   <%=h @phone_number.forward %>
   <br />
@@ -15,5 +18,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_user_phone_number_path(current_user, @phone_number) %> |
-<%= link_to 'Back', user_phone_numbers_path(current_user) %>
+<%= link_to 'Edit', edit_phone_number_path(@phone_number) %> |
+<%= link_to 'Back', phone_numbers_path %>
