@@ -41,6 +41,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/api', :controller => 'profiles', :action => 'api'
   map.connect '/logout', :controller => 'profiles', :action => 'logout'
 
+  map.connect '/play/:id.:format', :controller => 'voicemails', :action => 'play'
+
 
   # map.resource :sessions
   # map.login '/login', :controller => 'sessions', :action => 'new'

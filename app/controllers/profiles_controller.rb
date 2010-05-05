@@ -9,7 +9,15 @@ class ProfilesController < ApplicationController
     if current_user
       user = User.find_by_email(current_user.email)
       if user
+        user.attributes = {
+          :email => current_user.email,
+          :nickname => current_user.nickname,
+          :updated_at => Time.now()
+        }
+        user.save
+
         session[:current_user_id] = user.id
+        
       else
         
         # Generate API Key
@@ -21,7 +29,9 @@ class ProfilesController < ApplicationController
         user = User.new
         user.attributes = {
           :email => current_user.email,
-          :apikey => apikey
+          :nickname => current_user.nickname,
+          :apikey => apikey,
+          :created_at => Time.now()
         }
         user.save
         session[:current_user_id] = user.id
@@ -148,6 +158,9 @@ class ProfilesController < ApplicationController
   end
   
   def api
+    if session[:current_user_id].nil?
+      redirect_to "/"
+    end      
   end
 
   def home

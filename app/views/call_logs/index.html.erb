@@ -6,7 +6,7 @@
     <th>From</th>
     <th>To</th>
     <th>Nature</th>
-    <th>User</th>
+    <th>Time</th>
 	<th colspan="3">&nbsp;</th>
 </thead>
   </tr>
@@ -17,10 +17,10 @@
     <td><%=h call_log.from %></td>
     <td><%=h call_log.to %></td>
     <td><%=h call_log.nature %></td>
-    <td><%=h call_log.user_id %></td>
-    <td><%= link_to 'Call', new_user_voice_call_path(current_user, { :to => call_log.from }) %></td>
-    <td><%= link_to 'Show', user_call_log_path(current_user, call_log) %></td>
-    <td><%= link_to 'Destroy', user_call_log_path(current_user, call_log), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%=h call_log.created_at %></td>
+    <td><%= link_to 'Call', new_voice_call_path({ :to => call_log.from }) %></td>
+    <td><%= link_to 'Show', call_log_path(call_log) %></td>
+    <td><%= link_to 'Delete', call_log_path(call_log), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 <% end %>

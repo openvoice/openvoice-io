@@ -20,7 +20,7 @@
     <td><%=h messaging.created_at %></td>
     <td><%= link_to 'Reply', new_messaging_path({ :to => messaging.from }) %></td>
     <td><%= link_to 'Show', messaging_path(messaging) %></td>
-    <td><%= link_to 'Destroy', messaging_path(messaging), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Delete', messaging_path(messaging), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 <% end %>

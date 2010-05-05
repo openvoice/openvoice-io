@@ -7,4 +7,3 @@ bundle_path '.gems/bundler_gems'
 gem 'rails_dm_datastore'
 gem 'rails', "2.3.5"
 gem "tropo-webapi-ruby"
-gem "aws-s3"

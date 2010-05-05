@@ -5,21 +5,31 @@
   <tr>
 <thead>    
 	<th>From</th>
-    <th>Text</th>
-    <th>Play</th>
+    <!-- <th>Text</th> -->
+    <th>Message</th>
     <th>Time</th>
-<th colspan="2">&nbsp;</th>
+<th colspan="1">&nbsp;</th>
 </thead>  </tr>
 
 <% if @voicemails %>
 <% @voicemails.each do |voicemail| %>
   <tr>
     <td><%=h voicemail.from %></td>
-    <td><%=h voicemail.text %></td>
-    <td><embed src=<%= voicemail.filename%> height=15 width=144 controls=smallconsole volume=50 autostart=false></td>
+    <!-- <td><%=h voicemail.text %></td> -->
+    <td><%# voicemail.data %><!-- <embed src="http://localhost:8080/play/<%=voicemail.id%>.mp3" height="15" width="144" controls="smallconsole" volume="50" autostart="false"> -->
+	  <script language="JavaScript" src="/mp3s/audio-player.js"></script>
+	        <object type="application/x-shockwave-flash" data="/mp3s/player.swf" id="audioplayer1" height="24" width="290">
+	        <param name="movie" value="/mp3s/player.swf">
+	        <param name="FlashVars" value="playerID=1&amp;soundFile=/play/<%=voicemail.id%>.mp3">
+	        <param name="quality" value="high">
+	        <param name="menu" value="false">
+	        <param name="wmode" value="transparent">
+	        </object>
+    
+	</td>
     <td><%=h voicemail.created_at %></td>
-    <td><%= link_to 'Show', voicemail_path( voicemail) %></td>
-    <td><%= link_to 'Destroy', voicemail_path(voicemail), :confirm => 'Are you sure?', :method => :delete %></td>
+    <!-- <td><%# link_to 'Show', voicemail_path( voicemail) %></td> -->
+    <td><%= link_to 'Delete', voicemail_path(voicemail), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 <% end %>

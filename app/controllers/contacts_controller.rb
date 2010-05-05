@@ -7,12 +7,24 @@ class ContactsController < ApplicationController
     # @contacts = current_user.contacts
     # @contacts = Contact.all
     # @contacts = Contact.find_by_user_id(session[:current_user_id])
-    @contacts = Contact.all(:user_id => session[:current_user_id])
+    
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
+    end
+    
+    
+    @contacts = Contact.all(:user_id => current_user)
     
 
     respond_to do |format|
       format.html
       format.xml  { render :xml => @contacts }
+      format.json  { render :json => @contacts }
     end
   end
 

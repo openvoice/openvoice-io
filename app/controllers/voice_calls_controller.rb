@@ -51,6 +51,9 @@ class VoiceCallsController < ApplicationController
       end
     end
     
+    # if callto[0..0] != "+"
+    #   callto = "+" + callto
+    # end
     
     voice_call = VoiceCall.new
     voice_call.attributes = {
@@ -67,11 +70,15 @@ class VoiceCallsController < ApplicationController
         phonenumber = PhoneNumber.first(:user_id => current_user) 
       	if phonenumber
       	  firstnumber = phonenumber.number
+          # if firstnumber[0..0] != "+"
+          #   firstnumber = "+" + firstnumber
+          # end
       	else
-      	  firstnumber = '16025551212'
+          # firstnumber = '+16025551212'
+          firstnumber = '16025551212'
       	end 
         
-        call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + callto + '&from=' + firstnumber
+        call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + callto + '&from=' + firstnumber + '&ov_action=call&user_id=' + current_user.to_s
 
         result = AppEngine::URLFetch.fetch(call_url,
           :method => :get,
