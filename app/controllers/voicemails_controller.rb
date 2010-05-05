@@ -132,4 +132,10 @@ class VoicemailsController < ApplicationController
     send_data (@audio, :type => 'mp3', :filename => 'message.mp3', :disposition => 'inline') 
   end
 
+  def set_transcription
+    # voicemail = Voicemail.find_by_transcription_id(params[:transcription_id])
+    # voicemail.update_attribute("text", params[:transcription])
+    # head 200
+  end
+
 end

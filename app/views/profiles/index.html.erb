@@ -1,17 +1,22 @@
 <% current_user = session[:current_user_id] %>
 <h1>Your Profile</h1>
 
+
+<!-- http://207.218.123.79/clarabell.swf?server=207.218.123.79&uri=sip:9991430371@127.0.0.1:5070 -->
+
 <table>
-  <tr>
-<thead>    <th>Voice</th>
+<tr>
+<thead>    
+	<th>Voice</th>
     <th>Skype</th>
     <th>Sip</th>
     <th>INum</th>
     <th>Tropo</th>
     <th>Twitter</th>
     <th>Gtalk</th>
-<th colspan="1">&nbsp;</th>
-</thead>  </tr>
+	<th>&nbsp;</th>
+</thead>  
+</tr>
 
 <% if @profiles %>
 <% @profiles.each do |profile| %>

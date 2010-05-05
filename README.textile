@@ -34,3 +34,13 @@ Now go ahead and make some calls.
 
 If you don't need voicemail function then you are done.  If you do need voicemail, then open voicemail_controllers and
 replace aws information with your own.
+
+______________________________________________
+
+Update 5/1/2010:
+
+OpenVoice for Google AppEngine source code now available at https://github.com/chrismatthieu/OpenVoice
+
+To start working with GAE directly, you can pull this code down to your system, follow these instructions http://gist.github.com/268192 to setup your environment.  Obviously skip the mkdir and cd but run the rails2_appengine.rb from our code's directory.  Say NO when it prompts you to replacing any of the files.
+
+If all goes well, you can run ./script/server.sh to run it local on your system and ./script/publish.sh to publish your update to GAE!

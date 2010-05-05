@@ -4,12 +4,23 @@ class MessagingsController < ApplicationController
 
   def index
     # @messagings = current_user.messagings.reverse
-    @messagings = Messaging.all(:user_id => session[:current_user_id], :order => [ :created_at.desc ])  
+    
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
+    end
+    
+    @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])  
 
     respond_to do |format|
       format.html
       format.json { render :json => @messagings }
       format.xml  { render :xml => @messagings }
+      # format.xml  { render :xml => '<hello/>' }
     end
   end
 
@@ -37,19 +48,32 @@ class MessagingsController < ApplicationController
     
     from = to = ""
     # if session = params[:session]
-    if params[:session] # TODO - Validate
+    # if params[:session] # TODO - Validate
       
+    session = params[:session]
+    if session && session[:parameters].nil? && !session[:initialText].nil?
+
       # then this is a request from tropo, create an incoming message
       from = session[:from][:id]
       text = session[:initialText]
-      @user = User.find(1)
-      to = @user.login
+      to = session[:to][:id]
+      
+      phonenumber = Profile.find_by_voice(to)
+    	if phonenumber
+    	  firstnumber = phonenumber.number
+    	else
+        firstnumber = '16025551212'
+    	end 
+      
+
+      # @user = User.find(current_user)
+      # to = @user.login
       # @messaging = Messaging.new(:from => from, :text => text, :to => to, :user_id => @user.id, :outgoing => false)
       
       messaging = Messaging.new
       messaging.attributes = {
         :from => from,
-        :to => to,
+        :to => firstnumber,
         :text => text,
         :user_id => @user.id,
         :outgoing => false,
@@ -107,6 +131,17 @@ class MessagingsController < ApplicationController
       if messaging.save
         
         if outgoing
+          
+          # tropo = Tropo::Generator.new do
+          #   call({ :from => from,
+          #          :to => to,
+          #          :network => 'SMS',
+          #          :channel => 'TEXT' })
+          #   say text
+          # end
+          # 
+          # render :json => tropo.response
+          # return          
 
           msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_MESSAGING_TEMP + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
 
