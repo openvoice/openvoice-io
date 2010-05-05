@@ -14,5 +14,4 @@ class ApplicationController < ActionController::Base
   require 'dm-core'
   require 'dm-serializer'
   
-  
 end
