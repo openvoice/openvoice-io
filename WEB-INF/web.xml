@@ -8,21 +8,6 @@
       <role-name>*</role-name>
     </auth-constraint>
   </security-constraint>
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/admin</url-pattern>
-      <url-pattern>/admin/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
-  <context-param>
-    <param-name>rackup</param-name>
-    <param-value>
-Dir.chdir(&apos;..&apos;) if Dir.pwd =~ /WEB-INF$/; begin; require &apos;bundler_gems/environment&apos;; rescue LoadError; end;eval IO.read(&apos;config.ru&apos;), nil, &apos;config.ru&apos;, 1
-    </param-value>
-  </context-param>
   <filter>
     <filter-name>RackFilter</filter-name>
     <filter-class>org.jruby.rack.RackFilter</filter-class>

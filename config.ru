@@ -1,4 +1,9 @@
 require 'appengine-rack'
+require 'cgi'
+require 'json'
+require 'dm-core'
+require 'dm-serializer'
+
 AppEngine::Rack.configure_app(
     :application => 'myopenvoice',
     :precompilation_enabled => true,
@@ -17,10 +22,10 @@ map '/profiles' do
   run deferred_dispatcher
 end
 
-map '/admin' do
-  use AppEngine::Rack::AdminRequired
-  run deferred_dispatcher
-end
+# map '/admin' do
+#   use AppEngine::Rack::AdminRequired
+#   run deferred_dispatcher
+# end
 
 map '/' do
   run deferred_dispatcher

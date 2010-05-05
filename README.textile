@@ -9,13 +9,12 @@ OpenVoice plans to support other backends such as FreeSwitch. On the client side
 support Flash phone.
 
 To test the live application
-Phone Numbers:
-Voice & Messaging: (408) 940-5938
-Skype Voice: +99000936 9991429707
-SIP Voice: sip:9991429707@sip.tropo.com
-
-IM: openvoice@tropo.im
-Twitter: myopenvoice@twitter
+Voice & Messaging: (415) 273-9939
+Skype Voice: +99000936 9991430371
+SIP Voice: sip:9991430371@sip.tropo.com
+iNum: +883510001806091
+IM: myopenvoice@tropo.im
+Twitter: @OpenVoice
 
 Setup your development environment
 Create a tropo app first and get your own phone numbers and IMs
