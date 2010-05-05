@@ -1,8 +1,8 @@
 require 'appengine-rack'
-require 'cgi'
-require 'json'
-require 'dm-core'
-require 'dm-serializer'
+# require 'cgi'
+# require 'json'
+# require 'dm-core'
+# require 'dm-serializer'
 
 AppEngine::Rack.configure_app(
     :application => 'myopenvoice',

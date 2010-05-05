@@ -9,5 +9,10 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password
   
   require 'appengine-apis/users'
+  require 'cgi'
+  require 'json'
+  require 'dm-core'
+  require 'dm-serializer'
+  
   
 end
