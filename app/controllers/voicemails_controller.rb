@@ -2,10 +2,17 @@ class VoicemailsController < ApplicationController
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
   
   def index
-    @voicemails = Voicemail.all(:user_id => session[:current_user_id], :order => [ :created_at.desc ]) 
-    # @voicemails = Voicemail.all
     
-    # @voicemails = current_user.voicemails.reverse
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
+    end
+    
+    @voicemails = Voicemail.all(:user_id => current_user, :order => [ :created_at.desc ]) 
 
     respond_to do |format|
       format.html
@@ -15,12 +22,31 @@ class VoicemailsController < ApplicationController
   end
 
   def show
-    @voicemail = Voicemail.find(params[:id])
 
-    respond_to do |format|
-      format.html
-      format.xml  { render :xml => @voicemail }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
     end
+
+    @voicemail = Voicemail.find(params[:id])
+    
+    respond_to do |format|
+      if @voicemail and @voicemail.user_id == current_user
+        format.html
+        format.xml  { render :xml => @voicemail }
+        format.json  { render :json => @voicemail }
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { redirect_to('/voicemails') }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
+      end
+    end
+    
   end
 
   def new
@@ -33,27 +59,11 @@ class VoicemailsController < ApplicationController
   end
 
   def create
-    # require "aws/s3"
-    # 
-    # #TODO - validate
-    # AWS::S3::Base.establish_connection!(
-    #         :access_key_id     => 'AKIAJL7N4ODM3NMNTFCA',
-    #         :secret_access_key => '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'
-    # )
-    # 
-    # original_filename = params[:filename].original_filename
-    # 
-    # AWS::S3::S3Object.store(original_filename,
-    #                         params[:filename],
-    #                         'voicemails-dev.tropovoice.com',
-    #                         :access => :public_read)
-    # 
-    # path = 'http://voicemails-dev.tropovoice.com' + '.s3.amazonaws.com/' + original_filename
 
-    # @voicemail = Voicemail.new(:filename => path, :user_id => User.find(1), :from => params[:caller_id])
-    
+    # Method called by Tropo
+      
+    #API handles binary data to BigTable
     require 'appengine-apis/images'
-    
     
     voicemail = Voicemail.new
     voicemail.attributes = {
@@ -62,74 +72,88 @@ class VoicemailsController < ApplicationController
       :user_id => params[:user_id],
       :created_at => Time.now()
     }
-    # image =  AppEngine::Images.load(params[:img][:tempfile].read)
-    # file = ImageFile.new({})
-    # file.data = image.resize(100,100).data
-    # if file.save
 
-    
-    
-    
-#    respond_to do |format|
-    if voicemail.save
-      
-      # require 'appengine-apis/datastore'
-      # 
-      # # e = AppEngine::Datastore::Entity.new('Message')
-      # # # e[:id] = voicemail.id
-      # # e[:vmail] = params[:filename].read
-      # 
-      # e = AppEngine::Datastore::Blob.new('Message')
-      # # e[:id] = voicemail.id
-      # e[:vmail] = params[:filename].read
-      # 
-      # 
-      # AppEngine::Datastore.put e
-      
-      
-      flash[:notice] = 'Voicemail was successfully created.'
-#        format.html { redirect_to(@voicemail) }
-#        format.xml  { render :xml => @voicemail, :status => :created, :location => @voicemail }
-    else
-#        format.html { render :action => "new" }
-#        format.xml  { render :xml => @voicemail.errors, :status => :unprocessable_entity }
-    end
+    voicemail.save      
 
     head 200
-#    end
+
   end
 
   def update
-    current_user = session[:current_user_id]
-    @voicemail = Voicemail.find(params[:id])
-
-    respond_to do |format|
-      if @voicemail.update_attributes(params[:voicemail])
-        flash[:notice] = 'Voicemail was successfully updated.'
-        format.html { redirect_to('/voicemails') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @voicemail.errors, :status => :unprocessable_entity }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
       end
     end
+    
+    @voicemail = Voicemail.find(params[:id])
+    
+    respond_to do |format|
+      if @voicemail.user_id == current_user
+        if @voicemail.update_attributes(params[:voicemail])
+          flash[:notice] = 'Voicemail was successfully updated.'
+          format.html { redirect_to('/voicemails') }
+          format.xml  { head :ok }
+          format.json  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @voicemail.errors, :status => :unprocessable_entity }
+          format.json  { render :json => @voicemail.errors, :status => :unprocessable_entity }
+        end
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
+      end
+    end
+    
+    
   end
 
   def destroy
-    current_user = session[:current_user_id]
-    @voicemail = Voicemail.find(params[:id])
-    @voicemail.destroy
-
-    respond_to do |format|
-      format.html { redirect_to('/voicemails') }
-      format.xml  { head :ok }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
     end
+
+    @voicemail = Voicemail.find(params[:id])
+    
+    respond_to do |format|
+      if @voicemail.user_id == current_user
+        @voicemail.destroy
+        flash[:notice] = 'Voicemail was successfully deleted.'
+        format.html { redirect_to('/voicemails') }
+        format.xml  { head :ok }
+        format.json { head :ok }
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { redirect_to('/voicemails') }
+        format.xml  { render :xml => @voice_call.errors, :status => :unprocessable_entity }
+        format.json { render :json => @voice_call.errors, :status => :unprocessable_entity }
+      end
+    end
+    
+    
   end
   
   def play
+    
+    current_user = session[:current_user_id]
+
     @voicemails = Voicemail.find(params[:id])
-    @audio = @voicemails.data
-    send_data (@audio, :type => 'mp3', :filename => 'message.mp3', :disposition => 'inline') 
+    
+    if @voicemails.user_id == current_user
+      @audio = @voicemails.data
+      send_data (@audio, :type => 'mp3', :filename => 'message.mp3', :disposition => 'inline') 
+    end
   end
 
   def set_transcription

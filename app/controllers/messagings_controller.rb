@@ -6,11 +6,39 @@ class MessagingsController < ApplicationController
     # @messagings = current_user.messagings.reverse
     
     if session[:current_user_id]
+      #Web Session
       current_user = session[:current_user_id]
     else
-      user = User.find_by_apikey(params[:apikey])
-      if user
-        current_user = user.id
+      if params[:apikey]
+        #API with key
+        user = User.find_by_apikey(params[:apikey])
+        if user
+          current_user = user.id
+        end
+        
+      else
+        #API with Google Basic Auth
+        args = {
+          'Email'   => params[:email],
+          'Passwd'   => params[:password], 
+          'source'   => 'Google Auth Base Ruby Gem', 
+          'continue' => ''
+        }
+        
+        result = AppEngine::URLFetch.fetch("https://www.google.com:443/accounts/ClientLogin",
+          :payload => Rack::Utils.build_query(args),
+          :method => :post,
+          :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
+
+        sid = extract_sid(result.body)
+        
+        if sid
+          user = User.find_by_email(params[:email])
+           if user
+             current_user = user.id
+           end
+        end
+        
       end
     end
     
@@ -18,18 +46,40 @@ class MessagingsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @messagings }
       format.xml  { render :xml => @messagings }
-      # format.xml  { render :xml => '<hello/>' }
+      format.json { render :json => @messagings }
     end
+  end
+  
+  def extract_sid(body)
+    matches = body.match(/SID=(.*)/)
+    matches.nil? ? nil : matches[0].gsub('SID=', '')
   end
 
   def show
+    
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
+    end
+
     @messaging = Messaging.find(params[:id])
 
     respond_to do |format|
-      format.html
-      format.xml  { render :xml => @messaging }
+      if @messaging and @messaging.user_id == current_user
+        format.html
+        format.xml  { render :xml => @messaging }
+        format.json  { render :json => @messaging }
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { redirect_to('/messagings') }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
+      end
     end
   end
 
@@ -161,7 +211,7 @@ class MessagingsController < ApplicationController
           end
         
         
-          flash[:notice] = 'Messaging was successfully created.'
+          flash[:notice] = 'Message was successfully created.'
           format.html { redirect_to('/messagings') }
           format.xml  { render :xml => '<status>success</status>', :status => :created }
           format.json { render :json => '{"status":{"value":"success"}}' }
@@ -203,17 +253,20 @@ class MessagingsController < ApplicationController
     respond_to do |format|
       if @messaging.user_id == current_user
         if @messaging.update_attributes(params[:messaging])
-          flash[:notice] = 'Messaging was successfully updated.'
+          flash[:notice] = 'Message was successfully updated.'
           format.html { redirect_to('/messagings') }
           format.xml  { head :ok }
+          format.json  { head :ok }
         else
           format.html { render :action => "edit" }
           format.xml  { render :xml => @messaging.errors, :status => :unprocessable_entity }
+          format.json  { render :json => @messaging.errors, :status => :unprocessable_entity }
         end
       else
         flash[:warning] = 'Access denied.'
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @messaging.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
       end
     end
   end
@@ -229,20 +282,22 @@ class MessagingsController < ApplicationController
     end
     
     @messaging = Messaging.find(params[:id])
-    if @messaging.user_id == current_user
-      @messaging.destroy
-      respond_to do |format|
+
+    respond_to do |format|
+      if @messaging.user_id == current_user
+        @messaging.destroy
+        flash[:notice] = 'Message was successfully deleted.'
         format.html { redirect_to('/messagings') }
         format.xml  { head :ok }
-      end
-    else
-      respond_to do |format|
+        format.json { head :ok }
+      else
         flash[:warning] = 'Access denied.'
         format.html { redirect_to('/messagings') }
         format.xml  { render :xml => @messaging.errors, :status => :unprocessable_entity }
+        format.json { render :json => @messaging.errors, :status => :unprocessable_entity }
       end
     end
-
+    
   end
   
   

@@ -3,24 +3,49 @@ class PhoneNumbersController < ApplicationController
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :create, :update, :destroy]
   
   def index
-    @phone_numbers = PhoneNumber.all(:user_id => session[:current_user_id])
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
+    end    
     
-    # @user = User.find(params[:user_id])
-    # @phone_numbers = @user.phone_numbers
-
+    @phone_numbers = PhoneNumber.all(:user_id => current_user)
+    
     respond_to do |format|
       format.html
       format.xml  { render :xml => @phone_numbers }
+      format.json  { render :json => @phone_numbers }
     end
   end
 
   def show
-    @phone_number = PhoneNumber.find(params[:id])
-
-    respond_to do |format|
-      format.html
-      format.xml  { render :xml => @phone_number }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
     end
+    
+    @phone_number = PhoneNumber.find(params[:id])
+    
+    respond_to do |format|
+      if @phone_number and @phone_number.user_id == current_user
+        format.html
+        format.xml  { render :xml => @phone_number }
+        format.json  { render :json => @phone_number }
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { redirect_to('/phone_numbers') }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
+      end
+    end
+    
   end
 
   def new
@@ -39,58 +64,109 @@ class PhoneNumbersController < ApplicationController
   end
 
   def create
-    current_user = session[:current_user_id]
-    @phone_number = PhoneNumber.new
-    @phone_number.attributes = {
-      :number => params[:phone_number][:number],
-      :description => params[:phone_number][:description],
-      :forward => params[:phone_number][:forward],
-      :user_id => current_user,
-      :created_at => Time.now()
-    }
     
-    
-    # @phone_number = PhoneNumber.new(:number => params[:phone_number][:number],
-    #                                 :forward => params[:phone_number][:forward], 
-    #                                 :user_id => params[:user_id])
-
-    respond_to do |format|
-      if @phone_number.save
-        flash[:notice] = 'PhoneNumber was successfully created.'
-        format.html { redirect_to(phone_numbers_path) }
-        format.xml  { render :xml => @phone_number, :status => :created, :location => @phone_number }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @phone_number.errors, :status => :unprocessable_entity }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
       end
     end
+
+    if current_user
+      @phone_number = PhoneNumber.new
+      @phone_number.attributes = {
+        :number => params[:phone_number][:number],
+        :description => params[:phone_number][:description],
+        :forward => params[:phone_number][:forward],
+        :user_id => current_user,
+        :created_at => Time.now()
+      }
+    
+    
+      respond_to do |format|
+        if @phone_number.save
+          flash[:notice] = 'PhoneNumber was successfully created.'
+          format.html { redirect_to(phone_numbers_path) }
+          format.xml  { render :xml => @phone_number, :status => :created, :location => @phone_number }
+          format.json  { render :json => @phone_number, :status => :created, :location => @phone_number }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @phone_number.errors, :status => :unprocessable_entity }
+          format.json  { render :json => @phone_number.errors, :status => :unprocessable_entity }
+        end
+      end
+    else
+      flash[:warning] = 'Access denied.'
+      format.html { render :action => "new" }
+      format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+      format.json { render :json => '{"status":{"value":"failure"}}' }
+    end
+    
   end
 
   def update
-    current_user = session[:current_user_id]
-    @phone_number = PhoneNumber.find(params[:id])
-
-    respond_to do |format|
-      if @phone_number.update_attributes(params[:phone_number])
-        flash[:notice] = 'PhoneNumber was successfully updated.'
-        format.html { redirect_to('/phone_numbers') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @phone_number.errors, :status => :unprocessable_entity }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
       end
     end
+    
+    @phone_number = PhoneNumber.find(params[:id])
+    
+    respond_to do |format|
+      if @phone_number.user_id == current_user
+        if @phone_number.update_attributes(params[:phone_number])
+          flash[:notice] = 'Phone Number was successfully updated.'
+          format.html { redirect_to('/phone_numbers') }
+          format.xml  { head :ok }
+          format.json  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @phone_number.errors, :status => :unprocessable_entity }
+          format.json  { render :json => @phone_number.errors, :status => :unprocessable_entity }
+        end
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
+        format.json { render :json => '{"status":{"value":"failure"}}' }
+      end
+    end
+    
   end
 
   def destroy
-    current_user = session[:current_user_id]
-    @phone_number = PhoneNumber.find(params[:id])
-    @phone_number.destroy
-
-    respond_to do |format|
-      format.html { redirect_to('/phone_numbers') }
-      format.xml  { head :ok }
+    if session[:current_user_id]
+      current_user = session[:current_user_id]
+    else
+      user = User.find_by_apikey(params[:apikey])
+      if user
+        current_user = user.id
+      end
     end
+
+    @phone_number = PhoneNumber.find(params[:id])
+    
+    respond_to do |format|
+      if phone_number.user_id == current_user
+        phone_number.destroy
+        flash[:notice] = 'Phone Number was successfully deleted.'
+        format.html { redirect_to('/phone_numbers') }
+        format.xml  { head :ok }
+        format.json { head :ok }
+      else
+        flash[:warning] = 'Access denied.'
+        format.html { redirect_to('/phone_numbers') }
+        format.xml  { render :xml => contact.errors, :status => :unprocessable_entity }
+        format.json { render :json => contact.errors, :status => :unprocessable_entity }
+      end
+    end
+    
   end
 
   def locate_user
