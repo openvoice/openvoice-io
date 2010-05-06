@@ -99,8 +99,8 @@ class VoiceCallsController < ApplicationController
             #   firstnumber = "+" + firstnumber
             # end
         	else
-            # firstnumber = '+16025551212'
-            firstnumber = '16025551212'
+            # firstnumber = '+14152739939'
+            firstnumber = '14152739939'
         	end 
         
           call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + callto + '&from=' + firstnumber + '&ov_action=call&user_id=' + current_user.to_s

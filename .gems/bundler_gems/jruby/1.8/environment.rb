@@ -18,8 +18,8 @@ module Bundler
   ENV["RUBYOPT"]  = "-r#{file} #{ENV["RUBYOPT"]}"
 
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/activesupport-2.3.5/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json_pure-1.4.2/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json_pure-1.4.2/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json_pure-1.4.3/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json_pure-1.4.3/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/actionmailer-2.3.5/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.14/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rails_appengine-0.0.3/lib")
@@ -38,7 +38,7 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/jruby-rack-0.9.7/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/appengine-rack-0.0.8/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/appengine-apis-0.0.15/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-jruby-1.4.1-universal-java-1.6/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-jruby-1.4.3-universal-java-1.6/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-serializer-0.10.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-ar-finders-0.10.2/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/activerecord-2.3.5/lib")

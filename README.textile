@@ -40,6 +40,13 @@ Update 5/1/2010:
 
 OpenVoice for Google AppEngine source code now available at https://github.com/chrismatthieu/OpenVoice
 
+Sudo gem install the following gems:
+
+gem 'rails_dm_datastore'
+gem 'rails', "2.3.5"
+# gem "json-jruby"
+gem "dm-serializer"
+gem "tropo-webapi-ruby"
 To start working with GAE directly, you can pull this code down to your system, follow these instructions http://gist.github.com/268192 to setup your environment.  Obviously skip the mkdir and cd but run the rails2_appengine.rb from our code's directory.  Say NO when it prompts you to replacing any of the files.
 
 If all goes well, you can run ./script/server.sh to run it local on your system and ./script/publish.sh to publish your update to GAE!

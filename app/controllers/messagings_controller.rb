@@ -1,3 +1,5 @@
+require "tropo-webapi-ruby"
+
 class MessagingsController < ApplicationController
 
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :update, :destroy]
@@ -43,6 +45,7 @@ class MessagingsController < ApplicationController
     end
     
     @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])  
+    # @messagings = Messaging.all
 
     respond_to do |format|
       format.html
@@ -97,94 +100,50 @@ class MessagingsController < ApplicationController
     
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      
+      #Lookup account holder's number
+      phonenumber = Profile.first(:user_id => current_user) 
+    	if phonenumber
+    	  firstnumber = phonenumber.voice
+    	else
+    	  firstnumber = '14152739939'
+    	end
+      from = firstnumber
+    
+      to = params[:messaging][:to]
+      text = params[:messaging][:text]
+      
     else
       user = User.find_by_apikey(params[:apikey])
       if user
         current_user = user.id
+        
+        from = params[:from]
+        to = params[:to]
+        text = params[:text]
+        
       end
     end
     
     
-    from = to = ""
+    # from = to = ""
     # if session = params[:session]
     # if params[:session] # TODO - Validate
       
     if current_user  
       
-      session = params[:session]
-      if session && session[:parameters].nil? && !session[:initialText].nil?
+      # user = User.first(:id => current_user)
+      messaging = Messaging.new
+      messaging.attributes = {
+        :from => from,
+        :to => to,
+        :text => text,
+        :user_id => current_user,
+        :outgoing => true,
+        :created_at => Time.now()
+      }
 
-        # then this is a request from tropo, create an incoming message
-        from = session[:from][:id]
-        text = session[:initialText]
-        to = session[:to][:id]
-      
-        phonenumber = Profile.find_by_voice(to)
-      	if phonenumber
-      	  firstnumber = phonenumber.number
-      	else
-          firstnumber = '16025551212'
-      	end 
-      
-
-        # @user = User.find(current_user)
-        # to = @user.login
-        # @messaging = Messaging.new(:from => from, :text => text, :to => to, :user_id => @user.id, :outgoing => false)
-      
-        messaging = Messaging.new
-        messaging.attributes = {
-          :from => from,
-          :to => firstnumber,
-          :text => text,
-          :user_id => @user.id,
-          :outgoing => false,
-          :created_at => Time.now()
-        }
-      
-        outgoing = false
-      
-      else
-
-        if session[:current_user_id]
-        
-          #Lookup account holder's number
-          phonenumber = PhoneNumber.first(:user_id => current_user) 
-        	if phonenumber
-        	  firstnumber = phonenumber.number
-        	else
-        	  firstnumber = '16025551212'
-        	end
-          from = firstnumber
-        
-          to = params[:messaging][:to]
-          text = params[:messaging][:text]
-        else
-          user = User.find_by_apikey(params[:apikey])
-          if user
-            current_user = user.id
-            from = params[:from]
-            to = params[:to]
-            text = params[:text]
-          end
-        end
-
-
-
-        user = User.first(:id => current_user)
-        messaging = Messaging.new
-        messaging.attributes = {
-          :from => from,
-          :to => to,
-          :text => text,
-          :user_id => current_user,
-          :outgoing => true,
-          :created_at => Time.now()
-        }
-
-
-        outgoing = true
-
-      end
+      outgoing = true
     
 
       respond_to do |format|
@@ -192,17 +151,6 @@ class MessagingsController < ApplicationController
         
           if outgoing
           
-            # tropo = Tropo::Generator.new do
-            #   call({ :from => from,
-            #          :to => to,
-            #          :network => 'SMS',
-            #          :channel => 'TEXT' })
-            #   say text
-            # end
-            # 
-            # render :json => tropo.response
-            # return          
-
             msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_MESSAGING_TEMP + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
 
             result = AppEngine::URLFetch.fetch(msg_url,
@@ -223,10 +171,53 @@ class MessagingsController < ApplicationController
       end
     
     else
-      flash[:warning] = 'Access denied.'
-      format.html { render :action => "new" }
-      format.xml  { render :xml => '<status>failure</status>', :status => :unprocessable_entity }
-      format.json { render :json => '{"status":{"value":"failure"}}' }
+      # if params[:session] && !params[:session][:parameters].nil? && !params[:session][:initialText].nil?
+      if params[:session] && params[:session][:initialText].nil?
+        
+        # then this is a request from tropo, create a Web UI user initiated outbound message
+        from = params[:session][:parameters][:from]
+        text = params[:session][:parameters][:text]
+        to = params[:session][:parameters][:to]
+      
+        tropo = Tropo::Generator.new do
+          message({ :from => from,
+                 :to => to,
+                 :network => 'SMS',
+                 :say => [:value => text] })
+        end
+        
+        render :json => tropo.response
+        return
+        
+      else
+        # then this is a request from tropo, create a mobile initiated inbound message
+        from = params[:session][:from][:id]
+        text = params[:session][:initialText]
+        to = params[:session][:to][:id]
+        
+        profile = Profile.find_by_voice(to)
+        if profile
+          current_user = profile.user_id
+          
+          messaging = Messaging.new
+          messaging.attributes = {
+            :from => from,
+            :to => to,
+            :text => text,
+            :user_id => current_user,
+            :outgoing => false,
+            :created_at => Time.now()
+          }
+          messaging.save
+          
+        end 
+      
+        #TODO forward SMS to user's mobile number attached in phonenumbers (add mobile flag)
+
+        render :nothing => true, :status => 204
+        
+      end
+
     end
 
   end

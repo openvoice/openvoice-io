@@ -21,7 +21,7 @@ class ProfilesController < ApplicationController
       else
         
         # Generate API Key
-        # require 'sha1'
+        require 'sha1'
         srand
         seed = "--#{rand(10000)}--#{Time.now}--"
         apikey = Digest::SHA1.hexdigest(seed)
@@ -143,7 +143,7 @@ class ProfilesController < ApplicationController
     user = User.find(session[:current_user_id])
     if user
       # Generate API Key
-      # require 'sha1'
+      require 'sha1'
       srand
       seed = "--#{rand(10000)}--#{Time.now}--"
       apikey = Digest::SHA1.hexdigest(seed)

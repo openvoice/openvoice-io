@@ -1,29 +1,4 @@
-<!-- Indices written at Thu, 6 May 2010 00:28:11 UTC -->
+<!-- Indices written at Thu, 6 May 2010 19:14:14 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 4 times in query history -->
-    <datastore-index kind="Messagings" ancestor="false" source="auto">
-        <property name="user_id" direction="asc"/>
-        <property name="created_at" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="VoiceCalls" ancestor="false" source="auto">
-        <property name="user_id" direction="asc"/>
-        <property name="created_at" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="CallLogs" ancestor="false" source="auto">
-        <property name="user_id" direction="asc"/>
-        <property name="created_at" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Voicemails" ancestor="false" source="auto">
-        <property name="user_id" direction="asc"/>
-        <property name="created_at" direction="desc"/>
-    </datastore-index>
-
-</datastore-indexes>

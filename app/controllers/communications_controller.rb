@@ -68,7 +68,7 @@ class CommunicationsController < ApplicationController
   	    firstnumber = "+" + firstnumber
   	  end
   	else
-  	  firstnumber = '+16025551212'
+  	  firstnumber = '+14152739939'
   	end 
 
     # .phone_numbers.select{ |pn| pn.forward == true }.first
@@ -124,8 +124,8 @@ class CommunicationsController < ApplicationController
     #       #   firstnumber = "+" + firstnumber
     #       # end
     # else
-    #       # firstnumber = '+16025551212'
-    #       firstnumber = '16025551212'
+    #       # firstnumber = '+14152739939'
+    #       firstnumber = '14152739939'
     # end 
     
     from = params[:session][:parameters][:from]
