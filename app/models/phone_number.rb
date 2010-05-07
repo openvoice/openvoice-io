@@ -12,6 +12,7 @@ class PhoneNumber
   property :number,       String
   property :description,  String
   property :forward,      Boolean
+  property :smscapable,   Boolean
   property :user_id,      Integer
   property :created_at,   DateTime
   property :updated_at,   DateTime

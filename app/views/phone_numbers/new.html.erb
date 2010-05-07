@@ -18,6 +18,11 @@
     </p>
 
     <p>
+      <%= f.label 'Can this phone number receive SMS?' %>
+      <%= f.check_box :smscapable %><br />
+    </p>
+
+    <p>
       <%= f.submit 'Create' %>
     </p>
 <% end %>

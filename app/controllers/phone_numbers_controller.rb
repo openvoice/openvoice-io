@@ -80,6 +80,7 @@ class PhoneNumbersController < ApplicationController
         :number => params[:phone_number][:number],
         :description => params[:phone_number][:description],
         :forward => params[:phone_number][:forward],
+        :smscapable => params[:phone_number][:smscapable],
         :user_id => current_user,
         :created_at => Time.now()
       }
@@ -150,7 +151,7 @@ class PhoneNumbersController < ApplicationController
       end
     end
 
-    @phone_number = PhoneNumber.find(params[:id])
+    phone_number = PhoneNumber.find(params[:id])
     
     respond_to do |format|
       if phone_number.user_id == current_user

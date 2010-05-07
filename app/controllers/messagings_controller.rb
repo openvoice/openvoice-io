@@ -210,11 +210,31 @@ class MessagingsController < ApplicationController
           }
           messaging.save
           
+          # Send received SMS message to user's mobile device if they have a phone capable of receiving SMS
+          phonenumber = PhoneNumber.first(:user_id => current_user, :smscapable => true) 
+        	if phonenumber
+        	  smsnumber = phonenumber.number
+        	end
+          
         end 
-      
-        #TODO forward SMS to user's mobile number attached in phonenumbers (add mobile flag)
 
-        render :nothing => true, :status => 204
+        if smsnumber.nil?
+          render :nothing => true, :status => 204
+          
+        else
+
+          #Reforward SMS message to SMS capable device
+          tropo = Tropo::Generator.new do
+            message({ :from => to,
+                   :to => from,
+                   :network => 'SMS',
+                   :say => [:value => text] })
+          end
+
+          render :json => tropo.response
+          return
+
+        end
         
       end
 

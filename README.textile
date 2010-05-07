@@ -22,9 +22,7 @@ Clone this project and start the rails server on your local machine
 Highly recommend use rake tunnel:tunnel:start to reverse tunnel to your local machine for faster development.
 Please don't use my tunnlr credential.
 
-go to users/new to create a new user.
-login with the new user and click on profile
-fill in information of your tropo application such as voice #, skype #, etc.
+upon registering with your google account, fill in information of your tropo application such as voice #, skype #, etc.
 
 go to phone_numbers and add a new phone number and make sure you check forward.  this is the number you want to forward
 OpenVoice calls to.  Currently we can only forward to one number but hoping to remove this limitation soon.

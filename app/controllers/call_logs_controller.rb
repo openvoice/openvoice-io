@@ -146,7 +146,7 @@ class CallLogsController < ApplicationController
       end
     end
     
-    @call_log = CallLog.find(params[:id])
+    call_log = CallLog.find(params[:id])
     
     respond_to do |format|
       if call_log.user_id == current_user

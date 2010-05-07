@@ -7,7 +7,8 @@
 	<th>Number</th>
     <th>Description</th>
     <th>Forwarding?</th>
-<th colspan="3">&nbsp;</th>
+    <th>SMS?</th>
+<th colspan="2">&nbsp;</th>
 </thead>  </tr>
 <% if @phone_numbers %>
 <% @phone_numbers.each do |phone_number| %>
@@ -15,7 +16,7 @@
     <td><%=h phone_number.number %></td>
     <td><%=h phone_number.description %></td>
     <td><%=h phone_number.forward %></td>
-    <td><%= link_to 'Show', phone_number_path(phone_number) %></td>
+    <td><%=h phone_number.smscapable %></td>
     <td><%= link_to 'Edit', edit_phone_number_path(phone_number) %></td>
     <td><%= link_to 'Delete', phone_number_path(phone_number), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
