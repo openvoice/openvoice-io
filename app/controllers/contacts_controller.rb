@@ -13,7 +13,7 @@ class ContactsController < ApplicationController
       end
     end    
     
-    @contacts = Contact.all(:user_id => current_user)
+    @contacts = Contact.all(:user_id => current_user).limit_page params[:page], :limit => 10
 
     respond_to do |format|
       format.html

@@ -44,8 +44,8 @@ class MessagingsController < ApplicationController
       end
     end
     
-    @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])  
-    # @messagings = Messaging.all
+    @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
+    # @messagings = Messaging.all.limit_page params[:page], :limit => 10
 
     respond_to do |format|
       format.html

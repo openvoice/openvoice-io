@@ -12,7 +12,7 @@ class CallLogsController < ApplicationController
       end
     end    
     
-    @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ])
+    @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
 
     respond_to do |format|
       format.html

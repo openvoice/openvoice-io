@@ -9,3 +9,5 @@ gem 'rails', "2.3.5"
 gem "json-jruby"
 gem "dm-serializer"
 gem "tropo-webapi-ruby"
+gem "dm-paginator"
+

@@ -1,4 +1,46 @@
-<!-- Indices written at Thu, 6 May 2010 19:14:14 UTC -->
+<!-- Indices written at Fri, 7 May 2010 00:14:42 UTC -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 154 times in query history -->
+    <datastore-index kind="Messagings" ancestor="false" source="auto">
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 10 times in query history -->
+    <datastore-index kind="Messagings" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 18 times in query history -->
+    <datastore-index kind="VoiceCalls" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Voicemails" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="Contacts" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="PhoneNumbers" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="CallLogs" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>
