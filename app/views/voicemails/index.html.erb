@@ -35,26 +35,3 @@
 <% end %>
 </table>
 
-<p>
-<% @page = params[:page] %>
-<% if @page.nil?  %>
-<% @page = 1 %>
-<% end %>
-
-<% if @page = 1 and @voicemails.paginator.page_count.to_i > 1 %>
-<%= @voicemails.paginator.page %>
-| <%= link_to 'First Page', '/voicemails?page=1' %> 
-<% end %>
-
-<% if @page.to_i > 1 %>
- | <%= link_to '<< Previous Page', '/voicemails?page=' + (@voicemails.paginator.page - 1).to_s %> 
-<% end %>
-
-<% if @page.to_i < @voicemails.paginator.page_count %>
- | <%= link_to 'Next Page >>', '/voicemails?page=' + (@voicemails.paginator.page + 1).to_s %> 
-<% end %>
-
-<% if @page.to_i != @voicemails.paginator.page_count and @voicemails.paginator.page_count.to_i > 1 %>
- | <%= link_to 'Last Page', '/voicemails?page=' + @voicemails.paginator.page_count.to_s %> 
-<% end %>
-</p>

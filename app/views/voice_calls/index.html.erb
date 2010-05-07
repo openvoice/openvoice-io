@@ -19,28 +19,5 @@
 <% end %>
 </table>
 
-<p>
-<% @page = params[:page] %>
-<% if @page.nil?  %>
-<% @page = 1 %>
-<% end %>
-
-<% if @page = 1 and @voice_calls.paginator.page_count.to_i > 1 %>
-<%= @voice_calls.paginator.page %>
-| <%= link_to 'First Page', '/voice_calls?page=1' %> 
-<% end %>
-
-<% if @page.to_i > 1 %>
- | <%= link_to '<< Previous Page', '/voice_calls?page=' + (@voice_calls.paginator.page - 1).to_s %> 
-<% end %>
-
-<% if @page.to_i < @voice_calls.paginator.page_count %>
- | <%= link_to 'Next Page >>', '/voice_calls?page=' + (@voice_calls.paginator.page + 1).to_s %> 
-<% end %>
-
-<% if @page.to_i != @voice_calls.paginator.page_count  and @voice_calls.paginator.page_count.to_i > 1%>
- | <%= link_to 'Last Page', '/voice_calls?page=' + @voice_calls.paginator.page_count.to_s %> 
-<% end %>
-</p>
 
 <%= link_to 'new voice call', new_voice_call_path %>

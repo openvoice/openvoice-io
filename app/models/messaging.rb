@@ -20,7 +20,7 @@ class Messaging
   property :to,           String
   property :text,         String
   property :outgoing,     Boolean
-  property :user_id,      Integer
+  property :user_id,      Integer #, :key => true, :index => true
   property :created_at,   DateTime
   property :updated_at,   DateTime
     

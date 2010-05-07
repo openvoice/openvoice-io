@@ -26,26 +26,3 @@
 <% end %>
 </table>
 
-<p>
-<% @page = params[:page] %>
-<% if @page.nil?  %>
-<% @page = 1 %>
-<% end %>
-
-<% if @page = 1 and @call_logs.paginator.page_count.to_i > 1 %>
-<%= @call_logs.paginator.page %>
-| <%= link_to 'First Page', '/call_logs?page=1' %> 
-<% end %>
-
-<% if @page.to_i > 1 %>
- | <%= link_to '<< Previous Page', '/call_logs?page=' + (@call_logs.paginator.page - 1).to_s %> 
-<% end %>
-
-<% if @page.to_i < @call_logs.paginator.page_count %>
- | <%= link_to 'Next Page >>', '/call_logs?page=' + (@call_logs.paginator.page + 1).to_s %> 
-<% end %>
-
-<% if @page.to_i != @call_logs.paginator.page_count and @call_logs.paginator.page_count.to_i > 1 %>
- | <%= link_to 'Last Page', '/call_logs?page=' + @call_logs.paginator.page_count.to_s %> 
-<% end %>
-</p>

@@ -12,7 +12,8 @@ class PhoneNumbersController < ApplicationController
       end
     end    
     
-    @phone_numbers = PhoneNumber.all(:user_id => current_user).limit_page params[:page], :limit => 10
+    # @phone_numbers = PhoneNumber.all(:user_id => current_user).limit_page params[:page], :limit => 10
+    @phone_numbers = PhoneNumber.all(:user_id => current_user)
     
     respond_to do |format|
       format.html

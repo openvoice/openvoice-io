@@ -14,7 +14,8 @@ class VoiceCallsController < ApplicationController
       end
     end
 
-    @voice_calls = VoiceCall.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
+    # @voice_calls = VoiceCall.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
+    @voice_calls = VoiceCall.all(:user_id => current_user, :order => [ :created_at.desc ])
     
     respond_to do |format|
       format.html

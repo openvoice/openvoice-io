@@ -10,4 +10,3 @@ gem "json-jruby"
 gem "dm-serializer"
 gem "tropo-webapi-ruby"
 gem "dm-paginator"
-
