@@ -16,7 +16,6 @@
 # end
 
 class VoiceCall 
-  # belongs_to :user
   include DataMapper::Resource
   
   property :id,           Serial
@@ -24,4 +23,6 @@ class VoiceCall
   property :user_id,      Integer
   property :created_at,   DateTime
   property :updated_at,   DateTime
+
+  belongs_to :user
 end

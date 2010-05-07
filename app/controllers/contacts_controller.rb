@@ -76,8 +76,8 @@ class ContactsController < ApplicationController
     end
 
     if current_user 
-      contact = Contact.new
-      contact.attributes = {
+      @contact = Contact.new
+      @contact.attributes = {
         :contactname => params[:contact][:contactname],
         :number => params[:contact][:number],
         :im => params[:contact][:im],
@@ -86,7 +86,7 @@ class ContactsController < ApplicationController
       }
 
       respond_to do |format|
-        if contact.save
+        if @contact.save
           flash[:notice] = 'Contact was successfully created.'
           format.html { redirect_to(contacts_path) }
           format.xml  { render :xml => @contact, :status => :created, :location => @contact }

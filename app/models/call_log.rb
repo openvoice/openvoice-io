@@ -1,8 +1,4 @@
-# class CallLog < ActiveRecord::Base
-# end
-
 class CallLog 
-  # belongs_to :user
   include DataMapper::Resource
   
   property :id,           Serial
@@ -12,4 +8,6 @@ class CallLog
   property :user_id,      Integer
   property :created_at,   DateTime
   property :updated_at,   DateTime
+
+  belongs_to :user
 end

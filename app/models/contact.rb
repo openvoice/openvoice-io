@@ -1,9 +1,4 @@
-# class Contact < ActiveRecord::Base
-#   belongs_to :user
-# end
-
 class Contact 
-  # belongs_to :user
   include DataMapper::Resource
   
   property :id,           Serial
@@ -13,4 +8,7 @@ class Contact
   property :user_id,      Integer
   property :created_at,   DateTime
   property :updated_at,   DateTime
+
+  belongs_to :user
+  validates_present :contactname
 end
