@@ -46,7 +46,7 @@ rails --version 2.3.5
 json
 dm-serializer
 tropo-webapi-ruby
-dm-paginator
+mislav-will_paginate
 
 To start working with GAE directly, you can pull this code down to your system from https://github.com/chrismatthieu/OpenVoice.  
 

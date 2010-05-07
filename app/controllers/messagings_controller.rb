@@ -10,6 +10,7 @@ class MessagingsController < ApplicationController
     if session[:current_user_id]
       #Web Session
       current_user = session[:current_user_id]
+      user = User.find(current_user)
     else
       if params[:apikey]
         #API with key
@@ -46,7 +47,9 @@ class MessagingsController < ApplicationController
     
     # @messagings = Messaging.all.limit_page params[:page], :limit => 10
     # @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
-    @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])
+    # @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])
+    @messagings = user.messagings.paginate :page => params[:page], :order => [ :created_at.desc ]
+    
 
     respond_to do |format|
       format.html

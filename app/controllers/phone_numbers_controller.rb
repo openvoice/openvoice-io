@@ -15,7 +15,7 @@ class PhoneNumbersController < ApplicationController
     
     # @phone_numbers = PhoneNumber.all(:user_id => current_user).limit_page params[:page], :limit => 10
     # @phone_numbers = PhoneNumber.all(:user_id => current_user)
-    @phone_numbers = user.phone_numbers
+    @phone_numbers = user.phone_numbers.paginate :page => params[:page], :order => [ :description.asc ]
     
     respond_to do |format|
       format.html

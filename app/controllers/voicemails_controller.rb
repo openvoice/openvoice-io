@@ -15,7 +15,7 @@ class VoicemailsController < ApplicationController
     
     # @voicemails = Voicemail.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
     # @voicemails = Voicemail.all(:user_id => current_user, :order => [ :created_at.desc ])
-    @voicemails = user.voicemails(:order => [ :created_at.desc ])
+    @voicemails = user.voicemails.paginate :page => params[:page], :order => [ :created_at.desc ]
     
     respond_to do |format|
       format.html

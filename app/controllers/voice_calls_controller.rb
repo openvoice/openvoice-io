@@ -17,7 +17,10 @@ class VoiceCallsController < ApplicationController
 
     # @voice_calls = VoiceCall.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
     # @voice_calls = VoiceCall.all(:user_id => current_user, :order => [ :created_at.desc ])
-    @voice_calls = user.voice_calls(:order => [ :created_at.desc ])
+    # @voice_calls = user.voice_calls(:order => [ :created_at.desc ])
+    # @posts = Post.paginate :page => params[:page], :order => 'updated_at DESC'
+    @voice_calls = user.voice_calls.paginate :page => params[:page], :order => [ :created_at.desc ]
+    
     
     respond_to do |format|
       format.html
