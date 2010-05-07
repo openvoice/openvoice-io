@@ -64,15 +64,15 @@ class VoiceCallsController < ApplicationController
   def create
     # @voice_call = VoiceCall.new(params[:voice_call].merge(:user_id => params[:user_id]))
     
-    if session[:current_user_id]
-      current_user = session[:current_user_id]
-      callto = params[:voice_call][:to]
-    else
+    if params[:apikey] 
       user = User.find_by_apikey(params[:apikey])
       if user
         current_user = user.id
         callto = params[:to]
       end
+    else
+      current_user = session[:current_user_id]
+      callto = params[:voice_call][:to]
     end
     
     # if callto[0..0] != "+"
@@ -112,7 +112,13 @@ class VoiceCallsController < ApplicationController
 
           flash[:notice] = 'VoiceCall was successfully created.'
           format.html { redirect_to(voice_calls_path) }
-          format.xml  { render :xml => '<status>success</status>', :status => :created }        
+          format.xml  { 
+            if params[:source] == "widget"
+              render :inline => "Please hold...", :content_type => 'text/plain', :layout => false
+            else
+              render :xml => '<status>success</status>', :status => :created 
+            end
+            }        
           format.json { render :json => '{"status":{"value":"success"}}' }
         else
           format.html { render :action => "new" }

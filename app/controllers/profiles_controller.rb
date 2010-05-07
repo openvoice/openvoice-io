@@ -174,4 +174,14 @@ class ProfilesController < ApplicationController
     redirect_to('/')
   end
   
+  def widget
+    user = User.find_by_apikey(params[:apikey])
+    if user
+      @apikey = params[:apikey]
+    else 
+      @apikey = nil
+    end
+    render :layout => false
+  end
+  
 end

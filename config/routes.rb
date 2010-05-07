@@ -55,6 +55,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "profiles", :action => "index"
   map.root :controller => "profiles", :action => "home"
   map.connect '/home', :controller => "profiles", :action => "home"
+  map.connect '/widget', :controller => "profiles", :action => "widget"
   
 
   map.resource :account, :controller => "users"

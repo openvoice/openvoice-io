@@ -1,11 +1,4 @@
-<!-- Indices written at Fri, 7 May 2010 01:17:57 UTC -->
+<!-- Indices written at Fri, 7 May 2010 17:35:57 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 16 times in query history -->
-    <datastore-index kind="PhoneNumbers" ancestor="false" source="auto">
-        <property name="user_id" direction="asc"/>
-        <property name="__key__" direction="desc"/>
-    </datastore-index>
-
-</datastore-indexes>

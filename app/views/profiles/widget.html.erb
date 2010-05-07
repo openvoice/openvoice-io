@@ -1,0 +1,27 @@
+<html>
+	<body>
+		
+<% if @apikey %>
+<table width="100%" border="0">
+	<tr><td>
+		
+<img src="/images/openvoiceblack.gif" align="left" width="50"/><br/>
+Call Me
+</td><td>
+<form method="post" action="http://localhost:8080/voice_calls.xml">
+	Enter your phone number (including country code)<br/>
+	<input type="hidden" name="apikey" value="<%=@apikey%>"/>
+	<input type="hidden" name="source" value="widget">
+	<input type="text" name="to" value="1"/>
+	<input type="submit" value="Call">
+</form>	
+	</td></tr>
+</table>
+<% else %>
+<p>	
+	Your API Key is invalid. Please use the API key located on your <a href="/api">API</a> page in your CallMe widget.
+</p>	
+<% end %>
+	</body>
+</html>
+	

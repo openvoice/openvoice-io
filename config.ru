@@ -26,3 +26,11 @@ end
 map '/' do
   run deferred_dispatcher
 end
+
+map '/api' do
+  run deferred_dispatcher
+end
+
+map '/widget' do
+  run deferred_dispatcher
+end
