@@ -6,6 +6,7 @@ class ContactsController < ApplicationController
         
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -14,7 +15,8 @@ class ContactsController < ApplicationController
     end    
     
     # @contacts = Contact.all(:user_id => current_user).limit_page params[:page], :limit => 10
-    @contacts = Contact.all(:user_id => current_user)
+    # @contacts = Contact.all(:user_id => current_user)
+    @contacts = user.contacts
 
     respond_to do |format|
       format.html
@@ -68,6 +70,7 @@ class ContactsController < ApplicationController
     
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)      
     else
       user = User.find_by_apikey(params[:apikey])
       if user

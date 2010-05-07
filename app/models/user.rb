@@ -14,4 +14,5 @@ class User
   has n, :voice_calls
   has n, :contacts
   has n, :profiles
+  has n, :call_logs
 end

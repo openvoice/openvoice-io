@@ -5,6 +5,7 @@ class CallLogsController < ApplicationController
   def index
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -13,7 +14,8 @@ class CallLogsController < ApplicationController
     end    
     
     # @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
-    @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ])
+    # @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ])
+    @call_logs = user.call_logs(:order => [ :created_at.desc ])
 
     respond_to do |format|
       format.html

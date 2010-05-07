@@ -5,6 +5,7 @@ class VoicemailsController < ApplicationController
     
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -13,8 +14,9 @@ class VoicemailsController < ApplicationController
     end
     
     # @voicemails = Voicemail.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
-    @voicemails = Voicemail.all(:user_id => current_user, :order => [ :created_at.desc ])
-
+    # @voicemails = Voicemail.all(:user_id => current_user, :order => [ :created_at.desc ])
+    @voicemails = user.voicemails(:order => [ :created_at.desc ])
+    
     respond_to do |format|
       format.html
       format.xml  { render :xml => @voicemails }
