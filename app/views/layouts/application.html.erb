@@ -9,6 +9,11 @@
 <script type="text/javascript" src="/javascripts/jquery.slidepanel.setup.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.cycle.min.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.cycle.setup.js"></script>
+
+<%= stylesheet_link_tag 'redbox' %>
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'redbox' %>
+
 </head>
 
 <% current_user = session[:current_user_id] %>
@@ -16,6 +21,18 @@
 
 
 <body>
+	
+<div id="inline_extension" style="display: none">
+<div style="width: 400px">
+<%= link_to_close_redbox('close', html_options = {}) %>
+<center>
+this is a test...
+<br/>
+what
+</center>
+</div>
+</div>
+	
 <div class="wrapper col0">
   <div id="topbar">
     <div id="slidepanel">

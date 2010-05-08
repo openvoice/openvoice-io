@@ -166,6 +166,10 @@ class ProfilesController < ApplicationController
   def home
     render :layout => false
   end
+
+  def map
+    render :layout => false
+  end
   
   def logout
     session[:current_user_id] = nil
