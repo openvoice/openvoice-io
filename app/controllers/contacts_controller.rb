@@ -83,7 +83,11 @@ class ContactsController < ApplicationController
       @contact.attributes = {
         :contactname => params[:contact][:contactname],
         :number => params[:contact][:number],
+        :sip => params[:contact][:sip],
+        :inum => params[:contact][:inum],
         :im => params[:contact][:im],
+        :twitter => params[:contact][:twitter],
+        :gtalk => params[:contact][:gtalk],
         :user_id => current_user,
         :created_at => Time.now()
       }

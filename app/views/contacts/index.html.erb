@@ -3,12 +3,16 @@
 <%# current_user = AppEngine::Users.current_user %>
 <% current_user = session[:current_user_id] %>
 
-<table>
+<table class="highlightable">
   <tr><thead>
     <th>Name</th>
     <th>Number</th>
+    <th>SIP</th>
+    <th>iNum</th>
     <th>Im</th>
-	<th colspan="5">&nbsp;</th>
+    <th>Twitter</th>
+    <th>GTalk</th>
+	<th colspan="4">&nbsp;</th>
 	</thead>
   </tr>
 
@@ -17,10 +21,14 @@
   <tr>
     <td><%=h contact.contactname %></td>
     <td><%=h contact.number %></td>
+    <td><%=h contact.sip %></td>
+    <td><%=h contact.inum %></td>
     <td><%=h contact.im %></td>
+    <td><a href="http://twitter.com/<%=h contact.twitter %>" target="_new"><%=h contact.twitter %></a></td>
+    <td><%=h contact.gtalk %></td>
     <td><%= link_to 'Call', new_voice_call_path(current_user, { :to => contact.number }) %></td>
     <td><%= link_to 'SMS', new_messaging_path(current_user, { :to => contact.number }) %></td>
-    <td><%= link_to 'Show', contact_path(contact) %></td>
+    <!-- <td><%= link_to 'Show', contact_path(contact) %></td> -->
     <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
     <td><%= link_to 'Delete', contact_path(contact), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
