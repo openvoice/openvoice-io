@@ -1,7 +1,7 @@
 <% current_user = session[:current_user_id] %>
 <h1>Your Call Log</h1>
 
-<table>
+<table class="highlightable">
   <tr><thead>
     <th>From</th>
     <th>To</th>
@@ -26,3 +26,4 @@
 <% end %>
 </table>
 
+<p><%= will_paginate @call_logs %></p>

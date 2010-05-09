@@ -12,7 +12,6 @@
 # end
 
 class Messaging 
-  # belongs_to :user
   include DataMapper::Resource
   
   property :id,           Serial
@@ -23,5 +22,6 @@ class Messaging
   property :user_id,      Integer #, :key => true, :index => true
   property :created_at,   DateTime
   property :updated_at,   DateTime
-    
+
+  belongs_to :user
 end

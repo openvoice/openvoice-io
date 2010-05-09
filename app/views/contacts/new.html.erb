@@ -14,8 +14,25 @@
     <%= f.text_field :number %> (including country code)
   </p>
   <p>
+    <%= f.label :sip %><br />
+    <%= f.text_field :sip %>
+  </p>
+  <p>
+    <%= f.label :inum %><br />
+    <%= f.text_field :inum %>
+  </p>
+
+  <p>
     <%= f.label :im %><br />
     <%= f.text_field :im %>
+  </p>
+  <p>
+    <%= f.label :twitter %><br />
+    @<%= f.text_field :twitter %>
+  </p>
+  <p>
+    <%= f.label :gtalk %><br />
+    <%= f.text_field :gtalk %>
   </p>
   <p>
     <%= f.submit 'Create' %>

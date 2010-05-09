@@ -1,9 +1,10 @@
 <% current_user = session[:current_user_id] %>
 <h1>Your Voice Calls</h1>
 
-<table>
+<table class="highlightable">
   <tr>
-<thead>    <th>To</th>
+<thead>    
+	<th>To</th>
     <th>Time</th>
 <th colspan="3">&nbsp;</th>
 </thead>  </tr>
@@ -19,5 +20,6 @@
 <% end %>
 </table>
 
+<p><%= will_paginate @voice_calls %></p>
 
 <%= link_to 'new voice call', new_voice_call_path %>

@@ -5,6 +5,7 @@ class PhoneNumbersController < ApplicationController
   def index
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -13,7 +14,8 @@ class PhoneNumbersController < ApplicationController
     end    
     
     # @phone_numbers = PhoneNumber.all(:user_id => current_user).limit_page params[:page], :limit => 10
-    @phone_numbers = PhoneNumber.all(:user_id => current_user)
+    # @phone_numbers = PhoneNumber.all(:user_id => current_user)
+    @phone_numbers = user.phone_numbers.paginate :page => params[:page], :order => [ :description.asc ]
     
     respond_to do |format|
       format.html

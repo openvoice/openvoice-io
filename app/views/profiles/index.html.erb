@@ -1,10 +1,13 @@
 <% current_user = session[:current_user_id] %>
-<h1>Your Profile</h1>
+
+
+<h1>Your Profile - <%= link_to_remote_redbox("map",
+  :url => {:controller=>'profiles', :action=>'map'}) %> <%# link_to_redbox('map', :inline_extension, html_options = {})%></h1>
 
 
 <!-- http://207.218.123.79/clarabell.swf?server=207.218.123.79&uri=sip:9991430371@127.0.0.1:5070 -->
 
-<table>
+<table class="highlightable">
 <tr>
 <thead>    
 	<th>Voice</th>

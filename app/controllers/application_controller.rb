@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   require 'json'
   require 'dm-core'
   require 'dm-serializer'
-  require 'dm-paginator'
+  require 'will_paginate'
   
 end

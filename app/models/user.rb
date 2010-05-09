@@ -1,24 +1,4 @@
-# class User < ActiveRecord::Base
-#   acts_as_authentic
-# 
-#   has_many :phone_numbers
-#   has_many :voicemails
-#   has_many :messagings
-#   has_many :voice_calls
-#   has_many :contacts
-#   has_many :profiles
-# end
-
-
 class User 
-  # has_many :phone_numbers
-  # has_many :voicemails
-  # has_many :messagings
-  # has_many :voice_calls
-  # has_many :contacts
-  # has_many :profiles
-  
-  # belongs_to :user
   include DataMapper::Resource
   
   property :id, Serial
@@ -28,4 +8,11 @@ class User
   property :created_at,             DateTime
   property :updated_at,             DateTime
 
+  has n, :phone_numbers
+  has n, :voicemails
+  has n, :messagings
+  has n, :voice_calls
+  has n, :contacts
+  has n, :profiles
+  has n, :call_logs
 end

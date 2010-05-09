@@ -1,9 +1,4 @@
-# class Profile < ActiveRecord::Base
-#   belongs_to :user
-# end
-
 class Profile 
-  # belongs_to :user
   include DataMapper::Resource
   
   property :id,         Serial
@@ -17,4 +12,7 @@ class Profile
   property :user_id,    Integer
   property :created_at, DateTime
   property :updated_at, DateTime
+
+  belongs_to :user
+  validates_present     :voice
 end

@@ -1,7 +1,7 @@
 <% current_user = session[:current_user_id] %>
 <h1>Your Messages (sms/im)</h1>
 
-<table>
+<table class="highlightable">
   <tr><thead>
     <th>From</th>
     <th>To</th>
@@ -26,6 +26,6 @@
 <% end %>
 </table>
 
-
+<p><%= will_paginate @messagings %></p>
 
 <%= link_to 'new message', new_messaging_path %>

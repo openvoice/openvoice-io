@@ -6,6 +6,7 @@ class ContactsController < ApplicationController
         
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -14,7 +15,8 @@ class ContactsController < ApplicationController
     end    
     
     # @contacts = Contact.all(:user_id => current_user).limit_page params[:page], :limit => 10
-    @contacts = Contact.all(:user_id => current_user)
+    # @contacts = Contact.all(:user_id => current_user)
+    @contacts = user.contacts.paginate :page => params[:page], :order => [ :contactname.asc ]
 
     respond_to do |format|
       format.html
@@ -68,6 +70,7 @@ class ContactsController < ApplicationController
     
     if session[:current_user_id]
       current_user = session[:current_user_id]
+      user = User.find(current_user)      
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -76,17 +79,21 @@ class ContactsController < ApplicationController
     end
 
     if current_user 
-      contact = Contact.new
-      contact.attributes = {
+      @contact = Contact.new
+      @contact.attributes = {
         :contactname => params[:contact][:contactname],
         :number => params[:contact][:number],
+        :sip => params[:contact][:sip],
+        :inum => params[:contact][:inum],
         :im => params[:contact][:im],
+        :twitter => params[:contact][:twitter],
+        :gtalk => params[:contact][:gtalk],
         :user_id => current_user,
         :created_at => Time.now()
       }
 
       respond_to do |format|
-        if contact.save
+        if @contact.save
           flash[:notice] = 'Contact was successfully created.'
           format.html { redirect_to(contacts_path) }
           format.xml  { render :xml => @contact, :status => :created, :location => @contact }

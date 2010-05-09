@@ -1,7 +1,7 @@
 <% current_user = session[:current_user_id] %>
 <h1>Your Phone Numbers</h1>
 
-<table>
+<table class="highlightable">
   <tr>
 <thead>    
 	<th>Number</th>
@@ -24,6 +24,6 @@
 <% end %>
 </table>
 
-
+<p><%= will_paginate @phone_numbers %></p>
 
 <%= link_to 'Add phone number', new_phone_number_path %>
