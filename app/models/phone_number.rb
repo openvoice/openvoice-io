@@ -12,6 +12,6 @@ class PhoneNumber
 
   belongs_to :user
   validates_present :number
-  validates_is_unique :number
+  # validates_is_unique :number
 end
 

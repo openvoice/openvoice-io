@@ -7,7 +7,7 @@ class IncomingCallController < ApplicationController
     return head 400 if params[:session] == nil
                                                                                                                 
     called_id = params[:session][:to][:id]
-    profile = Profile.first(:voice => called_id)
+    profile = Profile.first(:voice => '1' + called_id ) #| Profile.all(:voice => called_id)
 
     return head 404 if profile == nil
 
@@ -18,7 +18,7 @@ class IncomingCallController < ApplicationController
     caller_id = params[:session][:from][:id]
     contact = Contact.first(:user_id => user.id, :number=> caller_id)
 
-    if(contact != nil && (contact.recording != nil || !contact.call_screening?))
+    if(contact != nil && (contact.recording != nil || !profile.call_screening?))
       tropo = Tropo::Generator.new do
         on(:event => 'continue', :next => "/incoming_call/start_transfer?user_id=#{user.id}&caller_id=#{caller_id}")
       end
@@ -98,7 +98,7 @@ class IncomingCallController < ApplicationController
       return
     end
 
-    send_data (contact.recording, :type => 'audio/mp3', :filename => 'message.mp3', :disposition => 'inline')
+    send_data(contact.recording, :type => 'audio/mp3', :filename => 'message.mp3', :disposition => 'inline')
 
   end
 
@@ -107,13 +107,13 @@ class IncomingCallController < ApplicationController
     caller_id = params[:caller_id]
     user_id = params[:user_id]
 
-    call_url = "#{TROPO_API_URL}/sessions?action=create&token=#{OUTBOUND_VOICE_TEMP}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
-
-    begin
-      AppEngine::URLFetch.fetch(call_url, :method => :get, :deadline => 10)
-    rescue Exception=>e
-      logger.error e
-    end
+    # call_url = "http://api.tropo.com/1.0/sessions?action=create&token=#{OUTBOUND_VOICE_TEMP}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
+    # 
+    # begin
+    #   AppEngine::URLFetch.fetch(call_url, :method => :get, :deadline => 10)
+    # rescue Exception=>e
+    #   logger.error e
+    # end
 
     tropo = Tropo::Generator.new do
       on(:event => 'fail', :next => "hangup", :say => {:value => "Failed to connect"})

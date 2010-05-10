@@ -61,7 +61,7 @@ class CommunicationsController < ApplicationController
     
     # forward = User.find(params[:user_id]).phone_numbers.select{ |pn| pn.forward == true }.first
     # forward = User.find(params[:user_id])
-    phonenumber = PhoneNumber.first(:user_id => params[:user_id]) #TODO ring all phones (what is the forward var?)
+    phonenumber = PhoneNumber.first(:user_id => params[:user_id], :forward => true) #TODO ring all phones 
   	if phonenumber
   	  firstnumber = phonenumber.number
   	  if firstnumber[0..0] != "+"

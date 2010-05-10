@@ -45,9 +45,10 @@ class ProfilesController < ApplicationController
     
     
     # @profiles = Profile.all
-    @profiles = Profile.all(:user_id => session[:current_user_id]) 
+    @profiles = Profile.first(:user_id => session[:current_user_id]) 
+    @call_screening = @profiles.call_screening
     
-    if @profiles.length == 0
+    if !@profiles
       redirect_to('/profiles/new')
     else
       respond_to do |format|
@@ -186,6 +187,27 @@ class ProfilesController < ApplicationController
       @apikey = nil
     end
     render :layout => false
+  end
+  
+  def update_checkbox
+    current_user = session[:current_user_id]
+    @profile = Profile.first(:user_id => current_user)
+        
+    # @call_screening = '1' == params[:call_screening]
+    
+    # @profile.call_screening = @call_screening
+
+    if @profile.call_screening == true
+      @profile.call_screening = false
+      
+    else
+      @profile.call_screening = true
+    end  
+    @profile.save
+    
+    render :update do |page|
+      page.alert "Call Screening:  #{@profile.call_screening}"
+    end
   end
   
 end

@@ -8,6 +8,7 @@
 <!-- http://207.218.123.79/clarabell.swf?server=207.218.123.79&uri=sip:9991430371@127.0.0.1:5070 -->
 
 <table style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;"><tr><td style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;">
+<br/>	
 <table class="highlightable">
 <tr>
 <thead>    
@@ -17,31 +18,37 @@
 </tr>
 
 <% if @profiles %>
-<% @profiles.each do |profile| %>
+<%# @profiles.each do |profile| %>
   <tr>
-    <td>Voice</td><td><%=h profile.voice %></td>
+    <td>Voice</td><td><%=h @profiles.voice %></td>
 </tr><tr>
-    <td>Skype</td><td><%=h profile.skype %></td>
+    <td>Skype</td><td><%=h @profiles.skype %></td>
 </tr><tr>
-    <td>SIP</td><td><%=h profile.sip %></td>
+    <td>SIP</td><td><%=h @profiles.sip %></td>
 </tr><tr>
-    <td>iNum</td><td><%=h profile.inum %></td>
+    <td>iNum</td><td><%=h @profiles.inum %></td>
 </tr><tr>
-    <td>IM</td><td><%=h profile.tropo %></td>
+    <td>IM</td><td><%=h @profiles.tropo %></td>
 </tr><tr>
-    <td>Twitter</td><td><%=h profile.twitter %></td>
+    <td>Twitter</td><td><%=h @profiles.twitter %></td>
 </tr><tr>
-    <td>GTalk</td><td><%=h profile.gtalk %></td>
+    <td>GTalk</td><td><%=h @profiles.gtalk %></td>
 </tr>
-    <!-- <td><%= link_to 'Show', profile_path(profile) %></td> -->
-    <!-- <td><%= link_to 'Delete', profile_path(profile), :confirm => 'Are you sure?', :method => :delete %></td> -->
+    <!-- <td><%# link_to 'Show', profile_path(profile) %></td> -->
+    <!-- <td><%# link_to 'Delete', profile_path(profile), :confirm => 'Are you sure?', :method => :delete %></td> -->
   </tr>
 
-<%= link_to 'Edit', edit_profile_path(profile) %>
+<%= link_to 'Edit', edit_profile_path(@profiles) %>
 
-<% end %>
+<%# end %>
 <% end %>
 </table>
+
+
+Screen your calls? 
+<%= check_box_tag("call_screening", "call_screening", @profiles.call_screening) %>
+<%= observe_field 'call_screening', :url => { :action => "update_checkbox" }, :with => 'call_screening'  %>
+ 
 
 </td><td style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;">
 

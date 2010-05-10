@@ -9,6 +9,7 @@ class Profile
   property :tropo,      String
   property :twitter,    String
   property :gtalk,      String
+  property :call_screening, Boolean
   property :user_id,    Integer
   property :created_at, DateTime
   property :updated_at, DateTime
