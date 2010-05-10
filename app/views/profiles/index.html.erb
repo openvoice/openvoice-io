@@ -1,53 +1,120 @@
 <% current_user = session[:current_user_id] %>
 
 
-<h1>Your Profile - <%= link_to_remote_redbox("map",
+<h1>Your Profile <%# link_to_remote_redbox("map",
   :url => {:controller=>'profiles', :action=>'map'}) %> <%# link_to_redbox('map', :inline_extension, html_options = {})%></h1>
 
 
 <!-- http://207.218.123.79/clarabell.swf?server=207.218.123.79&uri=sip:9991430371@127.0.0.1:5070 -->
 
+<table style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;"><tr><td style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;">
 <table class="highlightable">
 <tr>
 <thead>    
-	<th>Voice</th>
-    <th>Skype</th>
-    <th>Sip</th>
-    <th>INum</th>
-    <th>Tropo</th>
-    <th>Twitter</th>
-    <th>Gtalk</th>
-	<th>&nbsp;</th>
+	<th>Channel</th>
+	<th>Data</th>
 </thead>  
 </tr>
 
 <% if @profiles %>
 <% @profiles.each do |profile| %>
   <tr>
-    <td><%=h profile.voice %></td>
-    <td><%=h profile.skype %></td>
-    <td><%=h profile.sip %></td>
-    <td><%=h profile.inum %></td>
-    <td><%=h profile.tropo %></td>
-    <td><%=h profile.twitter %></td>
-    <td><%=h profile.gtalk %></td>
+    <td>Voice</td><td><%=h profile.voice %></td>
+</tr><tr>
+    <td>Skype</td><td><%=h profile.skype %></td>
+</tr><tr>
+    <td>SIP</td><td><%=h profile.sip %></td>
+</tr><tr>
+    <td>iNum</td><td><%=h profile.inum %></td>
+</tr><tr>
+    <td>IM</td><td><%=h profile.tropo %></td>
+</tr><tr>
+    <td>Twitter</td><td><%=h profile.twitter %></td>
+</tr><tr>
+    <td>GTalk</td><td><%=h profile.gtalk %></td>
+</tr>
     <!-- <td><%= link_to 'Show', profile_path(profile) %></td> -->
-    <td><%= link_to 'Edit', edit_profile_path(profile) %></td>
     <!-- <td><%= link_to 'Delete', profile_path(profile), :confirm => 'Are you sure?', :method => :delete %></td> -->
   </tr>
+
+<%= link_to 'Edit', edit_profile_path(profile) %>
+
 <% end %>
 <% end %>
 </table>
 
-<br/>
-<h1>Display Your OpenVoice CallMe Widget On Your Site!</h1>
-<script type='text/javascript'>document.write('<iframe allowTransparency="true" src="/widget?apikey=<%=session[:apikey]%>" width="300" Height="100" frameborder="0"></iframe>');</script>
+</td><td style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;">
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	    <center><article>
+	      <p>Finding your location: <span id="status">checking...</span></p>
+	    </article></center>
+	<script>
+	function success(position) {
+	  var s = document.querySelector('#status');
+
+	  if (s.className == 'success') {
+	    // not sure why we're hitting this twice in FF, I think it's to do with a cached result coming back    
+	    return;
+	  }
+
+	  s.innerHTML = "found you!";
+	  s.className = 'success';
+
+	  var mapcanvas = document.createElement('div');
+	  mapcanvas.id = 'mapcanvas';
+	  mapcanvas.style.height = '400px';
+	  mapcanvas.style.width = '560px';
+
+	  document.querySelector('article').appendChild(mapcanvas);
+
+	  var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	  var myOptions = {
+	    zoom: 15,
+	    center: latlng,
+	    mapTypeControl: false,
+	    navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  };
+	  var map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+
+	  var marker = new google.maps.Marker({
+	      position: latlng, 
+	      map: map, 
+	      title:"You are here!"
+	  });
+	}
+
+	function error(msg) {
+	  var s = document.querySelector('#status');
+	  s.innerHTML = typeof msg == 'string' ? msg : "failed";
+	  s.className = 'fail';
+
+	  // console.log(arguments);
+	}
+
+	if (navigator.geolocation) {
+	  navigator.geolocation.getCurrentPosition(success, error);
+	} else {
+	  error('not supported');
+	}
+
+	</script>
+	
+	
+</td></tr></table>
 
 <br/>
+<h1>Display Your OpenVoice CallMe Widget On Your Site!</h1>
+<table style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;"><tr><td style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;">
+<script type='text/javascript'>document.write('<iframe allowTransparency="true" src="/widget?apikey=<%=session[:apikey]%>" width="300" Height="100" frameborder="0"></iframe>');</script>
+
+</td><td style="border:0px solid #FFFFFF;border-left:0px solid #FFFFFF;border-right:0px solid #FFFFFF;">
 Add the OpenVoice CallMe widget to your site by copying and pasting the following script on your page! 
 </p>
 <p><textarea ROWS="4" COLS="80"><script type='text/javascript'>document.write('<iframe allowTransparency="true" src="http://myopenvoice.appspot.com/widget?apikey=<%=session[:apikey]%>" width="300" Height="100" frameborder="0"></iframe>');</script></textarea></p>
 
+</td></tr></table>
 
 <br />
 
