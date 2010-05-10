@@ -11,21 +11,38 @@
     <th>iNum</th>
     <th>Im</th>
     <th>Twitter</th>
-    <th>GTalk</th>
+    <th>GTalk/Buzz</th>
 	<th colspan="4">&nbsp;</th>
 	</thead>
   </tr>
 
 <% if @contacts %>
 <% @contacts.each do |contact| %>
+
+
   <tr>
-    <td><%=h contact.contactname %></td>
+    <td>
+<% if contact.twitter %>
+<%= link_to_remote_redbox(contact.contactname,
+	  :url => {:controller=>'profiles', :action=>'social', :id=>contact.twitter}) %>
+	<% else %>
+	<%=h contact.contactname %>
+	<% end %>
+	</td>
     <td><%=h contact.number %></td>
     <td><%=h contact.sip %></td>
     <td><%=h contact.inum %></td>
     <td><%=h contact.im %></td>
-    <td><a href="http://twitter.com/<%=h contact.twitter %>" target="_new"><%=h contact.twitter %></a></td>
-    <td><%=h contact.gtalk %></td>
+    <td>
+	<% if contact.twitter %>
+	<a href="http://twitter.com/<%=h contact.twitter %>" target="_new"><%=h contact.twitter %><img src="/images/link.png"></a>
+	<% end %>
+	</td>
+    <td>
+	<% if contact.gtalk %>
+	<a href="http://www.google.com/profiles/<%=h contact.gtalk %>" target="_new"><%=h contact.gtalk %><img src="/images/link.png"></a>
+	<% end %>
+	</td>
     <td><%= link_to 'Call', new_voice_call_path(current_user, { :to => contact.number }) %></td>
     <td><%= link_to 'SMS', new_messaging_path(current_user, { :to => contact.number }) %></td>
     <!-- <td><%= link_to 'Show', contact_path(contact) %></td> -->
