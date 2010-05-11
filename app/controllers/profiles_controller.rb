@@ -176,25 +176,25 @@ class ProfilesController < ApplicationController
     
     resp = AppEngine::URLFetch.fetch("http://socialgraph.apis.google.com/lookup?q=http%3A%2F%2Ftwitter.com%2F" + params[:id] + "&fme=1&pretty=1&callback=",
       :method => :get,
-      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
+      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
     
-    @result = JSON.parse(resp.body)
-    @photo = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['photo']
-    @name = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['fn']
-    @address = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['adr']
-    @rss = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['rss']
-    @web1 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][0]
-    @web2 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][1]
-    @web3 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][2]
+    @result = JSON.parse(resp.body) rescue ""
+    @photo = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['photo'] rescue ""
+    @name = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['fn'] rescue ""
+    @address = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['adr'] rescue ""
+    @rss = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['rss'] rescue ""
+    @web1 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][0] rescue ""
+    @web2 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][1] rescue ""
+    @web3 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][2] rescue ""
     
     resp2 = AppEngine::URLFetch.fetch("http://twitter.com/statuses/user_timeline/" + params[:id] + ".json",
       :method => :get,
-      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'})
+      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
     
-    @result2 = JSON.parse(resp2.body)
-    @twitter1 = @result2[0]['text']
-    @twitter2 = @result2[1]['text']
-    @twitter3 = @result2[2]['text']
+    @result2 = JSON.parse(resp2.body) rescue ""
+    @twitter1 = @result2[0]['text'] rescue ""
+    @twitter2 = @result2[1]['text'] rescue ""
+    @twitter3 = @result2[2]['text'] rescue ""
     
     render :layout => false
   end
