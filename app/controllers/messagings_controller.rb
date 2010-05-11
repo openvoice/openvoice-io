@@ -45,11 +45,10 @@ class MessagingsController < ApplicationController
       end
     end
     
-    # @messagings = Messaging.all.limit_page params[:page], :limit => 10
+    # @messagings = Messaging.all.paginate :page => params[:page], :order => [ :created_at.desc ]
     # @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
     # @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])
     @messagings = user.messagings.paginate :page => params[:page], :order => [ :created_at.desc ]
-    
 
     respond_to do |format|
       format.html

@@ -5,10 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="imagetoolbar" content="no" />
 <link rel="stylesheet" href="/stylesheets/layout.css" type="text/css" />
-<script type="text/javascript" src="/javascripts/jquery-1.4.1.min.js"></script>
-<script type="text/javascript" src="/javascripts/jquery.slidepanel.setup.js"></script>
-<script type="text/javascript" src="/javascripts/jquery.cycle.min.js"></script>
-<script type="text/javascript" src="/javascripts/jquery.cycle.setup.js"></script>
+<!-- <script type="text/javascript" src="/javascripts/jquery.slidepanel.setup.js"></script> -->
 
 <%= stylesheet_link_tag 'redbox' %>
 <%= javascript_include_tag :defaults %>
@@ -75,7 +72,12 @@ what
       <ul>
         <li class="left">
 			OpenVoice
-		</li><li class="right" id="toggle"><a id="slideit" href="#slidepanel">Information</a><a id="closeit" style="display: none;" href="#slidepanel">Close Panel</a></li>
+		</li><li class="right" id="toggle"><a id="slideit" href="#slidepanel">Information</a><a id="closeit" style="display: none;" href="#slidepanel">Close Panel</a>
+			<%# link_to_function('Info') do |page|
+				page.visual_effect :toggle_slide, 'slidepanel'
+				page.visual_effect :toggle_slide, 'loginpanel'
+			end %>
+			</li>
       </ul>
     </div>
     <br class="clear" />
