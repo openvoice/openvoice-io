@@ -108,6 +108,8 @@ class ProfilesController < ApplicationController
       :tropo => params[:profile][:tropo],
       :twitter => params[:profile][:twitter],
       :gtalk => params[:profile][:gtalk],
+      :voice_token => params[:profile][:voice_token],
+      :sms_token => params[:profile][:sms_token],
       :user_id => current_user,
       :created_at => Time.now()
     }
