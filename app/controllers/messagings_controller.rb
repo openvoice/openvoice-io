@@ -48,7 +48,8 @@ class MessagingsController < ApplicationController
     # @messagings = Messaging.all.paginate :page => params[:page], :order => [ :created_at.desc ]
     # @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
     # @messagings = Messaging.all(:user_id => current_user, :order => [ :created_at.desc ])
-    @messagings = user.messagings.paginate :page => params[:page], :order => [ :created_at.desc ]
+    # @messagings = user.messagings.paginate :page => params[:page], :order => [ :created_at.desc ]
+    @messagings = user.messagings(:order => [ :created_at.desc ]).paginate :page => params[:page]
 
     respond_to do |format|
       format.html
@@ -247,18 +248,22 @@ class MessagingsController < ApplicationController
         else
 
           #Reforward SMS message to SMS capable device
-          tropo = Tropo::Generator.new do
-            message({ :from => to,
-                   :to => from,
-                   :network => 'SMS',
-                   :say => [:value => text] })
+          if from == smsnumber
+            render :nothing => true, :status => 204
+          else
+            tropo = Tropo::Generator.new do
+              message({ :from => profile.voice,
+                     :to => smsnumber,
+                     :network => 'SMS',
+                     :say => [:value => text] })
+            end
+          
+            render :json => tropo.response
           end
-
-          render :json => tropo.response
-          return
-
+        
         end
         
+        return
         # else
         #   # IM initiating from Tropo          
         #   

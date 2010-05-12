@@ -19,7 +19,7 @@ class ContactsController < ApplicationController
     
     # @contacts = Contact.all(:user_id => current_user).limit_page params[:page], :limit => 10
     # @contacts = Contact.all(:user_id => current_user)
-    @contacts = user.contacts.paginate :page => params[:page], :order => [ :contactname.asc ]
+    @contacts = user.contacts(:order => [ :contactname.asc ]).paginate :page => params[:page]
 
     respond_to do |format|
       format.html
