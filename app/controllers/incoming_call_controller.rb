@@ -110,14 +110,16 @@ class IncomingCallController < ApplicationController
     user_id = params[:user_id]
     
     sys_config = SysConfig.first
+    profile = Profile.first
 
-    # call_url = "http://api.tropo.com/1.0/sessions?action=create&token=#{sys_config.voice.token}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
-    # 
-    # begin
-    #   AppEngine::URLFetch.fetch(call_url, :method => :get, :deadline => 10)
-    # rescue Exception=>e
-    #   logger.error e
-    # end
+    call_url = "#{sys_config.tropo_url}?action=create&token=#{profile.voice_token}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
+    # "http://api.tropo.com/1.0/sessions?action=create&token=#{sys_config.voice_token}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
+        
+    begin
+      AppEngine::URLFetch.fetch(call_url, :method => :get, :deadline => 10)
+    rescue Exception=>e
+      logger.error e
+    end
 
     tropo = Tropo::Generator.new do
       on(:event => 'fail', :next => "hangup", :say => {:value => "Failed to connect"})

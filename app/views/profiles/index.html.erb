@@ -33,6 +33,10 @@
     <td>Twitter</td><td><%=h @profiles.twitter %></td>
 </tr><tr>
     <td>GTalk</td><td><%=h @profiles.gtalk %></td>
+</tr><tr>
+    <td>Voice Token</td><td><%=h @profiles.voice_token[0..10] rescue "" %>...</td>
+</tr><tr>
+    <td>SMS Token</td><td><%=h @profiles.sms_token[0..10]  rescue "" %>...</td>
 </tr>
     <!-- <td><%# link_to 'Show', profile_path(profile) %></td> -->
     <!-- <td><%# link_to 'Delete', profile_path(profile), :confirm => 'Are you sure?', :method => :delete %></td> -->

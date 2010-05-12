@@ -53,6 +53,8 @@
 <% end %>
 </table>
 
+<% if @contacts %>
 <p><%= will_paginate @contacts %></p>
+<% end %>
 
 <%= link_to 'New contact', new_contact_path %>

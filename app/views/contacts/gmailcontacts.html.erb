@@ -1,0 +1,21 @@
+<% if session[:token] %>
+
+<% form_remote_tag :url => {:controller => 'doclist', :action => 'set_acls'} do -%>
+  <div id="contacts_data">
+      <div class="list">
+        <ul>
+          <% @contacts.sort.each do |contact| -%>
+            <% if !contact.email.nil? -%>
+              <li><%= check_box_tag 'emails[]', contact.email, false, :class => 'hidden' -%> <%= contact %></li>
+            <% end -%>
+          <% end -%>
+        </ul>
+      </div>
+  </div>
+  <%= hidden_field_tag 'acl_feedlink', @acl_feedlink %>
+  as a <%= select_tag 'role', options_for_select(['reader', 'writer']) -%>
+  <%= submit_tag 'Save', :onclick => "$('save_loading').removeClassName('hidden')" -%>
+  <%= image_tag 'ajax-loader-small.gif', :id => 'save_loading', :class => 'hidden' -%>
+<% end -%>
+
+<% end %>

@@ -1,6 +1,9 @@
 class ContactsController < ApplicationController
 
   # before_filter :require_user, :only => [:index, :show, :new, :edit, :create, :update, :destroy]
+  
+  # before_filter :setup_client #Google Data
+  CONTACTS_FEED = CONTACTS_SCOPE + 'contacts/default/full/'
 
   def index        
         
@@ -177,4 +180,57 @@ class ContactsController < ApplicationController
     end    
     
   end
+  
+  def gmailcontacts
+    setup_client
+    # if !request.xhr?
+    #   redirect_to :controller => 'profiles', :action => 'index' and return
+    # end
+    
+    groups_feed = @client.get(CONTACTS_SCOPE + 'groups/default/full/').to_xml
+    # begin
+    #   groups_feed = AppEngine::URLFetch.fetch(CONTACTS_SCOPE + 'groups/default/full/', :method => :get, :deadline => 10).to_xml
+    # rescue Exception=>e
+    #   logger.error e
+    # end
+    
+    group_id = my_contacts_group_id(groups_feed)
+    url = CONTACTS_FEED +
+          "?group=#{group_id}&max-results=#{MAX_CONTACTS_RESULTS.to_s}"
+    feed = @client.get(url).to_xml
+    # begin
+    #   feed = AppEngine::URLFetch.fetch(url, :method => :get, :deadline => 10).to_xml
+    # rescue Exception=>e
+    #   logger.error e
+    # end
+    
+    session[:users_email] = feed.elements['id'].text if !session[:users_email]
+    
+    @contacts = []
+    feed.elements.each('entry') do |entry|
+      contact = GContact::Contact.new(entry.elements['title'].text, nil,
+                                      entry.to_s)
+      entry.elements.each('gd:email') do |email|
+        if email.attribute('primary')
+          contact.email = email.attribute('address').value
+        end
+      end
+      @contacts.push(contact)
+    end
+    @acl_feedlink = params[:acl_feedlink]
+    # render :action => 'all'
+  end
+  
+
+  private
+
+    def my_contacts_group_id(feed)
+      feed.elements.each('entry') do |entry|
+        entry.each_element_with_attribute('id', 'Contacts', 0,
+                                          'gContact:systemGroup') do |e|
+          return e.parent.elements['id'].text
+        end
+      end
+    end
+
 end

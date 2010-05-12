@@ -20,6 +20,7 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/activesupport-2.3.5/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json_pure-1.4.3/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json_pure-1.4.3/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/gdata-1.1.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/actionmailer-2.3.5/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.14/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rails_appengine-0.0.3/lib")

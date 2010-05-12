@@ -3,7 +3,7 @@ class Contact
   
   property :id,             Serial
   property :contactname,    String
-  property :number,         Text
+  property :number,         String
   property :sip,            String
   property :inum,           String
   property :im,             String

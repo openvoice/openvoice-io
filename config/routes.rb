@@ -59,6 +59,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/home', :controller => "profiles", :action => "home"
   map.connect '/widget', :controller => "profiles", :action => "widget"
   map.connect '/profiles/map', :controller => "profiles", :action => "map"
+  map.connect '/gmailcontacts', :controller => "contacts", :action => "gmailcontacts"
   
 
   map.resource :account, :controller => "users"
