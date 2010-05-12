@@ -116,6 +116,10 @@ class MessagingsController < ApplicationController
       to = params[:messaging][:to]
       text = params[:messaging][:text]
       
+      if !isNumeric(to)
+        from = phonenumber.tropo rescue firstnumber
+      end 
+      
     else
       user = User.find_by_apikey(params[:apikey])
       if user
@@ -185,26 +189,39 @@ class MessagingsController < ApplicationController
         text = params[:session][:parameters][:text]
         to = params[:session][:parameters][:to]
       
+        if isNumeric(to)
+          mynet = 'SMS'
+        else
+          mynet = 'JABBER'
+        end
+      
         tropo = Tropo::Generator.new do
           message({ :from => from,
                  :to => to,
-                 :network => 'SMS',
+                 :network => mynet,
                  :say => [:value => text] })
         end
         
         render :json => tropo.response
         return
         
-      else
-        # then this is a request from tropo, create a mobile initiated inbound message
+      else 
+        
+        # then this is an SMS or IM request from tropo, create a mobile initiated inbound message
+        # if params[:session][:to][:network] == "SMS"        
+        
         from = params[:session][:from][:id]
         text = params[:session][:initialText]
         to = params[:session][:to][:id]
-        
-        profile = Profile.find_by_voice(to)
+      
+        if params[:session][:to][:network] == "SMS"
+          profile = Profile.find_by_voice(to)
+        else
+          profile = Profile.find_by_tropo(to)
+        end
         if profile
           current_user = profile.user_id
-          
+        
           messaging = Messaging.new
           messaging.attributes = {
             :from => from,
@@ -215,18 +232,18 @@ class MessagingsController < ApplicationController
             :created_at => Time.now()
           }
           messaging.save
-          
+        
           # Send received SMS message to user's mobile device if they have a phone capable of receiving SMS
           phonenumber = PhoneNumber.first(:user_id => current_user, :smscapable => true) 
         	if phonenumber
         	  smsnumber = phonenumber.number
         	end
-          
+        
         end 
 
         if smsnumber.nil?
           render :nothing => true, :status => 204
-          
+        
         else
 
           #Reforward SMS message to SMS capable device
@@ -242,8 +259,13 @@ class MessagingsController < ApplicationController
 
         end
         
+        # else
+        #   # IM initiating from Tropo          
+        #   
+        # end
+        
       end
-
+      
     end
 
   end
@@ -317,5 +339,8 @@ class MessagingsController < ApplicationController
     
   end
   
+  def isNumeric(s)
+      Float(s) != nil rescue false
+  end
   
 end
