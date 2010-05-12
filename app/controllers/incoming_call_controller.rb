@@ -30,6 +30,8 @@ class IncomingCallController < ApplicationController
     #  return redirect_to "/incoming_call/start_transfer?user_id=#{user.id}&caller_id=#{caller_id}"
     #end
 
+    sys_config = SysConfig.first
+
     tropo = Tropo::Generator.new do
       on(:event => 'hangup', :next => "hangup")
       on(:event => 'incomplete', :next => "hangup")
@@ -37,7 +39,7 @@ class IncomingCallController < ApplicationController
       record( :attempts => 2,
            :beep => true,
            :name => 'record-name',
-           :url => "#{SERVER_URL}/incoming_call/store_contact_recording?user_id=#{user.id}&caller_id=#{caller_id}",
+           :url => "#{sys_config.server_url}/incoming_call/store_contact_recording?user_id=#{user.id}&caller_id=#{caller_id}",
            :format => "audio/mp3",
            :choices => "#",
            :say => { :value => "Before being connected please record your name" })
@@ -106,8 +108,10 @@ class IncomingCallController < ApplicationController
 
     caller_id = params[:caller_id]
     user_id = params[:user_id]
+    
+    sys_config = SysConfig.first
 
-    # call_url = "http://api.tropo.com/1.0/sessions?action=create&token=#{OUTBOUND_VOICE_TEMP}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
+    # call_url = "http://api.tropo.com/1.0/sessions?action=create&token=#{sys_config.voice.token}&caller_id=#{params[:caller_id]}&user_id=#{params[:user_id]}&dialog=user_menu"
     # 
     # begin
     #   AppEngine::URLFetch.fetch(call_url, :method => :get, :deadline => 10)
@@ -131,9 +135,11 @@ class IncomingCallController < ApplicationController
 
     #user = User.get(user_id)
 
+    sys_config = SysConfig.first
+
     tropo = Tropo::Generator.new do
       call( :to => "sip:bling@192.168.11.7")
-      say("Incoming call from #{SERVER_URL}/incoming_call/get_contact_recording?caller_id=#{caller_id}&amp;user_id=#{user_id}")
+      say("Incoming call from #{sys_config.server_url}/incoming_call/get_contact_recording?caller_id=#{caller_id}&amp;user_id=#{user_id}")
       conference(:name => "conference", :id => user_id + "<--->" + caller_id)
     end
 

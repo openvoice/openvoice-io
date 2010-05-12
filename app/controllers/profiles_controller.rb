@@ -4,57 +4,74 @@ class ProfilesController < ApplicationController
 
   def index
     
+    usercount = 0
+    
     # Execute at Login - TODO: Move to method
     current_user = AppEngine::Users.current_user
     if current_user
       user = User.find_by_email(current_user.email)
       if user
-        user.attributes = {
-          :email => current_user.email,
-          :nickname => current_user.nickname,
-          :updated_at => Time.now()
-        }
-        user.save
+        # user.attributes = {
+        #   :email => current_user.email,
+        #   :nickname => current_user.nickname,
+        #   :updated_at => Time.now()
+        # }
+        # user.save
 
         session[:current_user_id] = user.id
+        usercount = 1
         
       else
         
-        # Generate API Key
-        require 'sha1'
-        srand
-        seed = "--#{rand(10000)}--#{Time.now}--"
-        apikey = Digest::SHA1.hexdigest(seed)
+        usercount = User.all
         
-        user = User.new
-        user.attributes = {
-          :email => current_user.email,
-          :nickname => current_user.nickname,
-          :apikey => apikey,
-          :created_at => Time.now()
-        }
-        user.save
-        session[:current_user_id] = user.id
+        if usercount.length == 0
+          
+          # Generate API Key
+          require 'sha1'
+          srand
+          seed = "--#{rand(10000)}--#{Time.now}--"
+          apikey = Digest::SHA1.hexdigest(seed)
+        
+          user = User.new
+          user.attributes = {
+            :email => current_user.email,
+            :nickname => current_user.nickname,
+            :apikey => apikey,
+            :created_at => Time.now()
+          }
+          user.save
+          session[:current_user_id] = user.id
+          usercount = 1
+          
+        end
+
       end
-      session[:nickname] = current_user.nickname
-      session[:email] = current_user.email
-      session[:apikey] = user.apikey
       
     end
     
     
+    if usercount == 1
+      session[:nickname] = current_user.nickname
+      session[:email] = current_user.email
+      session[:apikey] = user.apikey
+
+      # @profiles = Profile.all
+      @profiles = Profile.first(:user_id => session[:current_user_id]) 
+      @call_screening = @profiles.call_screening rescue false
     
-    # @profiles = Profile.all
-    @profiles = Profile.first(:user_id => session[:current_user_id]) 
-    @call_screening = @profiles.call_screening
+      if !@profiles
+        redirect_to('/profiles/new')
+      else
+        respond_to do |format|
+          format.html
+          format.xml  { render :xml => @profiles }
+        end      
+      end
     
-    if !@profiles
-      redirect_to('/profiles/new')
     else
-      respond_to do |format|
-        format.html
-        format.xml  { render :xml => @profiles }
-      end      
+      logout_url = AppEngine::Users.create_logout_url('/logout') 
+      redirect_to(logout_url)
     end
   end
 

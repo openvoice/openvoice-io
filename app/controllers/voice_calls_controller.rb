@@ -108,8 +108,10 @@ class VoiceCallsController < ApplicationController
             # firstnumber = '+14152739939'
             firstnumber = '14152739939'
         	end 
+        	
+        	sys_config = SysConfig.first
         
-          call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_VOICE_TEMP + '&to=' + callto + '&from=' + firstnumber + '&ov_action=call&user_id=' + current_user.to_s
+          call_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + sys_config.voice_token + '&to=' + callto + '&from=' + firstnumber + '&ov_action=call&user_id=' + current_user.to_s
 
           result = AppEngine::URLFetch.fetch(call_url,
             :method => :get,

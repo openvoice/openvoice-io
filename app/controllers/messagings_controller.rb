@@ -154,7 +154,9 @@ class MessagingsController < ApplicationController
         
           if outgoing
           
-            msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + OUTBOUND_MESSAGING_TEMP + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
+            sys_config = SysConfig.first
+            
+            msg_url = 'http://api.tropo.com/1.0/sessions?action=create&token=' + sys_config.sms_token + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
 
             result = AppEngine::URLFetch.fetch(msg_url,
               :method => :get,

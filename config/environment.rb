@@ -53,12 +53,8 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
-  
-  # OUTBOUND_MESSAGING_TEMP = "6495a7105bda7c41902027cb67c734c0445cbf5acade80d61b4b9a61b2097bdc62630ea6ef9f0854bb9d96a6"
-  # OUTBOUND_VOICE_TEMP = "c7a69e058363c544bb52e93f69c5db3841d0736b971818dfbf6d5e6c4000526f41b269e9c06238899bd770f5"
-
-  
-  OUTBOUND_MESSAGING_TEMP = "4209df9d948c7a4bbeb07a8117c62b5f5614c13dd25919b855b08645dfeb69787685bb8bf3bb58456ee0ac17"
-  OUTBOUND_VOICE_TEMP = "1556a3d0acbaee4b809d61d2630170de1ac687735f6d6f05ea7d616589c3eac49d2b09fc444b23fc1d4d825d"
+    
+  # OUTBOUND_MESSAGING_TEMP = "4209df9d948c7a4bbeb07a8117c62b5f5614c13dd25919b855b08645dfeb69787685bb8bf3bb58456ee0ac17"
+  # OUTBOUND_VOICE_TEMP = "1556a3d0acbaee4b809d61d2630170de1ac687735f6d6f05ea7d616589c3eac49d2b09fc444b23fc1d4d825d"
   
 end

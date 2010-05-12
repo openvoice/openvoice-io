@@ -1,0 +1,25 @@
+<h1>Editing System Configuration</h1>
+
+<% form_for(@sys_config) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :voice_token %><br />
+    <%= f.text_field :voice_token %>
+  </p>
+  <p>
+    <%= f.label :sms_token %><br />
+    <%= f.text_field :sms_token %>
+  </p>
+  <p>
+    <%= f.label :server_url %><br />
+    <%= f.text_field :server_url %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+
+<%# link_to 'Show', @sys_config %> 
+<%= link_to 'Back', sys_configs_path %>

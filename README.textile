@@ -50,7 +50,6 @@ mislav-will_paginate
 
 To start working with GAE directly, you can pull this code down to your system from https://github.com/chrismatthieu/OpenVoice.  
 
-Update OUTBOUND_VOICE_TEMP and OUTBOUND_MESSAGING_TEMP Tropo token keys located in config/environment.rb
-Update SERVER_URL in config/environments/development.rb and production.rb
-
 If all goes well, you can run ./script/server.sh to run it local on your system and ./script/publish.sh to publish your update to GAE!
+
+Once your application is running and you log in for the first time to create your profile account, click on the System Configuration link on your Profile page and enter your Voice and SMS Tokens from your Tropo account as well as the domain portion of URL where you will be running your instance of the application.  For instance, server URL is "http://myopenvoice.appspot.com".

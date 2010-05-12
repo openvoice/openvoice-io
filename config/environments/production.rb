@@ -27,4 +27,4 @@ config.action_view.cache_template_loading            = true
 # Enable threaded mode
 # config.threadsafe!
 
-SERVER_URL = "http://myopenvoice.appspot.com"
+# SERVER_URL = "http://myopenvoice.appspot.com"
