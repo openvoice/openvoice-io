@@ -32,7 +32,10 @@
 </tr><tr>
     <td>Twitter</td><td><%=h @profiles.twitter %></td>
 </tr><tr>
-    <td>GTalk</td><td><%=h @profiles.gtalk %></td>
+    <td>
+	GTalk</td><td><%=h @profiles.gtalk %>
+	<% @gtalk = @profiles.gtalk %>	
+	</td>
 </tr><tr>
     <td>Voice Token</td><td><%=h @profiles.voice_token[0..10] rescue "" %>...</td>
 </tr><tr>
@@ -53,6 +56,10 @@ Screen your calls?
 <%= check_box_tag("call_screening", "call_screening", @profiles.call_screening) %>
 <%= observe_field 'call_screening', :url => { :action => "update_checkbox" }, :with => 'call_screening'  %>
  
+<% if @gtalk %>
+	<p><a href="http://www.google.com/profiles/<%=@gtalk %>">Google Profile</a></p>
+	<p><a href="https://mail.google.com/mail/?ui=2&shva=1#buzz">Google Buzz</a></p>
+<% end %>
 <p><a href="http://gmail.com">Gmail</a></p>
 <hr/>
 <p><%= link_to 'System Configuration', sys_configs_path %></p>

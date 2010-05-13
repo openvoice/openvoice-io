@@ -48,7 +48,7 @@ dm-serializer
 tropo-webapi-ruby
 mislav-will_paginate
 gdata
-jruby-openssl
+#jruby-openssl
 
 To start working with GAE directly, you can pull this code down to your system from https://github.com/chrismatthieu/OpenVoice.  
 

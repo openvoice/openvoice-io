@@ -193,27 +193,67 @@ class ProfilesController < ApplicationController
 
   def social
     
-    resp = AppEngine::URLFetch.fetch("http://socialgraph.apis.google.com/lookup?q=http%3A%2F%2Ftwitter.com%2F" + params[:id] + "&fme=1&pretty=1&callback=",
-      :method => :get,
-      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
+    socialid = params[:id].split(":")
+    @twitter = socialid[0] 
+    @gtalk = socialid[1]
     
-    @result = JSON.parse(resp.body) rescue ""
-    @photo = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['photo'] rescue ""
-    @name = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['fn'] rescue ""
-    @address = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['adr'] rescue ""
-    @rss = @result['nodes']['http://twitter.com/' + params[:id]]['attributes']['rss'] rescue ""
-    @web1 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][0] rescue ""
-    @web2 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][1] rescue ""
-    @web3 = @result['nodes']['http://twitter.com/' + params[:id]]['claimed_nodes'][2] rescue ""
+    if @twitter != "!"
+      resp = AppEngine::URLFetch.fetch("http://socialgraph.apis.google.com/lookup?q=http%3A%2F%2Ftwitter.com%2F" + @twitter + "&fme=1&pretty=1&callback=",
+        :method => :get,
+        :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
     
-    resp2 = AppEngine::URLFetch.fetch("http://twitter.com/statuses/user_timeline/" + params[:id] + ".json",
-      :method => :get,
-      :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
+      @result = JSON.parse(resp.body) rescue ""
+      @photo = @result['nodes']['http://twitter.com/' + @twitter]['attributes']['photo'] rescue ""
+      @name = @result['nodes']['http://twitter.com/' + @twitter]['attributes']['fn'] rescue ""
+      @address = @result['nodes']['http://twitter.com/' + @twitter]['attributes']['adr'] rescue ""
+      @rss = @result['nodes']['http://twitter.com/' + @twitter]['attributes']['rss'] rescue ""
+      @web1 = @result['nodes']['http://twitter.com/' + @twitter]['claimed_nodes'][0] rescue ""
+      @web2 = @result['nodes']['http://twitter.com/' + @twitter]['claimed_nodes'][1] rescue ""
+      @web3 = @result['nodes']['http://twitter.com/' + @twitter]['claimed_nodes'][2] rescue ""
     
-    @result2 = JSON.parse(resp2.body) rescue ""
-    @twitter1 = @result2[0]['text'] rescue ""
-    @twitter2 = @result2[1]['text'] rescue ""
-    @twitter3 = @result2[2]['text'] rescue ""
+      resp2 = AppEngine::URLFetch.fetch("http://twitter.com/statuses/user_timeline/" + @twitter + ".json",
+        :method => :get,
+        :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
+    
+      @result2 = JSON.parse(resp2.body) rescue ""
+      @twitter1 = @result2[0]['text'] rescue ""
+      @twitter2 = @result2[1]['text'] rescue ""
+      @twitter3 = @result2[2]['text'] rescue ""
+    end
+
+    if @gtalk != "!"
+      
+      url = "http://www.poweringnews.com/feed-to-json.aspx?feedurl=http%3A//buzz.googleapis.com/feeds/" + @gtalk + "/public/posted"
+      
+      
+      resp = AppEngine::URLFetch.fetch(url,
+        :method => :get,
+        :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
+
+      # feed_url = URI.encode("http://buzz.googleapis.com/feeds/" + @gtalk + "/public/posted")
+      # 
+      # form_fields = {
+      #   "feed": feed_url
+      # }
+      # form_data = urllib.urlencode(form_fields)
+      # 
+      # 
+      # resp = AppEngine::URLFetch.fetch("http://lukemorton.co.uk/feed-parser/",
+      #   :method => :post,
+      #   :payload => form_data,
+      #   :headers => {'Content-Type' => 'application/x-www-form-urlencoded'}) rescue ""
+
+    
+      @result3 = JSON.parse(resp.body) rescue ""
+# puts "gtalk:" + @result3.to_s
+      # @buzz1 = @result3['feed']['entry'][0]['activity:object']['content']['value'] rescue ""
+      @buzz1 = @result3['feed']['entry'][0]['activity:object'][0]['content'][0]['value'].to_s rescue ""
+      @buzz2 = @result3['feed']['entry'][1]['activity:object'][0]['content'][0]['value'].to_s rescue ""
+      @buzz3 = @result3['feed']['entry'][2]['activity:object'][0]['content'][0]['value'].to_s rescue ""
+      
+      # puts ">>" + @result3['feed']['entry'][0]['activity:object'][0]['content'][0]['value'].to_s
+      # puts ">>" + @result3['feed']['entry'][1]['activity:object'][0]['content'][0]['value'].to_s
+    end
     
     render :layout => false
   end

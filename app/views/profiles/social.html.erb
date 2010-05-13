@@ -1,4 +1,5 @@
 <!-- http://socialgraph.apis.google.com/lookup?q=http%3A%2F%2Ftwitter.com%2Fchrismatthieu&fme=1&pretty=1&callback= -->
+<table><tr><td width="600">
 <%= link_to_close_redbox('Close', html_options = {}) %>
 <img src="<%=@photo%>" align="right">
 <h2><%=@name%> (<%=@address%>)</h2>
@@ -6,7 +7,12 @@
 <p><a href="<%=@web1%>" target="_new"><%=@web1%></a></p>
 <p><a href="<%=@web2%>" target="_new"><%=@web2%></a></p>
 <p><a href="<%=@web3%>" target="_new"><%=@web3%></a></p>
+<h2>Buzz Updates</h2>
+<p><%=@buzz1%></p>
+<p><%=@buzz2%></p>
+<p><%=@buzz3%></p>
 <h2>Twitter Updates</h2>
 <p><%=@twitter1%></p>
 <p><%=@twitter2%></p>
 <p><%=@twitter3%></p>
+</td></tr></table>
