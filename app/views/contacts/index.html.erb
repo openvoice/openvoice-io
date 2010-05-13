@@ -22,11 +22,20 @@
 
   <tr>
     <td>
+	<% if contact.twitter %>
+		<% socialid = contact.twitter %>
+	<% else %>
+		<% socialid = "!" %>
+	<% end %>
+	<% socialid = socialid + ":" %>
+	<% if contact.gtalk %>
+		<% socialid = socialid + contact.gtalk %>
+	<% else %>
+		<% socialid = socialid + "!" %>
+	<% end %>
+	
 	<% if contact.twitter or contact.gtalk %>
-		<% socialid = contact.twitter rescue "!" %>
-		<% socialid << ":" %>
-		<% socialid << contact.gtalk rescue "!" %>
-		<%= link_to_remote_redbox(contact.contactname,
+	<%= link_to_remote_redbox(contact.contactname,
 	  :url => {:controller=>'profiles', :action=>'social', :id=>socialid}) %>
 	<% else %>
 	<%=h contact.contactname %>
