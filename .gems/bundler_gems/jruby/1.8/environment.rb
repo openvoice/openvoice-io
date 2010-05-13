@@ -118,7 +118,7 @@ end
 
 # Define all the Gem errors for gems that reference them.
 module Gem
-  def self.ruby ; "/usr/local/bin/ruby" ; end
+  def self.ruby ; "/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby" ; end
   def self.dir ; @dir ||= File.dirname(File.expand_path(__FILE__)) ; end
   class << self ; alias default_dir dir; alias path dir ; end
   class LoadError < ::LoadError; end

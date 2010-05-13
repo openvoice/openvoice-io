@@ -43,6 +43,21 @@ Rails::Initializer.run do |config|
   # Skip plugin locators
   config.plugin_locators -= [Rails::Plugin::GemLocator]
 
+  # Skip these so generators can run from MRI
+  if defined? JRUBY_VERSION
+    # Patch Rails Framework
+    require 'rails_appengine'
+    # Use DataMapper to access datastore
+    require 'rails_dm_datastore'
+    # Set Logger from appengine-apis, all environments
+    require 'appengine-apis/logger'
+    config.logger = AppEngine::Logger.new
+    # Skip frameworks you're not going to use.
+    config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+  end
+  # Skip plugin locators
+  config.plugin_locators -= [Rails::Plugin::GemLocator]
+
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
@@ -53,8 +68,5 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
-    
-  # OUTBOUND_MESSAGING_TEMP = "4209df9d948c7a4bbeb07a8117c62b5f5614c13dd25919b855b08645dfeb69787685bb8bf3bb58456ee0ac17"
-  # OUTBOUND_VOICE_TEMP = "1556a3d0acbaee4b809d61d2630170de1ac687735f6d6f05ea7d616589c3eac49d2b09fc444b23fc1d4d825d"
-  
+
 end

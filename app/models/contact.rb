@@ -13,6 +13,7 @@ class Contact
   property :user_id,        Integer
   property :created_at,     DateTime
   property :updated_at,     DateTime
+  property :call_screening, Boolean
 
   belongs_to :user
   validates_present :contactname

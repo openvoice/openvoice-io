@@ -101,6 +101,7 @@ class ProfilesController < ApplicationController
     current_user = session[:current_user_id]
     profile = Profile.new
     profile.attributes = {
+      :greeting_name => params[:profile][:greeting_name],
       :voice => params[:profile][:voice],
       :skype => params[:profile][:skype],
       :sip => params[:profile][:sip],

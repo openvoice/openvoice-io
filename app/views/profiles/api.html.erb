@@ -1,12 +1,16 @@
 <h1>The Open Voice API</h1>
-<p>Your API Key: <br/>
-<table><tr><td>
-	<%= session[:apikey] %>
-</td>
-<td>
-	<a href="/genapikey">Generate New API Key</a>
-</td></tr></table>
-
+<p>
+    Your API Key: <br/>
+    <table>
+      <tr>
+        <td>
+	        <%= session[:apikey] %>
+        </td>
+        <td>
+	        <a href="/genapikey">Generate New API Key</a>
+        </td>
+      </tr>
+    </table>
 </p>
 <h1>Place Calls</h1>
 <p>You can place a call by using your API Key as follows:</p>

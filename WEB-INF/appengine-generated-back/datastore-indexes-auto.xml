@@ -1,0 +1,17 @@
+<!-- Indices written at Thu, 6 May 2010 20:22:56 UTC -->
+
+<datastore-indexes>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="VoiceCalls" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="created_at" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Messagings" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="created_at" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>

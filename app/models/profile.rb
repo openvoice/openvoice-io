@@ -2,6 +2,7 @@ class Profile
   include DataMapper::Resource
   
   property :id,             Serial
+  property :greeting_name,  String
   property :voice,          String
   property :skype,          String
   property :sip,            String

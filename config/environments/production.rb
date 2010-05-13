@@ -27,4 +27,5 @@ config.action_view.cache_template_loading            = true
 # Enable threaded mode
 # config.threadsafe!
 
-# SERVER_URL = "http://myopenvoice.appspot.com"
+SERVER_URL = "http://myopenvoice.appspot.com"
+TROPO_API_URL = "http://api.tropo.com/1.0/"

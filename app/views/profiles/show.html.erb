@@ -1,4 +1,10 @@
 <% current_user = session[:current_user_id] %>
+
+<p>
+  <b>Greeting Name:</b>
+  <%=h @profile.greeting_name %>
+</p>
+
 <p>
   <b>Voice:</b>
   <%=h @profile.voice %>

@@ -4,6 +4,11 @@
 <% form_for([@profile]) do |f| %>
   <%= f.error_messages %>
 
+    <p>
+      <%= f.label :greeting_name%><br />
+      <%= f.text_field :greeting_name%>
+    </p>
+
   <p>
     <%= f.label :voice %><br />
     <%= f.text_field :voice %>

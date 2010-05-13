@@ -1,2 +1,2 @@
 #!/bin/sh
-dev_appserver.rb -a 0.0.0.0 .
+dev_appserver.rb -p 8081 -a 0.0.0.0 .

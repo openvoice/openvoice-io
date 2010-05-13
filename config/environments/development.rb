@@ -16,4 +16,8 @@ config.action_controller.perform_caching             = false
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-# SERVER_URL = "http://web1.tunnlr.com:11053"
+SERVER_URL = "http://localhost:8081"
+TROPO_API_URL = "http://localhost:8080/tropo-control-api"
+
+OUTBOUND_MESSAGING_TEMP = "http%3A%2F%2Flocalhost%3A8081%2Fmessagings%2Fcreate%3Ftropo-engine%3Djson"
+OUTBOUND_VOICE_TEMP = "http%3A%2F%2Flocalhost%3A8081%2Fincoming_call%2Ftoken%3Ftropo-engine%3Djson" 

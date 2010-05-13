@@ -20,8 +20,12 @@
 <% if @profiles %>
 <%# @profiles.each do |profile| %>
   <tr>
+    <td>Greeting Name</td><td><%=h @profiles.greeting_name%></td>
+</tr>
+  <tr>
     <td>Voice</td><td><%=h @profiles.voice %></td>
-</tr><tr>
+</tr>
+      <tr>
     <td>Skype</td><td><%=h @profiles.skype %></td>
 </tr><tr>
     <td>SIP</td><td><%=h @profiles.sip %></td>

@@ -7,7 +7,7 @@ class User
   property :nickname,               String
   property :created_at,             DateTime
   property :updated_at,             DateTime
-
+  property :call_screening?,        Boolean
   has n, :phone_numbers
   has n, :voicemails
   has n, :messagings
@@ -15,4 +15,5 @@ class User
   has n, :contacts
   has n, :profiles
   has n, :call_logs
+
 end
