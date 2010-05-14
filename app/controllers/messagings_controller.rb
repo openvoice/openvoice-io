@@ -113,6 +113,7 @@ class MessagingsController < ApplicationController
     	  firstnumber = '14152739939'
     	end
       from = firstnumber
+      greeting = phonenumber.greeting_name
     
       to = params[:messaging][:to]
       text = params[:messaging][:text]
@@ -129,6 +130,8 @@ class MessagingsController < ApplicationController
         from = params[:from]
         to = params[:to]
         text = params[:text]
+        
+        greeting = user.profile.greeting_name
         
       end
     end
@@ -162,7 +165,7 @@ class MessagingsController < ApplicationController
             sys_config = SysConfig.first
             profile = Profile.first
             
-            msg_url = sys_config.tropo_url + '?action=create&token=' + profile.sms_token + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text)
+            msg_url = sys_config.tropo_url + '?action=create&token=' + profile.sms_token + '&from='+ from + '&to=' + to + '&text=' + CGI::escape(text + ' (via ' + greeting + ')')
 
             result = AppEngine::URLFetch.fetch(msg_url,
               :method => :get,
@@ -255,7 +258,7 @@ class MessagingsController < ApplicationController
               message({ :from => profile.voice,
                      :to => smsnumber,
                      :network => 'SMS',
-                     :say => [:value => text] })
+                     :say => [:value => text + ' (via ' + from + ')'] })
             end
           
             render :json => tropo.response

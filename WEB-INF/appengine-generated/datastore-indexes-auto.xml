@@ -1,15 +1,11 @@
-<<<<<<< Updated upstream
-<!-- Indices written at Thu, 13 May 2010 02:15:40 UTC -->
-=======
-<!-- Indices written at Thu, 13 May 2010 18:50:25 UTC -->
->>>>>>> Stashed changes
+<!-- Indices written at Thu, 13 May 2010 23:58:58 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Contacts" ancestor="false" source="auto">
+    <!-- Used 5 times in query history -->
+    <datastore-index kind="Messagings" ancestor="false" source="auto">
         <property name="user_id" direction="asc"/>
-        <property name="contactname" direction="asc"/>
+        <property name="created_at" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>
