@@ -1,11 +1,4 @@
-<!-- Indices written at Thu, 13 May 2010 23:58:58 UTC -->
+<!-- Indices written at Fri, 14 May 2010 00:04:18 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 5 times in query history -->
-    <datastore-index kind="Messagings" ancestor="false" source="auto">
-        <property name="user_id" direction="asc"/>
-        <property name="created_at" direction="desc"/>
-    </datastore-index>
-
-</datastore-indexes>

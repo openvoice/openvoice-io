@@ -7,9 +7,11 @@ class IncomingCallController < ApplicationController
 
     return head 400 if !params[:session]
                                                                                                                 
-    called_id = params[:session][:to][:id]
-    profile = Profile.first(:voice => '1' + called_id )
-
+    called_id = params[:session][:to][:id] rescue nil
+    if called_id
+      profile = Profile.first(:voice => '1' + called_id )
+    end
+    
     return head 404 if profile == nil
 
     user = profile.user
