@@ -6,6 +6,12 @@ AppEngine::Rack.configure_app(
     :sessions_enabled => true,
     :version => "1")
 
+# AppEngine::Rack.configure_app(
+#     :application => 'tropovoice-io',
+#     :precompilation_enabled => true,
+#     :sessions_enabled => true,
+#     :version => "1")
+
 AppEngine::Rack.app.resource_files.exclude :rails_excludes
 ENV['RAILS_ENV'] = AppEngine::Rack.environment
 

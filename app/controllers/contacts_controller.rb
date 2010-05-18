@@ -181,44 +181,98 @@ class ContactsController < ApplicationController
     
   end
   
+  def gmailcontacts2
+    # token = params[:token]
+    # begin
+    #   groups_feed = AppEngine::URLFetch.fetch('https://www.google.com/accounts/AuthSubSessionToken?Authorization: AuthSub token="' + token + '"', :method => :get, :deadline => 10)
+    # rescue Exception=>e
+    #   logger.error e
+    # end
+  end
+  
   def gmailcontacts
-    setup_client
-    # if !request.xhr?
-    #   redirect_to :controller => 'profiles', :action => 'index' and return
-    # end
-    
-    groups_feed = @client.get(CONTACTS_SCOPE + 'groups/default/full/').to_xml
-    # begin
-    #   groups_feed = AppEngine::URLFetch.fetch(CONTACTS_SCOPE + 'groups/default/full/', :method => :get, :deadline => 10).to_xml
-    # rescue Exception=>e
-    #   logger.error e
-    # end
-    
-    group_id = my_contacts_group_id(groups_feed)
-    url = CONTACTS_FEED +
-          "?group=#{group_id}&max-results=#{MAX_CONTACTS_RESULTS.to_s}"
-    feed = @client.get(url).to_xml
-    # begin
-    #   feed = AppEngine::URLFetch.fetch(url, :method => :get, :deadline => 10).to_xml
-    # rescue Exception=>e
-    #   logger.error e
-    # end
-    
-    session[:users_email] = feed.elements['id'].text if !session[:users_email]
-    
-    @contacts = []
-    feed.elements.each('entry') do |entry|
-      contact = GContact::Contact.new(entry.elements['title'].text, nil,
-                                      entry.to_s)
-      entry.elements.each('gd:email') do |email|
-        if email.attribute('primary')
-          contact.email = email.attribute('address').value
-        end
-      end
-      @contacts.push(contact)
-    end
-    @acl_feedlink = params[:acl_feedlink]
-    # render :action => 'all'
+#     # setup_client
+#     # if !request.xhr?
+#     #   redirect_to :controller => 'profiles', :action => 'index' and return
+#     # end
+#     
+#     # groups_feed = @client.get(CONTACTS_SCOPE + 'groups/default/full/').to_xml
+#     
+#     
+#     @client = GData::Client::DocList.new({:authsub_scope => 'http://www.google.com/m8/feeds/',
+#                                           :source => 'tropovoice',
+#                                           :version => '1.0'})
+# puts @client
+#     if params[:token].nil? and session[:token].nil?
+#       next_url = url_for :controller => self.controller_name, :action => self.action_name
+#       secure = false
+#       @authsub_link = @client.authsub_url(next_url, secure, true)
+#       # render :controller => 'contacts', :action => 'index'
+#       # redirect_to :controller => 'contacts', :action => 'index'
+#     elsif params[:token] and session[:token].nil?
+#       @client.authsub_token = params[:token]
+#       session[:token] = @client.auth_handler.upgrade()
+#     end
+# puts params[:token]
+#     @client.authsub_token = session[:token] if session[:token]
+#     
+#     
+#     contacts_feed = 'http://www.google.com/m8/feeds/contacts/default/full/'
+#     # feed = @client.get(CONTACTS_FEED +
+#                        # "?max-results=#{MAX_CONTACTS_RESULTS.to_s}").to_xml
+#      begin
+#        feed = AppEngine::URLFetch.fetch(contacts_feed +
+#                           "?max-results=#{MAX_CONTACTS_RESULTS.to_s}", :method => :get, :deadline => 10).to_xml
+#      rescue Exception=>e
+#        logger.error e
+#      end                   
+# puts feed
+#     @contacts = []
+#     feed.elements.each('entry') do |entry|
+#       contact = GContact::Contact.new(entry.elements['title'].text, nil,
+#                                       entry.to_s)
+#       entry.elements.each('gd:email') do |email|
+#         if email.attribute('primary')
+#           contact.email = email.attribute('address').value
+#         end
+#       end
+#       @contacts.push(contact)
+#     end
+#     @acl_feedlink = params[:acl_feedlink]
+#     
+#     
+#     
+#     # begin
+#     #   groups_feed = AppEngine::URLFetch.fetch(CONTACTS_SCOPE + 'groups/default/full/', :method => :get, :deadline => 10).to_xml
+#     # rescue Exception=>e
+#     #   logger.error e
+#     # end
+#     # puts groups_feed
+#     # group_id = my_contacts_group_id(groups_feed)
+#     # url = CONTACTS_FEED +
+#     #       "?group=#{group_id}&max-results=#{MAX_CONTACTS_RESULTS.to_s}"
+#     # feed = @client.get(url).to_xml
+#     # # begin
+#     # #   feed = AppEngine::URLFetch.fetch(url, :method => :get, :deadline => 10).to_xml
+#     # # rescue Exception=>e
+#     # #   logger.error e
+#     # # end
+#     # 
+#     # session[:users_email] = feed.elements['id'].text if !session[:users_email]
+#     # 
+#     # @contacts = []
+#     # feed.elements.each('entry') do |entry|
+#     #   contact = GContact::Contact.new(entry.elements['title'].text, nil,
+#     #                                   entry.to_s)
+#     #   entry.elements.each('gd:email') do |email|
+#     #     if email.attribute('primary')
+#     #       contact.email = email.attribute('address').value
+#     #     end
+#     #   end
+#     #   @contacts.push(contact)
+#     # end
+#     # @acl_feedlink = params[:acl_feedlink]
+#     # render :action => 'all'
   end
   
 

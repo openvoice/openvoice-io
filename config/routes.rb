@@ -60,6 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/widget', :controller => "profiles", :action => "widget"
   map.connect '/profiles/map', :controller => "profiles", :action => "map"
   map.connect '/gmailcontacts', :controller => "contacts", :action => "gmailcontacts"
+  # map.connect '/gmailcontacts2', :controller => "contacts", :action => "gmailcontacts2"
   
 
   map.resource :account, :controller => "users"

@@ -267,7 +267,8 @@ class ProfilesController < ApplicationController
   end
   
   def widget
-    user = User.find_by_apikey(params[:apikey])
+    # user = User.find_by_apikey(params[:apikey])
+    user = User.first(:apikey => params[:apikey])
     if user
       @apikey = params[:apikey]
     else 
