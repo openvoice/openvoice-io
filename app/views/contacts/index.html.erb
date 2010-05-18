@@ -1,3 +1,9 @@
+<% content_for :head do  -%>
+<%= stylesheet_link_tag 'redbox' %>
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'redbox' %>
+<% end %>
+
 <h1>Your Contacts</h1>
 
 <%# current_user = AppEngine::Users.current_user %>
