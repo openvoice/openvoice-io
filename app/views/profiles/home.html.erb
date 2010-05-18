@@ -4,7 +4,14 @@
 <title>OpenVoice</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="imagetoolbar" content="no" />
+
+<% if params[:zlu] or session[:zlu] %>
+<link rel="stylesheet" href="/stylesheets/openvoice.css" type="text/css" />
+<% session[:zlu] = "true" %>
+<% else %>
 <link rel="stylesheet" href="/stylesheets/layout.css" type="text/css" />
+<% end %>
+
 <script type="text/javascript" src="/javascripts/jquery-1.4.1.min.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.slidepanel.setup.js"></script>
 <!-- <script type="text/javascript" src="/javascripts/jquery.cycle.min.js"></script>
@@ -16,6 +23,7 @@
 
 
 <body>
+<% if !session[:zlu] %>	
 <div class="wrapper col0">
   <div id="topbar">
     <div id="slidepanel">
@@ -50,7 +58,20 @@
 		</p>
       </div>
       <div class="topbox last">
-        <h2>More Info</h2>
+        <h2>Team Info</h2>
+		<p>
+			OpenVoice was developed by:
+			<ul>
+				<li>Zhao Lu (<a href="http://twitter.com/zlu">@zlu</a>)</li>
+				<li>Jason Goecke (<a href="http://twitter.com/jsgoecke">@jsgoecke</a>)</li>
+				<li>Jose de Castro (<a href="http://twitter.com/loopingrage">@loopingrage</a>)</li>
+				<li>Adam Kalsey (<a href="http://twitter.com/akalsey">@akalsey</a>)</li>
+				<li>Mark Silverberg (<a href="http://twitter.com/">@</a>)</li>
+				<li>Steven Morgan (<a href="http://twitter.com/xerafin">@xerafin</a>)</li>
+				<li>Neil Stratford (<a href="http://twitter.com/">@</a>)</li>
+				<li>Chris Matthieu (<a href="http://twitter.com/chrismatthieu">@chrismatthieu</a>)</li>
+			</ul>
+		</p>
       </div>
       <br class="clear" />
     </div>
@@ -64,6 +85,8 @@
     <br class="clear" />
   </div>
 </div>
+<% end %>
+
 <!-- ####################################################################################################### -->
 <div class="wrapper col1">
   <div id="header">
@@ -107,7 +130,7 @@
         <!-- <p class="readmore"><a href="#">Continue Reading &raquo;</a></p> -->
       </div>
     </div>
-    <div class="featured_box"><a href="#"><img src="/images/demo/450x300.gif" alt="" /></a>
+    <!-- <div class="featured_box"><a href="#"><img src="/images/demo/450x300.gif" alt="" /></a>
       <div class="floater">
         <h2>2. Open Source</h2>
         <p>OpenVoice is built on top of <a href="http://tropo.com" target="_new">Tropo</a>, it can be deployed onto any server because it is a Rails application. In the future, OpenVoice plans to support other backends such as FreeSwitch. <!-- On the client side, OpenVoice supports Android and will support Flash phone. To test the live application -->
@@ -123,7 +146,7 @@
 </p>
         <p class="readmore"><a href="#">Continue Reading &raquo;</a></p>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="featured_box"><a href="#"><img src="/images/demo/450x300.gif" alt="" /></a>
       <div class="floater">
         <h2>3. Dapiensociis temper donec</h2>

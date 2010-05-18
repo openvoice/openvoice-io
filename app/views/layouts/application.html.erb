@@ -4,9 +4,17 @@
 <title>OpenVoice - <%= controller.controller_name %>:<%= controller.action_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="imagetoolbar" content="no" />
+
+<% if params[:zlu] or session[:zlu] %>
+<link rel="stylesheet" href="/stylesheets/openvoice.css" type="text/css" />
+<% session[:zlu] = "true" %>
+<% else %>
 <link rel="stylesheet" href="/stylesheets/layout.css" type="text/css" />
+<% end %>
+
 <script type="text/javascript" src="/javascripts/jquery-1.4.1.min.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.slidepanel.setup.js"></script>
+
 <%= yield :head %>
 
 </head>
@@ -28,6 +36,7 @@ what
 </div>
 </div>
 	
+<% if !session[:zlu] %>		
 <div class="wrapper col0">
   <div id="topbar">
     <div id="slidepanel">
@@ -62,7 +71,20 @@ what
 			</p>
 	      </div>
       <div class="topbox last">
-        <h2>More Info</h2>
+        <h2>Team Info</h2>
+		<p>
+			OpenVoice was developed by:
+			<ul>
+				<li>Zhao Lu (<a href="http://twitter.com/zlu">@zlu</a>)</li>
+				<li>Jason Goecke (<a href="http://twitter.com/jsgoecke">@jsgoecke</a>)</li>
+				<li>Jose de Castro (<a href="http://twitter.com/loopingrage">@loopingrage</a>)</li>
+				<li>Adam Kalsey (<a href="http://twitter.com/akalsey">@akalsey</a>)</li>
+				<li>Mark Silverberg (<a href="http://twitter.com/">@</a>)</li>
+				<li>Steven Morgan (<a href="http://twitter.com/xerafin">@xerafin</a>)</li>
+				<li>Neil Stratford (<a href="http://twitter.com/">@</a>)</li>
+				<li>Chris Matthieu (<a href="http://twitter.com/chrismatthieu">@chrismatthieu</a>)</li>
+			</ul>
+		</p>
       </div>
       <br class="clear" />
     </div>
@@ -81,6 +103,9 @@ what
     <br class="clear" />
   </div>
 </div>
+
+<% end %>
+
 <!-- ####################################################################################################### -->
 <div class="wrapper col1">
   <div id="header">
