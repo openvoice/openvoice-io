@@ -1,11 +1,11 @@
-TropoVoice is an light-weight, open-source web framework enabling developers to write GoogleVoice-like applications
+OpenVoice is an light-weight, open-source web framework enabling developers to write GoogleVoice-like applications
 using RESTful APIs. Thanks to Ruby-on-Rails and Tropo, developers can create next generation telephony applications
-quickly. Under the hood, TropoVoice handles call routing/forwarding, voicemails services including transcription,
+quickly. Under the hood, OpenVoice handles call routing/forwarding, voicemails services including transcription,
 SIP/Skype support, and IM/SMS  support. Some notable differences from GoogleVoice are: open-source, API support,
 and SIP/Skype support where GoogleVoice only supports Gizmo.
 
-TropoVoice is built on top of Tropo, it can be deployed onto any server because it is a Rails application. In the future
-TropoVoice plans to support other backends such as FreeSwitch. On the client side, TropoVoice supports Android and will
+OpenVoice is built on top of Tropo, it can be deployed onto any server because it is a Rails application. In the future
+OpenVoice plans to support other backends such as FreeSwitch. On the client side, OpenVoice supports Android and will
 support Flash phone.
 
 To test the live application
@@ -13,8 +13,8 @@ Voice & Messaging: (415) 273-9939
 Skype Voice: +99000936 9991430371
 SIP Voice: sip:9991430371@sip.tropo.com
 iNum: +883510001806091
-IM: tropovoice@tropo.im
-Twitter: @TropoVoice
+IM: myopenvoice@tropo.im
+Twitter: @openvoice
 
 Setup your development environment
 Create a tropo app first and get your own phone numbers and IMs
@@ -25,7 +25,7 @@ Please don't use my tunnlr credential.
 upon registering with your google account, fill in information of your tropo application such as voice #, skype #, etc.
 
 go to phone_numbers and add a new phone number and make sure you check forward.  this is the number you want to forward
-TropoVoice calls to.  Currently we can only forward to one number but hoping to remove this limitation soon.
+OpenVoice calls to.  Currently we can only forward to one number but hoping to remove this limitation soon.
 
 Now go ahead and make some calls.
 
@@ -36,7 +36,7 @@ ______________________________________________
 
 Update 5/6/2010:
 
-TropoVoice for Google AppEngine source code now available at https://github.com/chrismatthieu/TropoVoice
+OpenVoice for Google AppEngine source code now available at https://github.com/chrismatthieu/OpenVoice
 
 Sudo gem install the following gems:
  
@@ -50,7 +50,7 @@ mislav-will_paginate
 gdata
 #jruby-openssl
 
-To start working with GAE directly, you can pull this code down to your system from https://github.com/chrismatthieu/TropoVoice.  
+To start working with GAE directly, you can pull this code down to your system from https://github.com/chrismatthieu/OpenVoice.  
 
 If all goes well, you can run ./script/server.sh to run it local on your system and ./script/publish.sh to publish your update to GAE!
 

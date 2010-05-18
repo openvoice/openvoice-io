@@ -1,13 +1,13 @@
 require 'appengine-rack'
 
 AppEngine::Rack.configure_app(
-    :application => 'tropovoice-io',
+    :application => 'myopenvoice',
     :precompilation_enabled => true,
     :sessions_enabled => true,
     :version => "1")
 
 # AppEngine::Rack.configure_app(
-#     :application => 'tropovoice-io',
+#     :application => 'myopenvoice',
 #     :precompilation_enabled => true,
 #     :sessions_enabled => true,
 #     :version => "1")

@@ -2,7 +2,7 @@
 
 
 <% @sys_configs.each do |sys_config| %>
-<p>TropoVoice Server URL: <%= sys_config.server_url %></p>
+<p>OpenVoice Server URL: <%= sys_config.server_url %></p>
 <p>Tropo Base API URL: <%= sys_config.tropo_url %></p>
 <p><%= link_to 'Edit', edit_sys_config_path(sys_config) %> | <%= link_to 'Back', profiles_path %></p>
 <%# link_to 'Delete', sys_config_path(sys_config), :confirm => 'Are you sure?', :method => :delete %>

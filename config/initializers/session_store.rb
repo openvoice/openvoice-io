@@ -5,7 +5,7 @@
 # Make sure the secret is at least 30 characters and all random, 
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key         => '_TropoVoice_session',
+  :key         => '_OpenVoice_session',
   :secret      => '57c9854f56c4ea0aa836106897c0322d938172fc68d6c6054f8895172bc64b3351032c0a8c4d4577881bbaae1cd7f47f6d41153d61db331f860ed76624489c5c'
 }
 
