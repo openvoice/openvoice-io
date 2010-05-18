@@ -1,7 +1,8 @@
-class CallLog 
+  class CallLog 
   include DataMapper::Resource
   
   property :id,           Serial
+  property :call_id,      String
   property :from,         String
   property :to,           String
   property :nature,       String
