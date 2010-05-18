@@ -6,7 +6,7 @@
 <thead>    
 	<th>To</th>
     <th>Time</th>
-<th colspan="3">&nbsp;</th>
+<th colspan="2">&nbsp;</th>
 </thead>  </tr>
 
 <% @voice_calls.each do |voice_call| %>
@@ -14,7 +14,7 @@
     <td><%=h voice_call.to %></td>
     <td><%=h voice_call.created_at %></td>
     <td><%= link_to 'Call', new_voice_call_path({ :to => voice_call.to }) %></td>
-    <td><%= link_to 'Show', voice_call_path(voice_call) %></td>
+    <!-- <td><%# link_to 'Show', voice_call_path(voice_call) %></td> -->
     <td><%= link_to 'Delete', voice_call_path(voice_call), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

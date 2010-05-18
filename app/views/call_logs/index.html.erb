@@ -7,7 +7,7 @@
     <th>To</th>
     <th>Nature</th>
     <th>Time</th>
-	<th colspan="3">&nbsp;</th>
+	<th colspan="2">&nbsp;</th>
 </thead>
   </tr>
 
@@ -19,7 +19,7 @@
     <td><%=h call_log.nature %></td>
     <td><%=h call_log.created_at %></td>
     <td><%= link_to 'Call', new_voice_call_path({ :to => call_log.from }) %></td>
-    <td><%= link_to 'Show', call_log_path(call_log) %></td>
+    <!-- <td><%# link_to 'Show', call_log_path(call_log) %></td> -->
     <td><%= link_to 'Delete', call_log_path(call_log), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
