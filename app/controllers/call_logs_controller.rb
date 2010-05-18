@@ -15,7 +15,8 @@ class CallLogsController < ApplicationController
     
     # @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ]).limit_page params[:page], :limit => 10
     # @call_logs = CallLog.all(:user_id => current_user, :order => [ :created_at.desc ])
-    @call_logs = user.call_logs(:order => [ :created_at.desc ]).paginate :page => params[:page]
+    # @call_logs = user.call_logs(:order => [ :created_at.desc ]).paginate :page => params[:page]
+    @call_logs = user.call_logs.paginate :page => params[:page]
 
     respond_to do |format|
       format.html
