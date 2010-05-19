@@ -1,9 +1,17 @@
+<!-- Indices written at Wed, 19 May 2010 18:15:13 UTC -->
+
 <datastore-indexes>
 
     <!-- Used 1 time in query history -->
     <datastore-index kind="PhoneNumbers" ancestor="false" source="auto">
         <property name="user_id" direction="asc"/>
         <property name="description" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Contacts" ancestor="false" source="auto">
+        <property name="user_id" direction="asc"/>
+        <property name="contactname" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>
