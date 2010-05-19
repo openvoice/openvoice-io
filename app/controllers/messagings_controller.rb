@@ -219,7 +219,7 @@ class MessagingsController < ApplicationController
         to = params[:session][:to][:id]
       
         if params[:session][:to][:network] == "SMS"
-          profile = Profile.find_by_voice(to)
+          profile = Profile.find_by_voice("+"+ to)
         else
           profile = Profile.find_by_tropo(to)
         end
