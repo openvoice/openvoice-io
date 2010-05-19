@@ -1,2 +1,2 @@
-module IncomingCallHelper
+module VoiceHelper
 end                                     
