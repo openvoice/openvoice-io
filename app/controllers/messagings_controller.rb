@@ -255,7 +255,8 @@ class MessagingsController < ApplicationController
             render :nothing => true, :status => 204
           else
             tropo = Tropo::Generator.new do
-              message({ :from => profile.voice,
+              # :from => profile.voice.delete("+"),
+              message({
                      :to => smsnumber,
                      :network => 'SMS',
                      :say => [:value => text + ' (via ' + from + ')'] })
