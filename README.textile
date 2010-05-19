@@ -36,7 +36,7 @@ ______________________________________________
 
 Update 5/6/2010:
 
-OpenVoice for Google AppEngine source code now available at https://github.com/chrismatthieu/OpenVoice
+OpenVoice for Google AppEngine source code now available at http://github.com/openvoice/openvoice-io
 
 Sudo gem install the following gems:
  
@@ -48,7 +48,6 @@ dm-serializer
 tropo-webapi-ruby
 mislav-will_paginate
 gdata
-#jruby-openssl
 
 To start working with GAE directly, you can pull this code down to your system from https://github.com/chrismatthieu/OpenVoice.  
 
