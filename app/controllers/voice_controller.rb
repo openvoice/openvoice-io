@@ -95,6 +95,7 @@ class VoiceController < ApplicationController
     tropo = Tropo::Generator.new do
       on(:event => 'disconnect', :next => "hangup")
       on(:event => 'voicemail', :next => "voicemail?profile_id=#{profile.id}&caller_id=#{caller_id}")
+      say("Please wait while we connect your call")
       conference( :name => "conference", :id => profile_id + "<--->" + caller_id, :terminator => "*")
     end
 
